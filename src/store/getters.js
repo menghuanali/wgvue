@@ -1,0 +1,46 @@
+const getters = {
+  //用户个人信息her_
+  my_id: state => state.user.id,
+  my_token: state => state.user.token,
+  my_avatar: state => state.user.avatar,
+  my_name: state => state.user.name,
+  my_roles: state => state.user.roles,
+  my_follows: state => state.user.follows,
+  my_fans: state => state.user.fans,
+  my_isrenzheng: state => state.user.isrenzheng,
+  my_tars: state => state.user.tars,
+  my_nians: state => state.user.nians,
+  my_followusers: state => state.user.followusers,
+  my_works: state => state.user.works,
+  my_bowen: state => state.user.bowen,
+  my_allworks: state => state.user.allworks,
+  my_collectpictures: state => state.user.collectpictures,
+  my_collectionarticles: state => state.user.collectionarticles,
+  my_album: state => state.user.album,
+  my_userdetails: state => state.user.userdetails,
+  //查看的其他用户信息
+  her_id: state => state.her.id,
+  her_backgroundurl: state => state.her.backgroundurl,
+  her_avatar: state => state.her.avatar,
+  her_name: state => state.her.name,
+  her_follows: state => state.her.follows,
+  her_fans: state => state.her.fans,
+  her_isguanzhu: state => state.her.isguanzhu,
+  her_tars: state => state.her.tars,
+  her_nians: state => state.her.nians,
+  her_followusers: state => state.her.followusers,
+  her_works: state => state.her.works,
+  her_bowen: state => state.her.bowen,
+  her_allworks: state => state.her.allworks,
+  her_collectpictures: state => state.her.collectpictures,
+  her_collectionarticles: state => state.her.collectionarticles,
+  her_album: state => state.her.album,
+  her_herdetails: state => state.her.herdetails,
+  //查看图片
+  it_pictures: state => state.pictures,
+  //首页数据
+  home_homedata: state => state.homedata,
+  //预览数据
+  preview_data:state => state.preview,
+  }
+  export default getters
