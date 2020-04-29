@@ -250,7 +250,6 @@ export default {
         optionstwovalues: "",
         describe: "",
         dynamicTags: [],
-        userid: this.$store.getters.my_id,
         introduce:{}
       },
       formData: new FormData() // 用来上传的表单

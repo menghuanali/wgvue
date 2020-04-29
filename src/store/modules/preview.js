@@ -40,8 +40,6 @@ const preview = {
             commit('SET_dynamicTags',boweninfo.dynamicTags);
             commit('SET_coverurl',boweninfo.coverurl);
             let l = boweninfo.paragraphs.length;
-            console.log(l);
-            
             let res ="";
             for(let i=0;i<l;i++){
                 res+=boweninfo.paragraphs[i];

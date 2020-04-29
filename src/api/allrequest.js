@@ -95,8 +95,11 @@ export function UserReplay(itid){
 //关注
 export function UserFans(itid){
     return request({
-        url:'/fans/'+itid,
-        method:'get'
+        url:'/fans',
+        method:'post',
+        data:{
+            itid
+        }
     })
 }
 //私信

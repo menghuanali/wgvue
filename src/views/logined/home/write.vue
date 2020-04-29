@@ -29,6 +29,7 @@
                   <el-upload
                     action="http://localhost:8090/uploadone"
                     :show-file-list="false"
+                    :on-error="handlerimgErrorupodate"
                     :on-success="handleimgSuccessUP"
                     accept="image/png, image/jpeg, image/jpg, image/bmp"
                     name="file"
@@ -58,7 +59,7 @@
                       <div v-if="p.textcontent ==''" style="margin: 10px;color:#ccc">点击后在右方编辑段落内容</div>
                       <div
                         v-else
-                        style=" text-overflow: -o-ellipsis-lastline;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 4;line-clamp: 4;-webkit-box-orient: vertical; margin: 10px;color:black"
+                        style=" text-overflow: -o-ellipsis-lastline;width: 170px;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 4;line-clamp: 4;-webkit-box-orient: vertical; margin: 10px;color:black"
                       >{{p.textcontent}}</div>
                     </div>
                     <i
@@ -88,7 +89,7 @@
                       <div v-if="p.textcontent ==''" style="margin: 10px;color:#ccc">点击后在右方编辑段落内容</div>
                       <div
                         v-else
-                        style=" text-overflow: -o-ellipsis-lastline;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 4;line-clamp: 4;-webkit-box-orient: vertical; margin: 10px;color:black"
+                        style="width: 170px; text-overflow: -o-ellipsis-lastline;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 4;line-clamp: 4;-webkit-box-orient: vertical; margin: 10px;color:black"
                       >{{p.textcontent}}</div>
                     </div>
                     <i
@@ -98,7 +99,7 @@
                     ></i>
                   </div>
                   <!-- 后面的操作 -->
-                  
+
                   <div
                     class="downtools_bar"
                     style="font-size: 40px;height: 70px;display: flex;color:#abbfb8;justify-content: space-evenly;cursor: pointer;"
@@ -122,6 +123,7 @@
                       <el-upload
                         action="http://localhost:8090/uploadone"
                         :show-file-list="false"
+                        :on-change="handlerimgErrorupodate"
                         :on-success="handleimgSuccessDOWN"
                         accept="image/png, image/jpeg, image/jpg, image/bmp"
                         name="file"
@@ -154,7 +156,10 @@
       </el-col>
       <el-col :span="5" style="border-top: 1px solid #ccc;">
         <div class="right">
-          <p class="first">封面图<svg-icon icon-class="bixu"></svg-icon></p>
+          <p class="first">
+            封面图
+            <svg-icon icon-class="bixu"></svg-icon>
+          </p>
           <div class="second" @mouseover="genghuancover" @mouseleave="notgenghuancover">
             <div class="second1" v-show="isuped">
               <img :src="CoverUrl" alt="封面图" />
@@ -165,11 +170,12 @@
                 :show-file-list="false"
                 accept="image/png, image/jpeg, image/jpg, image/bmp"
                 :on-success="handleimgSuccessCOVER"
-                :before-upload="beforeAvatarUpload"
+                :on-error="handerCoverError"
+                :before-upload="beforeAvatarUpload2"
                 :headers="myHeaders"
                 @click.stop
               >
-                <i class="el-icon-plus" @click="tupianjiazai()"></i>
+                <i class="el-icon-plus"></i>
                 <div class="el-upload__text" style="font-size:18px" v-show="!iscover">添加一张封面图</div>
                 <div class="el-upload__text" style="font-size:18px" v-show="iscover">更换一张封面图</div>
               </el-upload>
@@ -220,14 +226,13 @@
             <el-option v-for="item in optionstwo" :key="item" :label="item" :value="item"></el-option>
           </el-select>
           <div style="display: flex;">
-                      <div class="finish" @click="subFaBu">
-            <span style="position: absolute;top: 11px;left: 35%;">发布</span>
+            <div class="finish" @click="subFaBu">
+              <span style="position: absolute;top: 11px;left: 35%;">发布</span>
+            </div>
+            <div class="finish" @click="subYuLan">
+              <span style="position: absolute;top: 11px;left: 35%;">预览</span>
+            </div>
           </div>
-         <div class="finish" @click="subYuLan">
-            <span style="position: absolute;top: 11px;left: 35%;">预览</span>
-          </div>
-          </div>
-
         </div>
       </el-col>
     </el-row>
@@ -236,6 +241,7 @@
 <script>
 import { quillEditor } from "vue-quill-editor";
 import { getToken } from "@/utils/auth";
+import axios from "axios";
 import wgloginandblackheader from "@/components/Htmlviews/wgloginandblackheader.vue";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
@@ -255,7 +261,7 @@ const toolbarOptions = [
   [{ color: [] }], // 字体颜色、字体背景颜色
   // [{ font: [] }], // 字体种类
   [{ align: [] }], // 对齐方式
-  ["clean"], // 清除文本格式
+  ["clean"] // 清除文本格式
   // ["link", "image", "video"] // 链接、图片、视频
   // ["image"] // 链接、图片、视频
 ];
@@ -267,15 +273,15 @@ export default {
       ischeck: 1000,
       addindex: -2,
       isuped: false,
-      iscover:false,
+      iscover: false,
       boweninfo: {
         title: "",
         optionsonevalues: "",
         dynamicTags: [],
         optionstwovalues: "",
         coverurl: "",
-        userid: this.$store.getters.my_id,
-        paragraphs:[],
+        smallcontent: "", //简介
+        paragraphs: []
       },
       inputValueTag: "",
       inputVisibleTag: false,
@@ -300,7 +306,7 @@ export default {
         "分享探讨",
         "心得点评",
         "摄影器材",
-        "其他类别",
+        "其他类别"
       ],
       optionstwo: [
         "佳能",
@@ -382,7 +388,8 @@ export default {
         "Fuji Velvia 50",
         "Hisense",
         "ZTE"
-      ]
+      ],
+      formData: new FormData() // 用来上传的表单
     };
   },
   computed: {
@@ -410,7 +417,7 @@ export default {
     onEditorBlur(quill) {
       //失去焦点事件
       if (this.ischeck === 1000) return;
-      this.imgandtextlist[this.ischeck].mydelta = quill.getContents(); 
+      this.imgandtextlist[this.ischeck].mydelta = quill.getContents();
     },
     onEditorFocus(event) {
       //获得焦点事件
@@ -418,7 +425,7 @@ export default {
     onEditorChange({ quill, html, text }) {
       //内容改变事件
       this.imgandtextlist[this.ischeck].textcontent = text;
-      this.imgandtextlist[this.ischeck].htmlcontent = html; 
+      this.imgandtextlist[this.ischeck].htmlcontent = html;
     },
     //选中
     CheckThisDiv(index) {
@@ -428,6 +435,21 @@ export default {
     },
     //删除
     DeleteThisDiv(index) {
+      if (this.imgandtextlist[index].divtype == "img") {
+        let myfile = this.formData.getAll("file");
+        this.formData.delete("file");
+        let imgindex = 0;
+        for (let startimg = 0; startimg < index; startimg++) {
+          if (this.imgandtextlist[startimg].divtype == "img") {
+            imgindex++;
+          }
+        }
+        for (let i = 0; i < myfile.length; i++) {
+          if (i == imgindex) continue;
+          this.formData.append("file", myfile[i]);
+        }
+        // console.log(this.formData.getAll("file"));
+      }
       if (this.ischeck == index) this.editor.setContents("");
       this.imgandtextlist.splice(index, 1);
       this.editor.enable(false);
@@ -453,9 +475,15 @@ export default {
       });
     },
 
+    handlerimgErrorupodate(){
+      this.loading = false;
+    },
     // 增加图片段落到队首
     //图片上传成功的钩子
-    handleimgSuccessUP(response) {
+    handleimgSuccessUP(response, file) {
+      // console.log("上传成功回调");
+      this.formData.append("file", file.raw);
+      // console.log(this.formData.getAll("file"));
       this.imgandtextlist.unshift({
         divtype: "img",
         imgsrc: response.url,
@@ -467,9 +495,12 @@ export default {
     },
     ChangeIscheck(index) {
       this.addindex = index;
-      this.loading = true;
     },
-    handleimgSuccessDOWN(response) {
+    handleimgSuccessDOWN(response, file) {
+      // console.log("上传成功回调");
+      // console.log(file);
+      this.formData.append("file", file.raw);
+      // console.log(this.formData.getAll("file"));
       this.imgandtextlist.splice(this.addindex + 1, 0, {
         divtype: "img",
         imgsrc: response.url,
@@ -480,6 +511,21 @@ export default {
       this.loading = false;
     },
     beforeAvatarUpload(file) {
+      //判断大小和类型
+      this.loading = true;
+      const isJPG = file.type === "image/jpeg";
+      const isPNG = file.type === "image/png";
+      const isLt2M = file.size / 1024 / 1024 / 1024 / 1024 / 1024 < 2;
+      if (!isJPG && !isPNG) {
+        this.$message.error("上传图片只能是 JPG/PNG/JPEG 格式!");
+      }
+      if (!isLt2M) {
+        this.$message.error("上传头像图片大小不能超过 5MB!");
+      }
+      return (isJPG || isPNG) && isLt2M;
+    },
+    beforeAvatarUpload2(file) {
+      this.coverloading = true;
       //判断大小和类型
       const isJPG = file.type === "image/jpeg";
       const isPNG = file.type === "image/png";
@@ -492,23 +538,25 @@ export default {
       }
       return (isJPG || isPNG) && isLt2M;
     },
-    //封面
-    tupianjiazai() {
-      this.coverloading = true;
-    },
     genghuancover() {
-      if(!this.iscover)return;
+      if (!this.iscover) return;
       this.isuped = false;
     },
     notgenghuancover() {
-      if(!this.iscover)return;
+      if (!this.iscover) return;
       this.isuped = true;
     },
-    handleimgSuccessCOVER(response) {
+    handerCoverError(){
+        this.isuped = true;
+        this.iscover = true;
+        this.coverloading = false;
+    },
+    handleimgSuccessCOVER(response, file) {
+      this.formData.set("coverfile", file.raw);
       this.boweninfo.coverurl = response.url;
       setTimeout(() => {
         this.isuped = true;
-        this.iscover= true;
+        this.iscover = true;
         this.coverloading = false;
       }, 1500);
     },
@@ -531,10 +579,10 @@ export default {
           return;
         }
       }
-            this.boweninfo.dynamicTags.push(this.inputValueTag);
+      this.boweninfo.dynamicTags.push(this.inputValueTag);
       this.inputValueTag = "";
     },
-        //确定添加标签方法
+    //确定添加标签方法
     handleInputConfirmTag() {
       let inputValueTag = this.inputValueTag;
       if (inputValueTag) {
@@ -562,44 +610,116 @@ export default {
     },
     //发布
     subFaBu() {
-      let l = this.imgandtextlist.length;
-      for(let i=0;i<l;i++){
-        if(this.imgandtextlist[i].divtype == "text"){
-          this.boweninfo.paragraphs.push(this.imgandtextlist[i].htmlcontent);
-        }else{
-          let tempstr = '<div style="text-align: center;"><img src="'+this.imgandtextlist[i].imgsrc+'" alt="图片" style="object-fit: cover;"></div>';
-          tempstr+=this.imgandtextlist[i].htmlcontent;
-          this.boweninfo.paragraphs.push(tempstr);
-        }
-      }
-      console.log(this.boweninfo);
-      
-    },
-    subYuLan(){
       this.boweninfo.paragraphs = [];
       let l = this.imgandtextlist.length;
-      if(l==0||this.boweninfo.title.trim()==""||this.boweninfo.coverurl==""||this.boweninfo.optionsonevalues==""){
-                this.$notify({
-          title: '警告',
-          message: '必填项为空或者未添加段落',
-          type: 'warning'
+      if (
+        l == 0 ||
+        this.boweninfo.title.trim() == "" ||
+        this.boweninfo.coverurl == "" ||
+        this.boweninfo.optionsonevalues == ""
+      ) {
+        this.$notify({
+          title: "警告",
+          message: "必填项为空或者未添加段落",
+          type: "warning"
         });
         return;
       }
-      for(let i=0;i<l;i++){
-        if(this.imgandtextlist[i].divtype == "text"){
+      this.boweninfo.smallcontent = "";
+      this.$prompt("便于理解,简短的概括一下吧", "请输入简介", {
+        confirmButtonText: "我确定了",
+        cancelButtonText: "还没想好",
+        inputPattern: /^.{0,26}$/,
+        inputErrorMessage: "字数不易过多哦"
+      })
+        .then(({ value }) => {
+          const aituloading = this.$loading({
+          lock: true,
+          text: 'Loading',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        });
+          this.boweninfo.smallcontent = value.trim();
+          for (let i = 0; i < l; i++) {
+            let p = {};
+            if (this.imgandtextlist[i].divtype == "text") {
+              p.type = "text";
+              p.htmlcontent = this.imgandtextlist[i].htmlcontent;
+              this.boweninfo.paragraphs.push(p);
+            } else {
+              p.type = "img";
+              p.htmlcontent = this.imgandtextlist[i].htmlcontent;
+              this.boweninfo.paragraphs.push(p);
+            }
+          }
+          // console.log(this.boweninfo);
+          let config = {
+            headers: {
+              Aitutoken: getToken()
+            }
+          };
+          var myformData = new FormData();
+          let myfile = this.formData.getAll("file");
+          for (var i = 0; i < myfile.length; i++) {
+            myformData.append("file", myfile[i]);
+          }
+          let coverfile = this.formData.get("coverfile");
+          myformData.append("coverfile", coverfile);
+          myformData.append("boweninfo", JSON.stringify(this.boweninfo));
+          axios
+            .post("http://localhost:8090/createbowen", myformData, config)
+            .then(res => {
+              aituloading.close();
+                      this.$message({
+                      message: '恭喜你，发表成功,去看看吧',
+                      type: 'success',
+                      onClose:() => {  //用箭头函数 this指代这个vue  如果用function 这是函数
+                           this.$router.push({
+                                path: "/bowen",
+                                query:{id:res.data.bowenid}
+                          });
+                      }
+                      });
+            })
+            .catch(res => {
+              console.log(res);
+            });
+        })
+        .catch(() => {});
+    },
+    subYuLan() {
+      this.boweninfo.paragraphs = [];
+      let l = this.imgandtextlist.length;
+      if (
+        l == 0 ||
+        this.boweninfo.title.trim() == "" ||
+        this.boweninfo.coverurl == "" ||
+        this.boweninfo.optionsonevalues == ""
+      ) {
+        this.$notify({
+          title: "警告",
+          message: "必填项为空或者未添加段落",
+          type: "warning"
+        });
+        return;
+      }
+      for (let i = 0; i < l; i++) {
+        if (this.imgandtextlist[i].divtype == "text") {
           this.boweninfo.paragraphs.push(this.imgandtextlist[i].htmlcontent);
-        }else{
-          let tempstr = '<div style="text-align: center;"><img src="'+this.imgandtextlist[i].imgsrc+'" alt="图片" style="object-fit: cover;"></div>';
-          tempstr+=this.imgandtextlist[i].htmlcontent;
+        } else {
+          let tempstr =
+            '<div style="text-align: center;margin: 20px 0;"><img src="' +
+            this.imgandtextlist[i].imgsrc +
+            '" alt="图片" style="object-fit: cover;"></div>';
+          tempstr += this.imgandtextlist[i].htmlcontent;
           this.boweninfo.paragraphs.push(tempstr);
         }
       }
-      this.$store.dispatch("LoadingPreview",this.boweninfo);
+      this.$store.dispatch("LoadingPreview", this.boweninfo);
       let routeUrl = this.$router.resolve({
-          path: "/preview",
-     });
-     window.open(routeUrl .href, '_blank');
+        path: "/preview"
+      });
+      window.open(routeUrl.href, "_blank");
     }
   }
 };
@@ -626,7 +746,6 @@ export default {
     font-size: 14px;
     color: #111;
     max-width: 100%;
-    
   }
   .second {
     .second1 {

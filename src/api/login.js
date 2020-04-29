@@ -20,17 +20,23 @@ export function login(username, password) {
     
   })
 }
-
-export function getmyinfo(token) {
+//根据token得到用户基本信息 不是详细信息
+export function getmyinfo() {
   return request({
     url: '/myinfo',
     method: 'get',
+  })
+}
+//根据token得到用户基本信息和需要展示的用户详情信息，主要注意是否关注
+export function getdetailedinfo(id){
+  return request({
+    url:'detailedinfo',
+    method:'post',
     data:{
-      token,
+      id,
     }
   })
 }
-
 export function logout() {
   return request({
     url: '/user/logout',
