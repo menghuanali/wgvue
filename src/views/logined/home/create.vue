@@ -132,7 +132,7 @@
 </template>
 <script>
 import wgloginandblackheader from "@/components/Htmlviews/wgloginandblackheader.vue";
-import { upzuoping, ceshiping } from "@/api/allrequest";
+import { ceshiping } from "@/api/allrequest";
 import axios from "axios";
 import { getToken } from "@/utils/auth";
 export default {
@@ -269,7 +269,7 @@ export default {
     handleRemove(file) {
       //手动删除
       this.aitufileList.splice(this.aitufileList.indexOf(file), 1);
-      console.log(this.aitufileList);
+      // console.log(this.aitufileList);
     },
     handlePictureCardPreview(file) {
       //查看大图
@@ -361,6 +361,19 @@ export default {
       this.formData.append("file", file.file);
     },
     subPicForm() {
+      let l = this.aitufileList.length;
+      if (
+        l == 0 ||
+        this.workinfo.title.trim() == "" ||
+        this.workinfo.optionsonevalues == ""
+      ) {
+        this.$notify({
+          title: "警告",
+          message: "必填项为空或者未添加图片",
+          type: "warning"
+        });
+        return;
+      }
       this.$refs.upload.submit();
       let config = {
         headers: {
@@ -370,18 +383,18 @@ export default {
       let myfile = this.formData.getAll("file");
       for(let p = 0;p<myfile.length;p++){
         let f = "des" + myfile[p].name; //得到ref字符串了
-        this.workinfo.introduce[myfile[p].name]=this.$refs[f].value;
+        this.workinfo.introduce[myfile[p].name]=this.$refs[f].value==undefined?"":this.$refs[f].value;
       }
-      console.log(myfile);
+      // console.log("打印");
+      // console.log(this.workinfo);
       var myformData = new FormData();
       for (var i = 0; i < myfile.length; i++) {
         myformData.append("file", myfile[i]);
       }
-      // myformData.append("file",myfile);
-      myformData.append("workinfo", JSON.stringify(this.workinfo));
-      console.log("------");
-      console.log(myformData.getAll("file"));
 
+      myformData.append("workinfo", JSON.stringify(this.workinfo));
+      // console.log("------");
+      // console.log(myformData.getAll("file"));
       axios
         .post("http://localhost:8090/uploadz", myformData, config)
         .then(res => {

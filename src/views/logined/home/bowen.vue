@@ -8,9 +8,9 @@
       <el-col :span="4" style="min-height: 1px;"></el-col>
       <el-col :span="16" class="content">
         <div class="cover">
-          <img src="http://wg-bishe.oss-cn-chengdu.aliyuncs.com/workimgs/worktest/2.jpg" alt="封面图" />
-          <div class="time">2020年4月15日</div>
-          <div class="title">一米之花 沙漠之星</div>
+          <img :src="bowen.coverimgurl+'/text_wateryin'" alt="封面图" />
+          <div class="time">{{this.bowen.time}}</div>
+          <div class="title">{{this.bowen.title}}</div>
           <div class="smallinfo">
             <span>作者:{{this.bowen.authorname}}</span>
             <span>分类:{{this.bowen.classification}}</span>
@@ -31,7 +31,7 @@
             style="height: 28px;line-height: 28px;padding-right: 20px;"
           >{{p}}</span>
         </div>
-        <div class="collect" @click.stop="CollectThisBowen(bowen.id)">
+        <div class="collect" @click.stop="CollectThisBowen()">
           <p v-if="this.bowen.iscollect">
             <i class="el-icon-star-on" style="color:yellow"></i>已收藏
           </p>
@@ -39,7 +39,7 @@
             <i class="el-icon-star-on" style="color: #ccc;"></i>收藏
           </p>
         </div>
-        <comment :commentszheng="this.Bowencommentszheng" :commentsdao="this.Bowencommentsdao" :commentszuo="this.Bowencommentszuo" v-if="!isloading"></comment>
+        <comment :commentszheng="this.Bowencommentszheng" :commentsdao="this.Bowencommentsdao" :commentszuo="this.Bowencommentszuo" :info="this.info" v-if="!isloading"></comment>
       </el-col>
       <el-col :span="4" style="min-height: 1px;"></el-col>
     </el-row>
@@ -63,10 +63,10 @@ export default {
     return {
       isloading:true,
       bowen: {},
-      dynamicTags: [],
       Bowencommentszheng:[],
       Bowencommentsdao:[],
       Bowencommentszuo:[],
+      info:{},
     };
   },
   created: function() {
@@ -74,10 +74,13 @@ export default {
       .then(response => {
         this.bowen = response.bowen;
         console.log(this.bowen);
-        this.dynamicTags = this.bowen.dynamicTags.split(",");
         this.Bowencommentszheng = this.bowen.commentModelListZheng;
         this.Bowencommentsdao = this.bowen.commentModelListDao;
         this.Bowencommentszuo = this.bowen.commentModelListZuo;
+        this.info.toid = this.bowen.authorid;
+        this.info.itid = this.bowen.id;
+        this.info.title = this.bowen.title;
+        this.info.type = 2;
         this.isloading = false;
       })
       .catch(error => {
@@ -100,10 +103,25 @@ export default {
     },
   },
   methods:{
-    CollectThisBowen(bowenid){
-      alert("点赞")
-     UserCollect(1,bowenid).then(response =>{ 
-       this.$message('操作成功');
+    //收藏
+    CollectThisBowen(){
+      if(this.token==""){
+        this.$message.error('请先登陆哦');
+        return;
+      }
+      let collectModel = {
+        toid:this.bowen.authorid,
+        itid:this.bowen.id,
+        title:this.bowen.title,
+        type:2,
+      }
+     UserCollect(collectModel).then(response =>{ 
+       this.$message(response.message);
+              if(response.message == "请先登陆"){
+
+       }else{
+this.bowen.iscollect = !this.bowen.iscollect;
+       }
      }).catch(error =>{console.log(error);});
     },
     getMethod(){

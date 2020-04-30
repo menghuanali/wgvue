@@ -2,33 +2,49 @@
   <div class="container">
     <!-- 添加文章的评论区 -->
     <div class="add-new-comment">
-        <img class="avatar" :src="this.$store.getters.my_avatar" width="36" height="36" />
-        <div class="input-wrapper">
-          <el-input
-            v-model="AddNewComment"
-            type="textarea"
-            :rows="5"
-            placeholder="写下你的评论"
-            @input="changenewbtn"
-          ></el-input>
-          <div class="btn-control">
-            <span class="cancel" @click="cancelnewcomment">取消</span>
-            <el-button class="btn" type="success" round @click="commitnewComment" :disabled="newConfirm">确定</el-button>
-          </div>
+      <img class="avatar" :src="this.$store.getters.my_avatar" width="36" height="36" />
+      <div class="input-wrapper">
+        <el-input
+          v-model="AddNewComment"
+          type="textarea"
+          :rows="5"
+          placeholder="写下你的评论"
+          @input="changenewbtn"
+        ></el-input>
+        <div class="btn-control">
+          <span class="cancel" @click="cancelnewcomment">取消</span>
+          <el-button
+            class="btn"
+            type="success"
+            round
+            @click="commitnewComment"
+            :disabled="newConfirm"
+          >确定</el-button>
         </div>
+      </div>
     </div>
     <!-- 评论详情头 -->
     <div class="commenthead">
-        <div class="left">
-            <div class="line"></div>
-            <div class="all">所有评论</div>
-            <div class="allnumber">{{ComMents.length}}</div>
-            <el-button size="mini" round :loading="onlywatchautor" @click="onlyloadautor" style="margin-left:10px;height:25px">只看作者</el-button>
-        </div>
-        <div class="right">
-            <div :class="[isActive?'active':'disActive']" @click="timenegative" style="margin-right: 10px;">按时间倒序</div>
-            <div :class="[isActive?'disActive':'active']" @click="timepositive">按时间正序</div>
-        </div>
+      <div class="left">
+        <div class="line"></div>
+        <div class="all">所有评论</div>
+        <div class="allnumber">{{ComMents.length}}</div>
+        <el-button
+          size="mini"
+          round
+          :loading="onlywatchautor"
+          @click="onlyloadautor"
+          style="margin-left:10px;height:25px"
+        >只看作者</el-button>
+      </div>
+      <div class="right">
+        <div
+          :class="[isActive?'active':'disActive']"
+          @click="timenegative"
+          style="margin-right: 10px;"
+        >按时间倒序</div>
+        <div :class="[isActive?'disActive':'active']" @click="timepositive">按时间正序</div>
+      </div>
     </div>
     <div class="comment" v-for="item in ComMents" :key="item.id">
       <div class="info">
@@ -40,10 +56,10 @@
       </div>
       <div class="content">{{item.content}}</div>
       <div class="control">
-        <span class="like" :class="{active: item.islike}" @click="likeClick(item)">
+        <!-- <span class="like" :class="{active: item.islike}" @click="likeClick(item)">
 
           <span>{{item.likeNum > 0 ? item.likeNum + '人赞' : '赞'}}</span>
-        </span>
+        </span>-->
         <span class="comment-reply" @click="showCommentInput(item)">
           <span>回复</span>
         </span>
@@ -63,7 +79,11 @@
             </span>
           </div>
         </div>
-        <div class="write-reply" v-if="item.replyModelList.length > 0" @click="showCommentInput(item)">
+        <div
+          class="write-reply"
+          v-if="item.replyModelList.length > 0"
+          @click="showCommentInput(item)"
+        >
           <i class="el-icon-edit"></i>
           <span class="add-comment">添加新评论</span>
         </div>
@@ -79,7 +99,13 @@
             ></el-input>
             <div class="btn-control">
               <span class="cancel" @click="cancel">取消</span>
-              <el-button class="btn" type="success" round @click="commitComment" :disabled="commentConfirm">确定</el-button>
+              <el-button
+                class="btn"
+                type="success"
+                round
+                @click="commitComment"
+                :disabled="commentConfirm"
+              >确定</el-button>
             </div>
           </div>
         </transition>
@@ -89,7 +115,9 @@
 </template>
 
 <script>
-import { UserPointLike,UserCollect} from "@/api/allrequest";
+import { getToken } from "@/utils/auth";
+import { Message } from "element-ui";
+import { UserComment } from "@/api/allrequest";
 export default {
   props: {
     commentszheng: {
@@ -103,29 +131,35 @@ export default {
     commentszuo: {
       type: Array,
       required: true
+    },
+    info: {
+      type: Object,
+      required: true
     }
   },
   data() {
     return {
-      comments:[],
+      comments: [],
       inputComment: "",
       showItemId: "",
       AddNewComment: "",
-      newConfirm:true,
-      commentConfirm:true,
-      onlywatchautor:false,
-      isActive:false,
+      newConfirm: true,
+      commentConfirm: true,
+      onlywatchautor: false,
+      isActive: false
     };
   },
   computed: {
-    ComMents(){
+    ComMents() {
       return this.comments;
+    },
+    token() {
+      return getToken();
     }
   },
   created() {
     this.comments = this.commentszheng;
     console.log(this.comments);
-    
   },
   methods: {
     /**
@@ -133,14 +167,12 @@ export default {
      */
     likeClick(item) {
       console.log(item);
-      
-        if (item.islike) {
-          item.likeNum--;
-        } else {
-          item.likeNum++;
-        }
-        item.islike = !item.islike;
-      
+      if (item.islike) {
+        item.likeNum--;
+      } else {
+        item.likeNum++;
+      }
+      item.islike = !item.islike;
     },
 
     /**
@@ -159,13 +191,79 @@ export default {
      * 提交评论
      */
     commitComment() {
+      if (
+        this.token == "undefined" ||
+        !this.token ||
+        !/[^\s]/.test(this.token)
+      ) {
+        this.$message.error("请先登陆哦");
+        return;
+      }
+
       console.log(this.inputComment);
     },
     /**
      * 提交新的大评论
      */
     commitnewComment() {
+      if (
+        this.token == "undefined" ||
+        !this.token ||
+        !/[^\s]/.test(this.token)
+      ) {
+        this.$message.error("请先登陆哦");
+        return;
+      }
+      this.info.content = this.AddNewComment;
       console.log(this.AddNewComment);
+      UserComment(this.info)
+        .then(response => {
+          Message.success({
+            message: response.message,
+            center: true
+          });
+          let newcomment = {};
+          newcomment.id = response.commentid;
+          newcomment.ownerId = this.info.itid;
+          newcomment.fromId = this.$store.getters.my_id;
+          newcomment.fromName = this.$store.getters.my_name;
+          newcomment.fromAvatar = this.$store.getters.my_avatar;
+          Date.prototype.Format = function(fmt) {
+            var o = {
+              "M+": this.getMonth() + 1, //月份
+              "d+": this.getDate(), //日
+              "H+": this.getHours(), //小时
+              "m+": this.getMinutes(), //分
+              "s+": this.getSeconds(), //秒
+              "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+              S: this.getMilliseconds() //毫秒
+            };
+            if (/(y+)/.test(fmt))
+              fmt = fmt.replace(
+                RegExp.$1,
+                (this.getFullYear() + "").substr(4 - RegExp.$1.length)
+              );
+            for (var k in o)
+              if (new RegExp("(" + k + ")").test(fmt))
+                fmt = fmt.replace(
+                  RegExp.$1,
+                  RegExp.$1.length == 1
+                    ? o[k]
+                    : ("00" + o[k]).substr(("" + o[k]).length)
+                );
+            return fmt;
+          };
+          newcomment.date = new Date().Format("yyyy-MM-dd HH:mm:ss");
+          newcomment.content = this.AddNewComment;
+          newcomment.replyModelList = [];
+         
+          this.commentszheng.push(newcomment);
+          this.commentsdao.unshift(newcomment);
+          
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
 
     /**
@@ -182,40 +280,37 @@ export default {
       this.showItemId = item.id;
     },
     // 改变提交按钮状态
-    changenewbtn(){
-        if(this.AddNewComment==""){
-            this.newConfirm=true;
-        }else{
-            this.newConfirm=false;
-        }
+    changenewbtn() {
+      if (this.AddNewComment == "") {
+        this.newConfirm = true;
+      } else {
+        this.newConfirm = false;
+      }
     },
-    smallcommentchange(){
-        if(this.inputComment==""){
-            this.commentConfirm=true;
-        }else{
-            this.commentConfirm=false;
-        }
+    smallcommentchange() {
+      if (this.inputComment == "") {
+        this.commentConfirm = true;
+      } else {
+        this.commentConfirm = false;
+      }
     },
     // 只看作者
-    onlyloadautor(){
-
-        this.onlywatchautor= !this.onlywatchautor;
-        this.comments = this.commentszuo;
-        this.onlywatchautor= !this.onlywatchautor;
+    onlyloadautor() {
+      this.onlywatchautor = !this.onlywatchautor;
+      this.comments = this.commentszuo;
+      this.onlywatchautor = !this.onlywatchautor;
     },
     // 时间正序
-    timepositive(){
-        this.isActive = !this.isActive;
-        this.comments = this.commentszheng;
+    timepositive() {
+      this.isActive = !this.isActive;
+      this.comments = this.commentszheng;
     },
     // 时间倒叙
-    timenegative(){
-this.isActive = !this.isActive;
- this.comments = this.commentsdao;
+    timenegative() {
+      this.isActive = !this.isActive;
+      this.comments = this.commentsdao;
     }
-
-  },
-  
+  }
 };
 </script>
 
@@ -223,75 +318,75 @@ this.isActive = !this.isActive;
 .container {
   padding: 0 10px;
   box-sizing: border-box;
-      width: 82%;
-    margin-left: 9%;
-  .add-new-comment{
-      display: flex;
-      flex-direction: row;
-        padding: 10px;
-            margin: 40px 0;
-      .avatar {
-        border-radius: 50%;
-      }
-      .input-wrapper{
-          width: 100%;
-          padding-left: 10px;
-          .btn-control {
-          display: flex;
-          justify-content: flex-end;
-          align-items: center;
-          padding-top: 10px;
-          .cancel {
-            font-size: 16px;
-            color: #606266;
-            margin-right: 20px;
-            cursor: pointer;
-            &:hover {
-              color: #333;
-            }
-          }
-          .confirm {
-            font-size: 16px;
+  width: 82%;
+  margin-left: 9%;
+  .add-new-comment {
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    margin: 40px 0;
+    .avatar {
+      border-radius: 50%;
+    }
+    .input-wrapper {
+      width: 100%;
+      padding-left: 10px;
+      .btn-control {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding-top: 10px;
+        .cancel {
+          font-size: 16px;
+          color: #606266;
+          margin-right: 20px;
+          cursor: pointer;
+          &:hover {
+            color: #333;
           }
         }
+        .confirm {
+          font-size: 16px;
+        }
       }
+    }
   }
-  .commenthead{
+  .commenthead {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 25px;
+    .left {
       display: flex;
       flex-direction: row;
-      justify-content: space-between;
       align-items: center;
-      min-height: 25px;
-      .left{
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          .line{
-              width: 5px;
-              height: 100%;
-              min-height: 20px;
-              background-color: rgb(233, 67, 67);
-              margin-left: 10px;
-          }
-          .all{
-              margin-left: 10px;
-              font-size: 20px;
-          }
-          .allnumber{
-              margin-left: 10px;
-          }
+      .line {
+        width: 5px;
+        height: 100%;
+        min-height: 20px;
+        background-color: rgb(233, 67, 67);
+        margin-left: 10px;
       }
-      .right{
-          display: flex;
-          flex-direction: row;
-          cursor: pointer;
-          .active{
-              color:  #e27121;
-          }
-          .disactive{
-              color: black;
-          }
+      .all {
+        margin-left: 10px;
+        font-size: 20px;
       }
+      .allnumber {
+        margin-left: 10px;
+      }
+    }
+    .right {
+      display: flex;
+      flex-direction: row;
+      cursor: pointer;
+      .active {
+        color: #e27121;
+      }
+      .disactive {
+        color: black;
+      }
+    }
   }
   .comment {
     display: flex;
@@ -340,9 +435,9 @@ this.isActive = !this.isActive;
           color: #e20341;
         }
       }
-       .active{
-          color: #e20341;
-        }
+      .active {
+        color: #e20341;
+      }
       .comment-reply {
         display: flex;
         align-items: center;
@@ -387,7 +482,6 @@ this.isActive = !this.isActive;
             &:hover {
               color: #333;
             }
-
           }
         }
       }

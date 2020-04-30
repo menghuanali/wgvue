@@ -4,7 +4,7 @@ import {
   removeToken
 } from '@/utils/auth'
 import { login, logout, getmyinfo,createAdmin } from '@/api/login'
-import { upzuoping,ceshiping } from "@/api/allrequest";
+import { ceshiping } from "@/api/allrequest";
 const user = {
   state: {
     id:64753241,

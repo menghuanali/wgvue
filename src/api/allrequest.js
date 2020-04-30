@@ -15,31 +15,6 @@ export function followher(itid,myid){
       method:'get',
     })
   }
-//上传作品
-export function upzuoping(file){
-    return request({
-        headers: {
-            'Content-Type': 'multipart/form-data',
-        },
-        url: '/uploadz',
-        method:'post',
-        data:{
-            "file":file,
-            // workinfo
-        },
-       
-        transformRequest: [function (data) {
-            console.log(data);
-            
-            console.log(data[0]);
-            console.log(data[1]);
-            // var formData = new FormData();
-            // formData.append('file',data.file);
-            // formData.append('workinfo',data.workinfo);
-            return formData;
-          }],
-    })
-}
 
 export function ceshiping(){
     return request({
@@ -64,25 +39,55 @@ export function GetOneBoWen(bowenid){
         }
     })
 }
-//点赞
-export function UserPointLike(type,itid){
+//加载一个作品
+export function GetOneWork(workid){
     return request({
-        url:'/goodlike/'+type+'/'+itid,
-        method:'get'
+        url: 'getonework',
+        method:'post',
+        data:{
+            "workid":workid
+        }
+    })
+}
+//点赞
+export function UserLike(likeModel){
+    return request({
+        url:'/goodlike',
+        method:'post',
+        data:{
+            toid:likeModel.toid,
+            itid:likeModel.itid,
+            title:likeModel.title,
+            type:likeModel.type
+        },
     })
 }
 //收藏 
-export function UserCollect(type,itid){
+export function UserCollect(collectModel){
     return request({
-        url:'/collect/'+type+'/'+itid,
-        method:'get'
+        url:'/collect',
+        method:'post',
+        data:{
+            toid:collectModel.toid,
+            itid:collectModel.itid,
+            title:collectModel.title,
+            type:collectModel.type
+        },
+        headers : {"Content-Type" : "application/json;charset=utf-8"},
     })
 }
 //评论
-export function UserComment(type,itid){
+export function UserComment(commentinfo){
     return request({
-        url:'/comment/'+type+'/'+itid,
-        method:'get'
+        url:'/comment',
+        method:'post',
+        data:{
+            toid:commentinfo.toid,
+            itid:commentinfo.itid,
+            title:commentinfo.title,
+            type:commentinfo.type,
+            content:commentinfo.content
+        },
     })
 }
 //回复
@@ -95,11 +100,8 @@ export function UserReplay(itid){
 //关注
 export function UserFans(itid){
     return request({
-        url:'/fans',
-        method:'post',
-        data:{
-            itid
-        }
+        url:'/fans/'+itid,
+        method:'get',
     })
 }
 //私信

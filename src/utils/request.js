@@ -2,7 +2,6 @@ import axios from 'axios'
 import { Message, MessageBox } from 'element-ui'
 import store from '../store'
 import { getToken } from '@/utils/auth'
-
 // 创建axios实例
 const service = axios.create({
     baseURL: process.env.BASE_API, // api的base_url  process 学习 http://nodejs.cn/api/process.html
@@ -45,12 +44,18 @@ const service = axios.create({
         })
         return Promise.reject('error')
       }else if(res.code==404){
-        this.$router.push({
-          path: "/404"
-        });
+        window.location.href="/404"
+      }else if(res.code==302){
+        alert("未登录，没有权限!")
+        window.location.href="/login"
+      }else if(res.code==666){
+        Message.warning({
+          message: res.message,
+          center: true
+        })
       }else{
-        alert(res.message)
-        return Promise.reject('error')
+        alert("没有权限!")
+        window.location.href="/login"
       }
     },
     error => {

@@ -1,5 +1,5 @@
 <template>
-  <div style="overflow-x: hidden;">
+  <div style="overflow-x: hidden;" v-loading="isloading">
     <el-backtop></el-backtop>
     <wgloginandblackheader></wgloginandblackheader>
     <el-image-viewer
@@ -23,7 +23,7 @@
             >
               <el-carousel-item v-for="(p,index) in GetItPictures.picturslist" :key="index">
                 <div class="imgdiv" @click="onPreview(index)">
-                  <img :src="p.url" alt="图片" />
+                  <img :src="p.url+'/text_wateryin'" alt="图片" />
                 </div>
               </el-carousel-item>
             </el-carousel>
@@ -34,7 +34,11 @@
                 v-for="(p,index) in GetItPictures.picturslist"
                 :key="index"
               >
-                <img :src="p.url" alt="缩略图" :class="prorindex == index ? 'activeimg' : ''" />
+                <img
+                  :src="p.url+'/text_wateryin'"
+                  alt="缩略图"
+                  :class="prorindex == index ? 'activeimg' : ''"
+                />
               </div>
             </div>
             <div class="collectzhuanji">
@@ -88,7 +92,7 @@
                   </el-tooltip>
                 </el-col>
                 <el-col :span="7">
-                  <div class="guanzhubtn" @click="guanzhuzuthor(GetItPictures.authorid)">
+                  <div class="guanzhubtn" @click="guanzhuzuthor()">
                     <div v-if="!GetItPictures.authorisguanzhu">
                       <i class="el-icon-plus"></i>
                       关注
@@ -100,7 +104,7 @@
             </div>
             <div class="pccenter">
               <div style="margin: 5px;font-weight: 500;">图片描述</div>
-              <div style=" color: #bfbfbf;font-size: 15px;margin: 5px;">{{this.desList[prorindex]}}</div>
+              <div style=" color: #bfbfbf;font-size: 15px;margin: 5px;">{{this.GetDesMiaoSu}}</div>
               <div style="color: #bfbfbf;margin: 5px;">
                 <el-row style="cursor: pointer;">
                   <el-col :span="5">
@@ -108,14 +112,16 @@
                     <span>{{GetItPictures.seenumber}}</span>
                   </el-col>
                   <el-col :span="5">
-                    <svg-icon icon-class="write"></svg-icon>
-                    <span>{{GetItPictures.writenumber}}</span>
+                    <div @click.stop="goAnchor()">
+                      <svg-icon icon-class="write"></svg-icon>
+                      <span>{{GetItPictures.writenumber}}</span>
+                    </div>
                   </el-col>
                   <el-col :span="5">
                     <div @click="getitgood(GetItPictures.id)">
-                      <svg-icon icon-class="good" v-show="!GetItPictures.isgood"></svg-icon>
-                      <svg-icon icon-class="good_red" v-show="GetItPictures.isgood"></svg-icon>
-                      <span>{{GetItPictures.goodnumber}}</span>
+                      <svg-icon icon-class="good" v-show="!GetItPictures.islike"></svg-icon>
+                      <svg-icon icon-class="good_red" v-show="GetItPictures.islike"></svg-icon>
+                      <span>{{GetItPictures.likenumber}}</span>
                     </div>
                   </el-col>
                 </el-row>
@@ -124,18 +130,18 @@
             <div class="pcdown">
               <div class="downbtn" @click="getitgood(GetItPictures.id)">
                 <span
-                  v-show="!GetItPictures.isgood"
+                  v-show="!GetItPictures.islike"
                   style="background: chartreuse; color: white;"
                 >投票支持!</span>
                 <span
-                  v-show="GetItPictures.isgood"
+                  v-show="GetItPictures.islike"
                   style="background: white; color: chartreuse;"
                 >感谢您的支持!</span>
               </div>
-              <div class="downbtn">
+              <div class="downbtn" @click.stop="goAnchor()">
                 <span>写评论</span>
               </div>
-              <div class="downbtn" @click="icollectit(GetItPictures.id)">
+              <div class="downbtn" @click="icollectit()">
                 <span v-show="!GetItPictures.iscollect">收藏作品</span>
                 <span v-show="GetItPictures.iscollect">已收藏作品</span>
               </div>
@@ -167,11 +173,17 @@
             <div class="fourth">
               <div class="fourth1" v-for="p in this.labels" :key="p">{{p}}</div>
             </div>
-            <div class="fifth">
-              <img  :src="this.bowen1" alt="博文">
+            <div class="fifth" id="writemycomment">
+              <img :src="this.bowen1" alt="博文" />
             </div>
             <div class="sixth">
-               <comment :comments="commentData"></comment>
+              <comment
+                :commentszheng="this.Bowencommentszheng"
+                :commentsdao="this.Bowencommentsdao"
+                :commentszuo="this.Bowencommentszuo"
+                :info="this.info"
+                v-if="!isloading"
+              ></comment>
             </div>
           </el-col>
           <el-col :span="5" style="min-height: 1px"></el-col>
@@ -190,8 +202,10 @@ import ElImageViewer from "element-ui/packages/image/src/image-viewer";
 import wgloginandblackheader from "@/components/Htmlviews/wgloginandblackheader.vue";
 import basefooter from "@/components/Htmlviews/basefooter.vue";
 import albumcreatedialog from "@/components/mydialog/albumcreatedialog.vue";
-import bowen1 from '@/assets/jpg/bowen1.jpg'
-import comment from '@/components/Htmlviews/comment.vue'
+import bowen1 from "@/assets/jpg/bowen1.jpg";
+import { getToken } from "@/utils/auth";
+import comment from "@/components/Htmlviews/comment.vue";
+import { GetOneWork, UserCollect, UserFans, UserLike } from "@/api/allrequest";
 export default {
   components: {
     wgloginandblackheader,
@@ -203,8 +217,9 @@ export default {
   data() {
     return {
       showViewer: false,
-      prorindex: 0,
+      prorindex: 0, //第几张图片的描述
       albumcreate: {
+        //创造专辑
         visible: false,
         albumname: "",
         albumdescribe: "",
@@ -214,32 +229,59 @@ export default {
       srcList: [],
       desList: [],
       labels: [],
-      bowen1:bowen1,
-      commentData: [],
+      Bowencommentszheng: [],
+      Bowencommentsdao: [],
+      Bowencommentszuo: [],
+      isloading: true,
+      bowen1: bowen1, //广告博文
+      work: {},
+      info:{},
     };
   },
   computed: {
     GetMyZhuanJi() {
       return this.$store.getters.my_album;
     },
+    GetDesMiaoSu() {
+      if (
+        this.desList[this.prorindex] == "undefined" ||
+        !this.desList[this.prorindex] ||
+        !/[^\s]/.test(this.desList[this.prorindex])
+      ) {
+        return "暂无图片描述";
+      }
+      return this.desList[this.prorindex];
+    },
     GetItPictures() {
-      return this.$store.getters.it_pictures;
+      return this.work;
+    },
+    token() {
+      return getToken();
     }
   },
   created: function() {
-    //准备图片路径数组和描述数组
-    for (let x in this.$store.getters.it_pictures.picturslist) {
-      this.srcList.push(this.$store.getters.it_pictures.picturslist[x].url);
-      this.desList.push(
-        this.$store.getters.it_pictures.picturslist[x].describe
-      );
-    }
-    //得到标签
-    var str = this.$store.getters.it_pictures.label;
-    // console.log(str);
-    this.labels = (str || "").split(",");
-    //得到评论@/assets/jpg
-     this.commentData = this.$store.getters.it_pictures.commentstime1;
+    GetOneWork(this.$route.query.id)
+      .then(response => {
+        console.log(response.work);
+        this.work = response.work;
+        this.labels = this.work.dynamicTags; //得到标签
+        this.Bowencommentszheng = this.work.commentModelListZheng;
+        this.Bowencommentsdao = this.work.commentModelListDao;
+        this.Bowencommentszuo = this.work.commentModelListZuo;
+        let plist = this.work.picturslist;
+        for (let i = 0; i < plist.length; i++) {
+          this.srcList.push(plist[i].url + "/text_wateryin");
+          this.desList.push(plist[i].describe);
+        }
+        this.info.toid = this.work.authorid;
+        this.info.itid = this.work.id;
+        this.info.title = this.work.title;
+        this.info.type = 1;
+        this.isloading = false;
+      })
+      .catch(error => {
+        console.log(error);
+      });
   },
 
   methods: {
@@ -265,12 +307,24 @@ export default {
       this.albumcreate.visible = true;
     },
     //关注此作者
-    guanzhuzuthor(authorid) {
+    guanzhuzuthor() {
+      if (
+        this.token == "undefined" ||
+        !this.token ||
+        !/[^\s]/.test(this.token)
+      ) {
+        this.$message.error("请先登陆哦");
+        return;
+      }
       ///后台数据库修改成功返回后
-      this.$store.dispatch(
-        "Setauthorisguanzhu",
-        !this.$store.getters.it_pictures.authorisguanzhu
-      );
+      UserFans(this.work.authorid)
+        .then(response => {
+          this.$message(response, message);
+          this.work.authorisguanzhu = !this.work.authorisguanzhu;
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     //积分说明
     leveldescription() {
@@ -278,17 +332,68 @@ export default {
     },
     //点赞
     getitgood(itid) {
-      this.$store.dispatch(
-        "Setisgood",
-        !this.$store.getters.it_pictures.isgood
-      );
+      if (
+        this.token == "undefined" ||
+        !this.token ||
+        !/[^\s]/.test(this.token)
+      ) {
+        this.$message.error("请先登陆哦");
+        return;
+      }
+      let likeModel = {
+        toid: this.work.authorid,
+        itid: this.work.id,
+        title: this.work.title,
+        type: 1
+      };
+      UserLike(likeModel)
+        .then(response => {
+          this.$message(response.message);
+          this.work.islike = !this.work.islike;
+          if (response.message == "谢谢您的投票") {
+            this.work.likenumber = this.work.likenumber + 1;
+          } else {
+            this.work.likenumber = this.work.likenumber - 1;
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     //收藏作品
-    icollectit(itid) {
-      this.$store.dispatch(
-        "Setiscollectzuoping",
-        !this.$store.getters.it_pictures.iscollect
-      );
+    icollectit() {
+      if (
+        this.token == "undefined" ||
+        !this.token ||
+        !/[^\s]/.test(this.token)
+      ) {
+        this.$message.error("请先登陆哦");
+        return;
+      }
+      let collectModel = {
+        toid: this.work.authorid,
+        itid: this.work.id,
+        title: this.work.title,
+        type: 1
+      };
+      UserCollect(collectModel)
+        .then(response => {
+          this.$message(response.message);
+          if (response.message == "请先登陆") {
+          } else {
+            this.work.iscollect = !this.work.iscollect;
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    //瞄点
+    goAnchor() {
+      this.$el.querySelector("#writemycomment").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
     }
   }
 };
@@ -478,18 +583,16 @@ export default {
     .fifth {
       height: 160px;
       width: 100%;
-    overflow: hidden;
-    margin-top: 40px;
-     display: table;
-      img{
-    height: auto;
-    width: 80%;
-    margin-left: 10%;
-
+      overflow: hidden;
+      margin-top: 40px;
+      display: table;
+      img {
+        height: auto;
+        width: 80%;
+        margin-left: 10%;
       }
-
     }
-    .sixth{
+    .sixth {
       margin-bottom: 70px;
     }
   }
