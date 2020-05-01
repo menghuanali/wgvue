@@ -22,7 +22,7 @@ const preview = {
             state.optionstwovalues = optionstwovalues;
         },
         SET_dynamicTags:(state,dynamicTags) =>{
-           state.dynamicTags = dynamicTags.slice();
+           state.dynamicTags = dynamicTags;
         },
         SET_coverurl:(state,coverurl) =>{
             state.coverurl = coverurl;
@@ -37,8 +37,8 @@ const preview = {
             commit('SET_title',boweninfo.title);
             commit('SET_optionsonevalues',boweninfo.optionsonevalues);
             commit('SET_optionstwovalues',boweninfo.optionstwovalues);
-            commit('SET_dynamicTags',boweninfo.dynamicTags);
             commit('SET_coverurl',boweninfo.coverurl);
+            commit('SET_dynamicTags',boweninfo.dynamicTags);
             let l = boweninfo.paragraphs.length;
             let res ="";
             for(let i=0;i<l;i++){

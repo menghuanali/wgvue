@@ -30,7 +30,7 @@ export function getmyinfo() {
 //根据token得到用户基本信息和需要展示的用户详情信息，主要注意是否关注
 export function getdetailedinfo(id){
   return request({
-    url:'detailedinfo',
+    url:'/detailedinfo',
     method:'post',
     data:{
       id,

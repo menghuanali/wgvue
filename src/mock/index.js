@@ -173,7 +173,7 @@ import { removeToken } from '@/utils/auth'
       }
       return data;
     });
-    Mock.mock("http://localhost:8090/myinfo",'get',() =>{
+    Mock.mock("http://localhost:8090/mock/myinfo",'get',() =>{
       let data = {
         code : 200,
         data : {

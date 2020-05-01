@@ -141,7 +141,9 @@ export default {
       return this.$store.getters.home_homedata;
     }
   },
-  created() {},
+  created() {
+     
+  },
   methods: {
     GoToBowen() {
       alert("博文");

@@ -97,30 +97,30 @@
             <el-col :span="3" :push=1>
               <el-dropdown class="wg_aitu_to_user_head" placement="bottom">
                 <span class="el-dropdown-link">
-                  <el-badge :value="3" class="item">
+                  <el-badge :value="Allmsgnumber" class="item">
                   <i class="el-icon-bell" style="color: black;font-size: 28px;"></i>
                   </el-badge>
                 </span>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item>
                    
-                    <router-link :to="{  name:'message', params: { type: 'like' } }" class="wg_head_list_item" style="margin:0" >点赞&#12288;&#12288;&#12288;</router-link><el-badge class="mark" :value="12" />
+                    <router-link :to="{  name:'message', params: { type: 'like' } }" class="wg_head_list_item" style="margin:0" >点赞&#12288;&#12288;&#12288;</router-link><el-badge class="mark" :value="likenumber" />
                   </el-dropdown-item>
                   <el-dropdown-item>
                    
-                    <router-link :to="{  name:'message', params: { type: 'comment' } }" class="wg_head_list_item" style="margin:15px 0 0 0" >评论&#12288;&#12288;&#12288;</router-link><el-badge class="mark" :value="12" />
+                    <router-link :to="{  name:'message', params: { type: 'comment' } }" class="wg_head_list_item" style="margin:15px 0 0 0" >评论&#12288;&#12288;&#12288;</router-link><el-badge class="mark" :value="commentnumber" />
                   </el-dropdown-item>
                   <el-dropdown-item>
                     
-                    <router-link :to="{  name:'message', params: { type: 'fans' } }" class="wg_head_list_item" style="margin:15px 0 0 0" >新粉丝&#12288;&#12288;</router-link><el-badge class="mark" :value="12" />
+                    <router-link :to="{  name:'message', params: { type: 'fans' } }" class="wg_head_list_item" style="margin:15px 0 0 0" >新粉丝&#12288;&#12288;</router-link><el-badge class="mark" :value="fansnumber" />
                   </el-dropdown-item>
                   <el-dropdown-item>
                     
-                    <router-link :to="{  name:'message', params: { type: 'collect' } }" class="wg_head_list_item" style="margin:15px 0 0 0">收藏&#12288;&#12288;&#12288;</router-link><el-badge class="mark" :value="12" />
+                    <router-link :to="{  name:'message', params: { type: 'collect' } }" class="wg_head_list_item" style="margin:15px 0 0 0">收藏&#12288;&#12288;&#12288;</router-link><el-badge class="mark" :value="collectnumber" />
                   </el-dropdown-item>
                    <el-dropdown-item>
                     
-                    <router-link :to="{  name:'message', params: { type: 'letter' } }" class="wg_head_list_item" style="margin:15px 0 0 0" >私信&#12288;&#12288;&#12288;</router-link><el-badge class="mark" :value="12" />
+                    <router-link :to="{  name:'message', params: { type: 'letter' } }" class="wg_head_list_item" style="margin:15px 0 0 0" >私信&#12288;&#12288;&#12288;</router-link><el-badge class="mark" :value="letternumber" />
                   </el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
@@ -243,6 +243,31 @@ export default {
       timeout: null,
       userheadurl: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
     };
+  },
+  computed:{
+      Allmsgnumber(){
+        let allnumber = Number(this.$store.getters.my_msgnumber.like)+Number(this.$store.getters.my_msgnumber.comment)+Number(this.$store.getters.my_msgnumber.collect)+Number(this.$store.getters.my_msgnumber.fans)+Number(this.$store.getters.my_msgnumber.letter);
+        console.log(allnumber);
+          return parseInt(allnumber)>parseInt(99)?"99+":allnumber;
+      },
+      likenumber(){
+        return this.$store.getters.my_msgnumber.like;
+      },
+      commentnumber(){
+        return this.$store.getters.my_msgnumber.comment;
+      }
+      ,
+      collectnumber(){
+        return this.$store.getters.my_msgnumber.collect;
+      }
+      ,
+      fansnumber(){
+        return this.$store.getters.my_msgnumber.fans;
+      }
+      ,
+      letternumber(){
+        return this.$store.getters.my_msgnumber.letter;
+      }
   },
   methods: {
     startsearch: function(event) {

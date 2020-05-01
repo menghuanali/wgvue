@@ -20,8 +20,7 @@
           <div class="ql-editor" v-html="PreviewData.paragraphs"></div>
         </div>
         <div class="biaoqian">
-          <span v-for="(p,index) in PreviewData.dynamicTags" :key="index"></span>
-          <span>{{p}}</span>
+          <span v-for="(wp,index) in PreviewData.dynamicTags" :key="index">{{wp}}</span>
         </div>
       </el-col>
       <el-col :span="4" style="min-height: 1px;"></el-col>
@@ -38,9 +37,14 @@ import "quill/dist/quill.snow.css";
 export default {
   components: { basefooter },
   data() {
-    return {};
+    return {
+      
+    };
   },
-  created: function() {},
+  created: function() {
+console.log(this.PreviewData);
+
+    },
   computed: {
     PreviewData() {
       return this.$store.getters.preview_data;

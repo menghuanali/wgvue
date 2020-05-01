@@ -401,7 +401,20 @@ export default {
       return this.boweninfo.coverurl;
     }
   },
+
+ 
   watch: {
+    content: {
+      handler: function(newValue, oldValue) {
+        if (newValue.length > 1800) {
+          this.$message({
+            message: "警告哦，这段你已经写了很长了，换一段再写吧",
+            type: "warning"
+          });
+           this.editor.deleteText(1800,8);
+        }
+      }
+    },
     imgandtextlist: {
       handler: function(newValue, oldValue) {
         this.imgandtextlist = newValue;
@@ -475,7 +488,7 @@ export default {
       });
     },
 
-    handlerimgErrorupodate(){
+    handlerimgErrorupodate() {
       this.loading = false;
     },
     // 增加图片段落到队首
@@ -546,10 +559,10 @@ export default {
       if (!this.iscover) return;
       this.isuped = true;
     },
-    handerCoverError(){
-        this.isuped = true;
-        this.iscover = true;
-        this.coverloading = false;
+    handerCoverError() {
+      this.isuped = true;
+      this.iscover = true;
+      this.coverloading = false;
     },
     handleimgSuccessCOVER(response, file) {
       this.formData.set("coverfile", file.raw);
@@ -634,11 +647,11 @@ export default {
       })
         .then(({ value }) => {
           const aituloading = this.$loading({
-          lock: true,
-          text: 'Loading',
-          spinner: 'el-icon-loading',
-          background: 'rgba(0, 0, 0, 0.7)'
-        });
+            lock: true,
+            text: "Loading",
+            spinner: "el-icon-loading",
+            background: "rgba(0, 0, 0, 0.7)"
+          });
           this.boweninfo.smallcontent = value.trim();
           for (let i = 0; i < l; i++) {
             let p = {};
@@ -670,16 +683,17 @@ export default {
             .post("http://localhost:8090/createbowen", myformData, config)
             .then(res => {
               aituloading.close();
-                      this.$message({
-                      message: '恭喜你，发表成功,去看看吧',
-                      type: 'success',
-                      onClose:() => {  //用箭头函数 this指代这个vue  如果用function 这是函数
-                           this.$router.push({
-                                path: "/bowen",
-                                query:{id:res.data.bowenid}
-                          });
-                      }
-                      });
+              this.$message({
+                message: "恭喜你，发表成功,去看看吧",
+                type: "success",
+                onClose: () => {
+                  //用箭头函数 this指代这个vue  如果用function 这是函数
+                  // this.$router.push({
+                  //   path: "/bowen",
+                  //   query: { id: res.data.bowenid }
+                  // });
+                }
+              });
             })
             .catch(res => {
               console.log(res);
@@ -687,6 +701,7 @@ export default {
         })
         .catch(() => {});
     },
+    //预览
     subYuLan() {
       this.boweninfo.paragraphs = [];
       let l = this.imgandtextlist.length;

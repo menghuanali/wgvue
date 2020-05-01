@@ -393,12 +393,28 @@ export default {
       }
 
       myformData.append("workinfo", JSON.stringify(this.workinfo));
+                const aituloading = this.$loading({
+          lock: true,
+          text: 'Loading',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        });
       // console.log("------");
       // console.log(myformData.getAll("file"));
       axios
         .post("http://localhost:8090/uploadz", myformData, config)
         .then(res => {
-          console.log(res);
+                        aituloading.close();
+                      this.$message({
+                      message: '恭喜你，发表成功,去看看吧',
+                      type: 'success',
+                      onClose:() => {  //用箭头函数 this指代这个vue  如果用function 这是函数
+                           this.$router.push({
+                                path: "/work",
+                                query:{id:res.data.workid}
+                          });
+                      }
+                      });
         })
         .catch(res => {
           console.log(res);

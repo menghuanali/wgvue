@@ -26,7 +26,7 @@
 
         <div class="DynamicTags">
           <span
-            v-for="(p,index) in DYnamicTags"
+            v-for="(p,index) in this.bowen.dynamicTags"
             :key="index"
             style="height: 28px;line-height: 28px;padding-right: 20px;"
           >{{p}}</span>
@@ -94,9 +94,6 @@ export default {
     token() {
       return getToken();
     },
-    DYnamicTags() {
-      return this.dynamicTags;
-    },
     Myzhuangbei() {
       if (this.bowen.myzhuangbei == "") return false;
       else return true;
@@ -124,9 +121,6 @@ this.bowen.iscollect = !this.bowen.iscollect;
        }
      }).catch(error =>{console.log(error);});
     },
-    getMethod(){
-      alert("点赞")
-    }
   }
 };
 </script>

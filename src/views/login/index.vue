@@ -79,12 +79,10 @@ export default {
           this.loading = true;
           //Login是action函数名 this.loginForm是数据
           this.$store.dispatch("Login", this.loginForm).then((response)=> {
-              this.loading = false;
-              console.log(response);
               let code = response.code;
-              console.log(code);
+              this.loading = false;
               if (code == 200) {
-                // alert(response.message);
+                
                 this.$router.push({
                   path: "/"
                 });

@@ -65,7 +65,7 @@
         </span>
       </div>
       <div class="reply">
-        <div class="item" v-for="reply in item.replyModelList" :key="reply.id">
+        <div class="item" v-for="(reply,index) in item.replyModelList" :key="index">
           <div class="reply-content">
             <span class="from-name">{{reply.fromName}}</span>
             <span>:</span>
@@ -85,7 +85,7 @@
           @click="showCommentInput(item)"
         >
           <i class="el-icon-edit"></i>
-          <span class="add-comment">添加新评论</span>
+          <span class="add-comment">添加新回复</span>
         </div>
         <transition name="fade">
           <div class="input-wrapper" v-if="showItemId === item.id">
@@ -94,7 +94,7 @@
               type="textarea"
               :rows="5"
               autofocus
-              placeholder="写下你的评论"
+              placeholder="写下你的回复"
               @input="smallcommentchange"
             ></el-input>
             <div class="btn-control">
@@ -117,7 +117,7 @@
 <script>
 import { getToken } from "@/utils/auth";
 import { Message } from "element-ui";
-import { UserComment } from "@/api/allrequest";
+import { UserComment, UserReplay } from "@/api/allrequest";
 export default {
   props: {
     commentszheng: {
@@ -146,7 +146,8 @@ export default {
       newConfirm: true,
       commentConfirm: true,
       onlywatchautor: false,
-      isActive: false
+      isActive: false,
+      replayinfo: {}
     };
   },
   computed: {
@@ -165,15 +166,15 @@ export default {
     /**
      * 点赞
      */
-    likeClick(item) {
-      console.log(item);
-      if (item.islike) {
-        item.likeNum--;
-      } else {
-        item.likeNum++;
-      }
-      item.islike = !item.islike;
-    },
+    // likeClick(item) {
+    //   console.log(item);
+    //   if (item.islike) {
+    //     item.likeNum--;
+    //   } else {
+    //     item.likeNum++;
+    //   }
+    //   item.islike = !item.islike;
+    // },
 
     /**
      * 点击取消按钮
@@ -188,7 +189,7 @@ export default {
       this.AddNewComment = "";
     },
     /**
-     * 提交评论
+     * 提交回复 只有两种情况 是回复评论还是回复回复
      */
     commitComment() {
       if (
@@ -199,8 +200,51 @@ export default {
         this.$message.error("请先登陆哦");
         return;
       }
-
+      this.replayinfo.content = this.inputComment;
       console.log(this.inputComment);
+      UserReplay(this.replayinfo)
+        .then(response => {
+          Message.success({
+            message: response.message,
+            center: true
+          });
+          let newreplay = {};
+          newreplay.id = response.replaytid;
+          newreplay.commentId = this.showItemId;
+          newreplay.fromId = this.$store.getters.my_id;
+          newreplay.fromName = this.$store.getters.my_name;
+          newreplay.fromAvatar = this.$store.getters.my_avatar;
+          newreplay.toId = this.replayinfo.toid;
+          newreplay.toName = this.replayinfo.toname;
+          newreplay.content = this.replayinfo.content;
+          newreplay.date = new Date().Format("yyyy-MM-dd HH:mm:ss");
+          console.log(newreplay);
+          console.log(this.comments);
+          for (let i = 0; i < this.commentszheng.length; i++) {
+            if (this.commentszheng[i].id == this.showItemId) {
+              this.commentszheng[i].replyModelList.push(newreplay);
+            }
+          }
+          console.log(this.comments);
+          i = 0;
+          // let i = 0;不起作用的 注意坑
+          for (let i = 0; i < this.commentsdao.length; i++) {
+            if (this.commentsdao[i].id == this.showItemId) {
+              this.commentsdao[i].replyModelList.push(newreplay);
+            }
+          }
+          console.log(this.comments);
+          i = 0;
+          for (let i = 0; i < this.commentszuo.length; i++) {
+            if (this.commentszuo[i].id == this.showItemId) {
+              this.commentszuo[i].replyModelList.push(newreplay);
+            }
+          }
+          console.log(this.comments);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     /**
      * 提交新的大评论
@@ -228,38 +272,16 @@ export default {
           newcomment.fromId = this.$store.getters.my_id;
           newcomment.fromName = this.$store.getters.my_name;
           newcomment.fromAvatar = this.$store.getters.my_avatar;
-          Date.prototype.Format = function(fmt) {
-            var o = {
-              "M+": this.getMonth() + 1, //月份
-              "d+": this.getDate(), //日
-              "H+": this.getHours(), //小时
-              "m+": this.getMinutes(), //分
-              "s+": this.getSeconds(), //秒
-              "q+": Math.floor((this.getMonth() + 3) / 3), //季度
-              S: this.getMilliseconds() //毫秒
-            };
-            if (/(y+)/.test(fmt))
-              fmt = fmt.replace(
-                RegExp.$1,
-                (this.getFullYear() + "").substr(4 - RegExp.$1.length)
-              );
-            for (var k in o)
-              if (new RegExp("(" + k + ")").test(fmt))
-                fmt = fmt.replace(
-                  RegExp.$1,
-                  RegExp.$1.length == 1
-                    ? o[k]
-                    : ("00" + o[k]).substr(("" + o[k]).length)
-                );
-            return fmt;
-          };
+
           newcomment.date = new Date().Format("yyyy-MM-dd HH:mm:ss");
           newcomment.content = this.AddNewComment;
           newcomment.replyModelList = [];
-         
+
           this.commentszheng.push(newcomment);
           this.commentsdao.unshift(newcomment);
-          
+          if (this.info.itid == this.$store.getters.my_id) {
+            this.commentszuo.push(newcomment);
+          }
         })
         .catch(error => {
           console.log(error);
@@ -272,12 +294,28 @@ export default {
      * reply: 当前回复的评论
      */
     showCommentInput(item, reply) {
+      this.replayinfo = {};
+      if (reply == "undefined" || !reply) {
+        //回复的是评论
+        this.replayinfo.toid = item.fromId;
+        this.replayinfo.itid = item.id; //不用知道作品或者文章的id
+        this.replayinfo.type = 1;
+        this.replayinfo.title = this.info.title;
+        this.replayinfo.toname = item.fromName;
+      } else {
+        //回复的是回复
+        this.replayinfo.toid = reply.fromId;
+        this.replayinfo.itid = reply.id;
+        this.replayinfo.type = 2;
+        this.replayinfo.title = this.info.title;
+        this.replayinfo.toname = reply.fromName;
+      }
       if (reply) {
         this.inputComment = "@" + reply.fromName + " ";
       } else {
         this.inputComment = "";
       }
-      this.showItemId = item.id;
+      this.showItemId = item.id; //可以看作评论的id
     },
     // 改变提交按钮状态
     changenewbtn() {

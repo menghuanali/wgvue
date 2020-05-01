@@ -18,6 +18,8 @@ const getters = {
   my_collectionarticles: state => state.user.collectionarticles,
   my_album: state => state.user.album,
   my_userdetails: state => state.user.userdetails,
+  my_msgnumber: state => state.user.messagenumber,
+  my_worknumber: state => state.user.worknumber,
   //查看的其他用户信息
   her_id: state => state.her.id,
   her_backgroundurl: state => state.her.backgroundurl,

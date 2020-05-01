@@ -91,10 +91,18 @@ export function UserComment(commentinfo){
     })
 }
 //回复
-export function UserReplay(itid){
+export function UserReplay(replayinfo){
     return request({
-        url:'/replay/'+itid,
-        method:'get'
+        url:'/replay',
+        method:'post',
+        data:{
+            content:replayinfo.content,
+            toid:replayinfo.toid,
+            itid:replayinfo.itid,
+            type:replayinfo.type,
+            title:replayinfo.title,
+            toname:replayinfo.toname,
+        }
     })
 }
 //关注

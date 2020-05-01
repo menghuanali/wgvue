@@ -392,56 +392,56 @@ const her = {
       ]//博文
     },
     mutations: {
-      SET_userdetails:(state,userdetails) =>{
-        state.userdetails = userdetails;
-      },
-      SET_id:(state,id) =>{
-        state.id = id;
-      },
-      SET_albun:(state,album) =>{
-        state.album = album;
-      },
-      SET_collectionarticles: (state,collectionarticles) =>{
-        state.collectionarticles = collectionarticles;
-      },
-      SET_collectpictures: (state,collectpictures) =>{
-        state.collectpictures = collectpictures;
-      },
-      SET_allworks: (state,allworks) =>{
-        state.allworks = allworks;
-      },
-      SET_WORKS: (state,works) =>{
-        state.works = works;
-      },
-      SET_BOWEN: (state,bowen) =>{
-        state.bowen = bowen;
-      },
-      SET_FOLLOWUSERS: (state,followusers) =>{
-        state.followusers = followusers;
-      },
-      SET_NAME: (state, name) => {
-        console.log(name);
+      // SET_userdetails:(state,userdetails) =>{
+      //   state.userdetails = userdetails;
+      // },
+      // SET_id:(state,id) =>{
+      //   state.id = id;
+      // },
+      // SET_albun:(state,album) =>{
+      //   state.album = album;
+      // },
+      // SET_collectionarticles: (state,collectionarticles) =>{
+      //   state.collectionarticles = collectionarticles;
+      // },
+      // SET_collectpictures: (state,collectpictures) =>{
+      //   state.collectpictures = collectpictures;
+      // },
+      // SET_allworks: (state,allworks) =>{
+      //   state.allworks = allworks;
+      // },
+      // SET_WORKS: (state,works) =>{
+      //   state.works = works;
+      // },
+      // SET_BOWEN: (state,bowen) =>{
+      //   state.bowen = bowen;
+      // },
+      // SET_FOLLOWUSERS: (state,followusers) =>{
+      //   state.followusers = followusers;
+      // },
+      // SET_NAME: (state, name) => {
+      //   console.log(name);
         
-        state.name = name
-      },
-      SET_AVATAR: (state, avatar) => {
-        state.avatar = avatar
-      },
-      SET_FOLLOWS: (state, follows) => {
-        state.follows = follows
-      },
-      SET_FANS: (state, fans) => {
-        state.fans = fans
-      },
-      SET_isguanzhu: (state, isguanzhu) =>{
-        state.isguanzhu = isguanzhu
-      },
-      SET_RARS:(state,tars) =>{
-        state.tars = tars;
-      },
-      SET_NIANS:(state,nians) =>{
-        state.nians = nians;
-      }
+      //   state.name = name
+      // },
+      // SET_AVATAR: (state, avatar) => {
+      //   state.avatar = avatar
+      // },
+      // SET_FOLLOWS: (state, follows) => {
+      //   state.follows = follows
+      // },
+      // SET_FANS: (state, fans) => {
+      //   state.fans = fans
+      // },
+      // SET_isguanzhu: (state, isguanzhu) =>{
+      //   state.isguanzhu = isguanzhu
+      // },
+      // SET_RARS:(state,tars) =>{
+      //   state.tars = tars;
+      // },
+      // SET_NIANS:(state,nians) =>{
+      //   state.nians = nians;
+      // }
     },
     actions: {
       GetHerInfo({commit},herid){
