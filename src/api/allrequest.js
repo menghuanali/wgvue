@@ -7,15 +7,6 @@ export function getherinfo(herid) {
       method: 'get',
     })
 }
-//点赞作品
-export function followher(itid,myid){
-    return request({
-      //后端验证token和提供的myid是否一致
-      url: '/addgood?myid='+myid+"&itid="+itid,
-      method:'get',
-    })
-  }
-
 export function ceshiping(){
     return request({
         url: '/ceshi',
@@ -23,12 +14,6 @@ export function ceshiping(){
         
     })
 }
-
-    // axios.get("http://localhost:8090/ceshi",{headers:{'Aitutoken': getToken()}}).then( res => {
-    //                 // console.log(res)
-    //             }).catch( res => {
-    //                 console.log(res)
-    //             })
 //加载一个博文 
 export function GetOneBoWen(bowenid){
     return request({
@@ -154,5 +139,30 @@ export function GetMessagelettercome(fromid){
     return request({
         url:'/message/lettercome?fromid='+fromid,
         method:'get',
+    })
+}
+//新建专辑
+export function CreateAblum(name,describe,isprivate){
+    return request({
+        url:'/createablum',
+        method:'post',
+        data:{
+            name:name,
+            describe:describe,
+            isprivate:isprivate,
+        }
+    })
+}
+//设置专辑
+export function SetAblum(id,name,describe,isprivate){
+    return request({
+        url:'/setablum',
+        method:'post',
+        data:{
+            id:id,
+            name:name,
+            describe:describe,
+            isprivate:isprivate,
+        }
     })
 }

@@ -7,11 +7,9 @@ import {
   login,
   logout,
   getmyinfo,
-  createAdmin
+  createAdmin,//注册
+  getdetailedinfo
 } from '@/api/login'
-import {
-  ceshiping
-} from "@/api/allrequest";
 const user = {
   state: {
     id: 64753241,
@@ -538,7 +536,29 @@ const user = {
         })
       })
     },
-
+    GetDetailedInfo({commit}){
+        return new Promise((resolve, reject) => {
+          getdetailedinfo().then(response => {
+            // let msg = {};
+            // msg.like = response.likenumber;
+            // msg.comment = response.commentnumber;
+            // msg.collect = response.collectnumber;
+            // msg.fans = response.fansnumber;
+            // msg.letter = response.letternumber;
+            // commit('SET_messagenumber',msg);
+            // commit('SET_NAME', response.name)
+            // commit('SET_FOLLOWS', response.follows)
+            // commit('SET_ISRENZHENG', response.isrenzheng)
+            // commit('SET_AVATAR', response.avatar)
+            // commit('SET_FANS', response.fans)
+            // commit('SET_id', response.id)
+            // commit('SET_worknumber', response.worknumber)
+            resolve(response);
+          }).catch(error => {
+            reject(error)
+          })
+        })
+    },
     // 登出
     LogOut({
       commit,

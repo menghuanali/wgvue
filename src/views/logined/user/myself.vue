@@ -320,7 +320,7 @@
                       <img :src="p.coverimgurl" class="image" />
                     </a>
                     <div class="operate" v-if="(p.isdefault==false)">
-                      <span @click="showalbum(index,p.title,p.describe,p.iskeyed)">设置</span>
+                      <span @click="showalbum(index,p.title,p.describe,p.iskeyed,p.id)">设置</span>
                       <span style="color:#968e95;">|</span>
                       <span @click="deletealbum(index,p.id)">删除</span>
                     </div>
@@ -343,6 +343,7 @@
               :albumname.sync="albumset.albumname"
               :albumdescribe.sync="albumset.albumdescribe"
               :albumprivate.sync="albumset.albumprivate"
+              :albumid.sync="albumset.albumid"
               :albumindex.sync="albumset.albumindex"
             ></albumsetdialog>
             <albumcreatedialog
@@ -639,7 +640,8 @@ export default {
         albumname: "",
         albumdescribe: "",
         albumprivate: false,
-        albumindex: 0
+        albumindex: 0,
+        ablumid:0,
       },
       albumcreate: {
         visible: false,
@@ -696,8 +698,9 @@ export default {
     }
   },
   created() {
-
-    this.$store.dispatch("GetMyInfo",this.$store.getters.my_id).then((response)=>{}).catch((e) => {});
+    this.$store.dispatch("GetDetailedInfo").then((response)=>{
+      console.log(response);
+    }).catch((e) => {});
   },
   mounted() {
     // 事件监听滚动条
@@ -751,11 +754,12 @@ export default {
       this.collectlist = -1;
     },
     //显示专辑详情
-    showalbum(index, title, describe, iskeyed) {
+    showalbum(index, title, describe, iskeyed,id) {
       this.albumset.albumindex = index;
       this.albumset.albumname = title;
       this.albumset.albumdescribe = describe;
       this.albumset.albumprivate = iskeyed;
+      this.albumset.id = id;
       this.albumset.visible = true;
     },
     //创建专辑

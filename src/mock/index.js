@@ -4,19 +4,19 @@ import Mydata from "./mydata.js"
 import { removeToken } from '@/utils/auth'
 
     //登录
-    Mock.mock('http://localhost:8090/admin/login','post',() => {
-        // console.log(Mydata.data1);
+    // Mock.mock('http://localhost:8090/admin/login','post',() => {
+    //     // console.log(Mydata.data1);
         
-        return Mydata.data1;
-    });
+    //     return Mydata.data1;
+    // });
     //退出登陆
-    Mock.mock('http://localhost:8090/admin/logout','get',() =>{
-      const outdata = {
-        code:200,
-            message : "退出成功"
-      }
-      return outdata;
-    });
+    // Mock.mock('http://localhost:8090/admin/logout','get',() =>{
+    //   const outdata = {
+    //     code:200,
+    //         message : "退出成功"
+    //   }
+    //   return outdata;
+    // });
     //获取其他用户信息
     Mock.mock(/^http:\/\/localhost:8090\/user\?herid=\d+$/,'get',() => {
       let data = {
@@ -26,14 +26,14 @@ import { removeToken } from '@/utils/auth'
       return data;
     });
     //注册
-    Mock.mock("http://localhost:8090/admin/register",'post',() =>{
-      let data = {
-        code:200,
-        message:"注册成功",
-        token:"125478"
-      }
-      return data;
-    });
+    // Mock.mock("http://localhost:8090/admin/register",'post',() =>{
+    //   let data = {
+    //     code:200,
+    //     message:"注册成功",
+    //     token:"125478"
+    //   }
+    //   return data;
+    // });
 //好友动态初始
     Mock.mock("http://localhost:8090/getfollowlist",'post',() =>{
       
@@ -173,14 +173,14 @@ import { removeToken } from '@/utils/auth'
       }
       return data;
     });
-    Mock.mock("http://localhost:8090/mock/myinfo",'get',() =>{
-      let data = {
-        code : 200,
-        data : {
-          name:"改变值"
-        }
-      }
-      return data;
-    });
+    // Mock.mock("http://localhost:8090/mock/myinfo",'get',() =>{
+    //   let data = {
+    //     code : 200,
+    //     data : {
+    //       name:"改变值"
+    //     }
+    //   }
+    //   return data;
+    // });
 
 

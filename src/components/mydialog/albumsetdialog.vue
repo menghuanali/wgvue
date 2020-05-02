@@ -22,9 +22,9 @@
           v-model="describe"
         ></el-input>
         <div style="font-size: 18px;font-weight: bold;margin-top: 25px;">隐私</div>
-      <el-radio-group  v-model="isprivate" style="margin: 33px 0;" @change="setisprivate">
+      <el-radio-group  v-model="isprivate" style="margin: 33px 0;">
         <el-radio :label=false>公开</el-radio>
-  <el-radio  :label="true">仅自己可见</el-radio>
+  <el-radio :label="true">仅自己可见</el-radio>
 </el-radio-group>
       </div>
 
@@ -36,6 +36,7 @@
   </div>
 </template>
 <script>
+import { SetAblum } from "@/api/allrequest";
 export default {
   name: "albumsetdialog",
   data() {
@@ -63,6 +64,10 @@ export default {
       type: Boolean,
       default: false
     },
+    albumid: {
+      type: Number,
+      default: 0
+    },
     albumindex: {
       type: Number,
       default: 0
@@ -73,18 +78,16 @@ export default {
       this.$emit("update:visible", false);
     },
     cancelalbum() {
-      console.log("取消");
       this.$emit("update:visible", false);
     },
     sureresive() {
-      console.log("确定");
+     SetAblum(this.albumid,this.name,this.describe,this.isprivate).then((response) =>{
+        
+      }).catch((error) =>{ 
+        console.log(error);
+      })
       this.$emit("update:visible", false);
     },
-    //选择私密
-    setisprivate(key){
-        console.log(key);
-        
-    }
   },
   mounted() {
     this.loading = false;
