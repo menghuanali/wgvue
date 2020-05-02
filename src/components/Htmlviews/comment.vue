@@ -160,7 +160,7 @@ export default {
   },
   created() {
     this.comments = this.commentszheng;
-    console.log(this.comments);
+    // console.log(this.comments);
   },
   methods: {
     /**

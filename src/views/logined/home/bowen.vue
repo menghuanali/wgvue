@@ -73,7 +73,7 @@ export default {
     GetOneBoWen(this.$route.query.id)
       .then(response => {
         this.bowen = response.bowen;
-        console.log(this.bowen);
+        // console.log(this.bowen);
         this.Bowencommentszheng = this.bowen.commentModelListZheng;
         this.Bowencommentsdao = this.bowen.commentModelListDao;
         this.Bowencommentszuo = this.bowen.commentModelListZuo;

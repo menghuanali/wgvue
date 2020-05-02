@@ -33,14 +33,13 @@
                   <el-dropdown-item>
                     <a href="/photographer" class="wg_head_list_item" style="margin:15px 0 0 0">摄影师</a>
                   </el-dropdown-item>
-                  
                 </el-dropdown-menu>
               </el-dropdown>
             </el-col>
 
             <el-col :span="4" class="wg_item_head_1">
               <a href="#">
-                <span class="wg_black_head_color"  @click.stop="CeShi(321)">爱Tu认证</span>
+                <span class="wg_black_head_color" @click.stop="CeShi(321)">爱Tu认证</span>
               </a>
             </el-col>
 
@@ -80,7 +79,11 @@
             </transition>
 
             <el-col :span="1">
-              <div class="wg_search" style="cursor: pointer;margin-top: 3px" v-on:click="startsearch">
+              <div
+                class="wg_search"
+                style="cursor: pointer;margin-top: 3px"
+                v-on:click="startsearch"
+              >
                 <!-- <img src="@/assets/png/search.png" alt="搜索"> -->
                 <svg-icon icon-class="search" style="fill:white;font-size:22px"></svg-icon>
               </div>
@@ -94,33 +97,53 @@
                 </a>
               </div>
             </el-col>
-            <el-col :span="3" :push=1>
+            <el-col :span="3" :push="1">
               <el-dropdown class="wg_aitu_to_user_head" placement="bottom">
                 <span class="el-dropdown-link">
                   <el-badge :value="Allmsgnumber" class="item">
-                  <i class="el-icon-bell" style="color: white;font-size: 28px;"></i>
+                    <i class="el-icon-bell" style="color: white;font-size: 28px;"></i>
                   </el-badge>
                 </span>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item>
-                   
-                    <router-link :to="{  name:'message', params: { type: 'like' } }" class="wg_head_list_item" style="margin:0" >点赞&#12288;&#12288;&#12288;</router-link><el-badge class="mark" :value="likenumber" />
+                    <router-link
+                      :to="{  name:'message', params: { type: 'like' } }"
+                      class="wg_head_list_item"
+                      style="margin:0"
+                    >点赞&#12288;&#12288;&#12288;</router-link>
+                    <el-badge class="mark" :value="likenumber" />
                   </el-dropdown-item>
                   <el-dropdown-item>
-                   
-                    <router-link :to="{  name:'message', params: { type: 'comment' } }" class="wg_head_list_item" style="margin:15px 0 0 0" >评论&#12288;&#12288;&#12288;</router-link><el-badge class="mark" :value="commentnumber" />
+                    <router-link
+                      :to="{  name:'message', params: { type: 'comment' } }"
+                      class="wg_head_list_item"
+                      style="margin:15px 0 0 0"
+                    >评论&#12288;&#12288;&#12288;</router-link>
+                    <el-badge class="mark" :value="commentnumber" />
                   </el-dropdown-item>
                   <el-dropdown-item>
-                    
-                    <router-link :to="{  name:'message', params: { type: 'fans' } }" class="wg_head_list_item" style="margin:15px 0 0 0" >新粉丝&#12288;&#12288;</router-link><el-badge class="mark" :value="fansnumber" />
+                    <router-link
+                      :to="{  name:'message', params: { type: 'fans' } }"
+                      class="wg_head_list_item"
+                      style="margin:15px 0 0 0"
+                    >新粉丝&#12288;&#12288;</router-link>
+                    <el-badge class="mark" :value="fansnumber" />
                   </el-dropdown-item>
                   <el-dropdown-item>
-                    
-                    <router-link :to="{  name:'message', params: { type: 'collect' } }" class="wg_head_list_item" style="margin:15px 0 0 0">收藏&#12288;&#12288;&#12288;</router-link><el-badge class="mark" :value="collectnumber" />
+                    <router-link
+                      :to="{  name:'message', params: { type: 'collect' } }"
+                      class="wg_head_list_item"
+                      style="margin:15px 0 0 0"
+                    >收藏&#12288;&#12288;&#12288;</router-link>
+                    <el-badge class="mark" :value="collectnumber" />
                   </el-dropdown-item>
-                   <el-dropdown-item>
-                    
-                    <router-link :to="{  name:'message', params: { type: 'letter' } }" class="wg_head_list_item" style="margin:15px 0 0 0" >私信&#12288;&#12288;&#12288;</router-link><el-badge class="mark" :value="letternumber" />
+                  <el-dropdown-item>
+                    <router-link
+                      :to="{  name:'message', params: { type: 'letter' } }"
+                      class="wg_head_list_item"
+                      style="margin:15px 0 0 0"
+                    >私信&#12288;&#12288;&#12288;</router-link>
+                    <el-badge class="mark" :value="letternumber" />
                   </el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
@@ -141,7 +164,11 @@
                     <a href class="wg_head_list_item" style="margin:15px 0 0 0">设置</a>
                   </el-dropdown-item>
                   <el-dropdown-item>
-                    <a @click="logoutadmin()" class="wg_head_list_item" style="margin:15px 0 0 0">退出登陆</a>
+                    <a
+                      @click="logoutadmin()"
+                      class="wg_head_list_item"
+                      style="margin:15px 0 0 0"
+                    >退出登陆</a>
                   </el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
@@ -214,7 +241,6 @@
 .wg_black_head_color {
   color: white;
 }
-
 </style>
 
 <script>
@@ -222,7 +248,7 @@ export default {
   name: "wgloginandwhiteheader",
   data() {
     return {
-      restaurants: [],//预搜索的内容
+      restaurants: [], //预搜索的内容
       searchisshow: false, //搜索是否展示
       state: "", //用户搜索的内容
       options: [
@@ -241,35 +267,79 @@ export default {
       ],
       selectvalue: "作品", //用户搜索的类型
       timeout: null,
-      userheadurl: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+      userheadurl:
+        "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
     };
   },
-  created:function(){
+  created: function() {
     this.$store.dispatch("GetMyInfo");
   },
-    computed:{
-      Allmsgnumber(){
-        let allnumber = Number(this.$store.getters.my_msgnumber.like)+Number(this.$store.getters.my_msgnumber.comment)+Number(this.$store.getters.my_msgnumber.collect)+Number(this.$store.getters.my_msgnumber.fans)+Number(this.$store.getters.my_msgnumber.letter);
-          return parseInt(allnumber)>parseInt(99)?"99+":allnumber;
-      },
-      likenumber(){
-        return this.$store.getters.my_msgnumber.like;
-      },
-      commentnumber(){
-        return this.$store.getters.my_msgnumber.comment;
+  computed: {
+    Allmsgnumber() {
+      let allnumber =
+        Number(this.$store.getters.my_msgnumber.like) +
+        Number(this.$store.getters.my_msgnumber.comment) +
+        Number(this.$store.getters.my_msgnumber.collect) +
+        Number(this.$store.getters.my_msgnumber.fans) +
+        Number(this.$store.getters.my_msgnumber.letter);
+      if (parseInt(allnumber) > parseInt(99)) {
+        return "99+";
+      } else if (parseInt(allnumber) ==  parseInt(0)) {
+        return "";
+      } else {
+        return allnumber;
       }
-      ,
-      collectnumber(){
-        return this.$store.getters.my_msgnumber.collect;
+    },
+    likenumber() {
+      let likenumber = this.$store.getters.my_msgnumber.like;
+      if (parseInt(likenumber) > parseInt(99)) {
+        return "99+";
+      } else if (parseInt(likenumber) == parseInt(0)) {
+        return "";
+      } else {
+        return likenumber;
       }
-      ,
-      fansnumber(){
-        return this.$store.getters.my_msgnumber.fans;
+    },
+    commentnumber() {
+      let commentnumber = this.$store.getters.my_msgnumber.comment;
+      if (parseInt(commentnumber) > parseInt(99)) {
+        return "99+";
+      } else if (parseInt(commentnumber) ==  parseInt(0)) {
+        return "";
+      } else {
+        return commentnumber;
       }
-      ,
-      letternumber(){
-        return this.$store.getters.my_msgnumber.letter;
+    },
+    collectnumber() {
+      let collectnumber = this.$store.getters.my_msgnumber.collect;
+      if (parseInt(collectnumber) > parseInt(99)) {
+        return "99+";
+      } else if (parseInt(collectnumber) ==  parseInt(0)) {
+        return "";
+      } else {
+        return collectnumber;
       }
+    },
+    fansnumber() {
+      let fansnumber = this.$store.getters.my_msgnumber.fans;
+      if (parseInt(fansnumber) > parseInt(99)) {
+        return "99+";
+      } else if (parseInt(fansnumber) ==  parseInt(0)) {
+        return "";
+      } else {
+        return fansnumber;
+      }
+    },
+    letternumber() {
+      let letternumber = this.$store.getters.my_msgnumber.letter;
+      if (parseInt(letternumber) > parseInt(99)) {
+        return "99+";
+      } else if (parseInt(letternumber) ==  parseInt(0)) {
+        return "";
+      } else {
+        return letternumber;
+      }
+    }
   },
   methods: {
     startsearch: function(event) {
@@ -281,17 +351,17 @@ export default {
       // `this` 在方法里指向当前 Vue 实例
       // `event` 是原生 DOM 事件
     },
-    logoutadmin(){
-          this.$store.dispatch("LogOut").then((response)=> {
-              let code = response.code;
-              if (code == 200) {
-                this.$router.go(0);
-              } else {
-                this.$router.push({
-                  path: "/404"
-                });
-              }
-            })
+    logoutadmin() {
+      this.$store.dispatch("LogOut").then(response => {
+        let code = response.code;
+        if (code == 200) {
+          this.$router.go(0);
+        } else {
+          this.$router.push({
+            path: "/404"
+          });
+        }
+      });
     },
     loadAll() {
       return [
@@ -511,8 +581,8 @@ export default {
     handleSelect(item) {
       console.log(item);
     },
-    CeShi(id){
-      this.$router.push({path:'/bowen',query:{id:id}})
+    CeShi(id) {
+      this.$router.push({ path: "/bowen", query: { id: id } });
     }
   },
   mounted() {

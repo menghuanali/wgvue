@@ -245,29 +245,71 @@ export default {
     };
   },
   computed:{
-      Allmsgnumber(){
-        let allnumber = Number(this.$store.getters.my_msgnumber.like)+Number(this.$store.getters.my_msgnumber.comment)+Number(this.$store.getters.my_msgnumber.collect)+Number(this.$store.getters.my_msgnumber.fans)+Number(this.$store.getters.my_msgnumber.letter);
-        console.log(allnumber);
-          return parseInt(allnumber)>parseInt(99)?"99+":allnumber;
-      },
-      likenumber(){
-        return this.$store.getters.my_msgnumber.like;
-      },
-      commentnumber(){
-        return this.$store.getters.my_msgnumber.comment;
+    Allmsgnumber() {
+      let allnumber =
+        Number(this.$store.getters.my_msgnumber.like) +
+        Number(this.$store.getters.my_msgnumber.comment) +
+        Number(this.$store.getters.my_msgnumber.collect) +
+        Number(this.$store.getters.my_msgnumber.fans) +
+        Number(this.$store.getters.my_msgnumber.letter);
+      if (parseInt(allnumber) > parseInt(99)) {
+        return "99+";
+      } else if (parseInt(allnumber) == parseInt(0)) {
+        return "";
+      } else {
+        return allnumber;
       }
-      ,
-      collectnumber(){
-        return this.$store.getters.my_msgnumber.collect;
+    },
+    likenumber() {
+      let likenumber = this.$store.getters.my_msgnumber.like;
+      if (parseInt(likenumber) > parseInt(99)) {
+        return "99+";
+      } else if (parseInt(likenumber) ==  parseInt(0)) {
+        return "";
+      } else {
+        return likenumber;
       }
-      ,
-      fansnumber(){
-        return this.$store.getters.my_msgnumber.fans;
+    },
+    commentnumber() {
+      let commentnumber = this.$store.getters.my_msgnumber.comment;
+      if (parseInt(commentnumber) > parseInt(99)) {
+        return "99+";
+      } else if (parseInt(commentnumber) ==  parseInt(0)) {
+        return "";
+      } else {
+        return commentnumber;
       }
-      ,
-      letternumber(){
-        return this.$store.getters.my_msgnumber.letter;
+    },
+    collectnumber() {
+      let collectnumber = this.$store.getters.my_msgnumber.collect;
+      if (parseInt(collectnumber) > parseInt(99)) {
+        return "99+";
+      } else if (parseInt(collectnumber) ==  parseInt(0)) {
+        return "";
+      } else {
+        return collectnumber;
       }
+    },
+    fansnumber() {
+      let fansnumber = this.$store.getters.my_msgnumber.fans;
+      if (parseInt(fansnumber) > parseInt(99)) {
+        return "99+";
+      } else if (parseInt(fansnumber) ==  parseInt(0)) {
+        return "";
+      } else {
+        return fansnumber;
+      }
+    },
+    letternumber() {
+      let letternumber = this.$store.getters.my_msgnumber.letter;
+      if (parseInt(letternumber) > parseInt(99)) {
+        return "99+";
+      } else if (parseInt(letternumber) ==  parseInt(0)) {
+        return "";
+      } else {
+        return letternumber;
+      }
+    }
   },
   methods: {
     startsearch: function(event) {
