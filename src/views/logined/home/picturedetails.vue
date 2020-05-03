@@ -339,9 +339,9 @@ export default {
       Ablumpictureinfo.fromworkid = this.work.id;
       Ablumpictureinfo.picturesort = this.prorindex;
       Ablumpictureinfo.type = this.$store.getters.my_album[index].id==this.includeid?0:1;
-      console.log(Ablumpictureinfo);
+      // console.log(Ablumpictureinfo);
       AddAblumpicture(Ablumpictureinfo).then((response) =>{
-        console.log(response.message);
+        // console.log(response.message);
         this.ablumidlist[this.prorindex] = this.$store.getters.my_album[index].id;
         this.includeid = this.$store.getters.my_album[index].id;
           if(response.message=="取消成功"){

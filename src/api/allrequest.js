@@ -205,3 +205,11 @@ export function IsInclude(id){
         }
     })
 }
+//加载一个专辑里面的内容
+export function GetOneAblumList(id){
+    return request({
+        url:'/getoneablumlist/'+id,
+        method:'get',
+
+    })
+}

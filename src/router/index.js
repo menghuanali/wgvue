@@ -21,7 +21,8 @@ export const constantRouterMap = [
   {path: '/write', component: () => import('@/views/logined/home/write'),meta: {needLogin: true}},
   {path: '/preview', component: () => import('@/views/logined/home/preview'),meta: {needLogin: true}},
   {path: '/message/:type/', name:"message",component: () => import('@/views/logined/home/message_list'),meta: {needLogin: true}},
-  
+  // {path: '/ablumlist', component: () => import('@/views/logined/home/ablumlist'),meta: {needLogin: true}},
+  {path: '/ablumlist', component: () => import('@/views/logined/home/ablumlist')},
 ]
 
 
