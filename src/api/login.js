@@ -87,3 +87,11 @@ export function allocRole(data) {
     data: data
   })
 }
+//得到专辑
+
+export function getmyalbum() {
+  return request({
+    url: '/getmyalbum',
+    method: 'post',
+  })
+}

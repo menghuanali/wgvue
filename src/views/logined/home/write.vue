@@ -686,6 +686,7 @@ export default {
               this.$message({
                 message: "恭喜你，发表成功,去看看吧",
                 type: "success",
+                duration:2000,
                 onClose: () => {
                   // 用箭头函数 this指代这个vue  如果用function 这是函数
                   this.$router.push({

@@ -61,6 +61,13 @@ export function UserCollect(collectModel){
         headers : {"Content-Type" : "application/json;charset=utf-8"},
     })
 }
+//根据id删除收藏
+export function DelCollectByID(id,itid,type){
+    return request({
+        url:'/delcollectbyid/'+id+"/"+itid+"/"+type,
+        method:'get',
+    })
+}
 //评论
 export function UserComment(commentinfo){
     return request({
@@ -163,6 +170,38 @@ export function SetAblum(id,name,describe,isprivate){
             name:name,
             describe:describe,
             isprivate:isprivate,
+        }
+    })
+}
+//删除专辑
+export function DeleteAblum(id){
+    return request({
+        url:'/deleteablum/'+id,
+        method:'get',
+    })
+}
+//收录到专辑
+export function AddAblumpicture(Ablumpictureinfo){
+    return request({
+        url:'/addablumpicture',
+        method:'post',
+        data:{
+            fromalbumid:Ablumpictureinfo.fromalbumid,
+            pictureurl:Ablumpictureinfo.pictureurl,
+            fromid:Ablumpictureinfo.fromid,
+            fromworkid:Ablumpictureinfo.fromworkid,
+            picturesort:Ablumpictureinfo.picturesort,
+            type:Ablumpictureinfo.type,
+        }
+    })
+}
+//判断是否收录
+export function IsInclude(id){
+    return request({
+        url:'/isablumpicture',
+        method:'post',
+        data:{
+            fromworkid:id,
         }
     })
 }

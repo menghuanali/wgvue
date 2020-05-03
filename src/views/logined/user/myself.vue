@@ -2,9 +2,9 @@
   <div class="myselfcontainer">
             <wgloginandblackheader></wgloginandblackheader>
     <!-- <img v-bind:src="getMyAvatar" alt="背景图" class="background"> -->
-    <img src="@/assets/png/myselfbackground.png" alt="背景图" class="background" />
+    <img :src="getbackground" alt="背景图" class="background" />
     <div class="myselfinfo">
-      <img src="@/assets/jpg/myselfhead.jpg" alt="头像" class="myselfhead" />
+      <img :src="getMyAvatar" alt="头像" class="myselfhead" />
       <div class="right">
         <dir class="myselfname">
           {{this.$store.getters.my_name}}
@@ -192,18 +192,18 @@
                   <i class="el-icon-document" style="font-size: 80px;"></i>
                   <div>暂无作品</div>
                 </div>
-                <el-col :span="8" v-for="(p) in getAllworks" :key="p.id" style="margin-bottom:20px">
+                <el-col :span="8" v-for="(p,index) in getAllworks" :key="index" style="margin-bottom:20px">
                   <div class="box-card">
                     <span class="type" v-if="p.isbowen">博文</span>
-                    <a target="_blank" href>
-                      <img :src="p.coverimgurl" class="image" />
+                    <a target="_blank" :href="p.isbowen==true?'/bowen?id='+p.id:'/work?id='+p.id">
+                      <img :src="p.coverimgurl+'/text_wateryin'" class="image" />
                     </a>
                     <div class="time">{{p.time}}</div>
                     <div class="title">
-                      <a href>{{p.title}}</a>
+                      <a target="_blank" :href="p.isbowen==true?'/bowen?id='+p.id:'/work?id='+p.id">{{p.title}}</a>
                     </div>
                     <div class="tars">
-                      <span v-for="o in p.tars" :key="o">{{o}}</span>
+                      <span v-for="(o,index) in p.tars" :key="index">{{o}}</span>
                     </div>
                     <div class="info">
                       <el-row>
@@ -230,18 +230,18 @@
                   <i class="el-icon-document" style="font-size: 80px;"></i>
                   <div>暂无作品</div>
                 </div>
-                <el-col :span="8" v-for="(p) in getWorks" :key="p.id" style="margin-bottom:20px">
+                <el-col :span="8" v-for="(p,index) in getWorks" :key="index" style="margin-bottom:20px">
                   <div class="box-card">
                     <span class="type" v-if="p.isbowen">博文</span>
-                    <a target="_blank" href>
-                      <img :src="p.coverimgurl" class="image" />
+                    <a target="_blank" :href="p.isbowen==true?'/bowen?id='+p.id:'/work?id='+p.id">
+                      <img :src="p.coverimgurl+'/text_wateryin'" class="image" />
                     </a>
                     <div class="time">{{p.time}}</div>
                     <div class="title">
-                      <a href>{{p.title}}</a>
+                      <a target="_blank" :href="p.isbowen==true?'/bowen?id='+p.id:'/work?id='+p.id">{{p.title}}</a>
                     </div>
                     <div class="tars">
-                      <span v-for="o in p.tars" :key="o">{{o}}</span>
+                      <span v-for="(o,index) in p.tars" :key="index">{{o}}</span>
                     </div>
                     <div class="info">
                       <el-row>
@@ -268,18 +268,18 @@
                   <i class="el-icon-document" style="font-size: 80px;"></i>
                   <div>暂无作品</div>
                 </div>
-                <el-col :span="8" v-for="(p) in getBowen" :key="p.id" style="margin-bottom:20px">
+                <el-col :span="8" v-for="(p,index) in getBowen" :key="index" style="margin-bottom:20px">
                   <div class="box-card">
                     <span class="type" v-if="p.isbowen">博文</span>
-                    <a target="_blank" href>
-                      <img :src="p.coverimgurl" class="image" />
+                    <a target="_blank" :href="p.isbowen==true?'/bowen?id='+p.id:'/work?id='+p.id">
+                      <img :src="p.coverimgurl+'/text_wateryin'" class="image" />
                     </a>
                     <div class="time">{{p.time}}</div>
                     <div class="title">
-                      <a href>{{p.title}}</a>
+                      <a target="_blank" :href="p.isbowen==true?'/bowen?id='+p.id:'/work?id='+p.id">{{p.title}}</a>
                     </div>
                     <div class="tars">
-                      <span v-for="o in p.tars" :key="o">{{o}}</span>
+                      <span v-for="(o,index) in p.tars" :key="index">{{o}}</span>
                     </div>
                     <div class="info">
                       <el-row>
@@ -312,23 +312,23 @@
                 <el-col
                   :span="12"
                   v-for="(p,index) in getalbum"
-                  :key="p.id"
+                  :key="index"
                   style="margin-bottom: 10px;"
                 >
                   <div class="up">
                     <a target="_blank" href>
-                      <img :src="p.coverimgurl" class="image" />
+                      <img :src="p.coverimgurl" class="image" style="height: 265px;"/>
                     </a>
-                    <div class="operate" v-if="(p.isdefault==false)">
-                      <span @click="showalbum(index,p.title,p.describe,p.iskeyed,p.id)">设置</span>
+                    <div class="operate" v-if="(p.type==0)">
+                      <span @click="showalbum(index,p.title,p.itdescribe,p.isprivate,p.id)">设置</span>
                       <span style="color:#968e95;">|</span>
                       <span @click="deletealbum(index,p.id)">删除</span>
                     </div>
                   </div>
                   <div class="down">
-                    <svg-icon icon-class="suo" v-if="(p.iskeyed==true)"></svg-icon>
+                    <svg-icon icon-class="suo" v-if="(p.isprivate==true)"></svg-icon>
                     <span style="color">{{p.title}}</span>
-                    <div class="picnumber">{{p.picturesnumber}}张图片</div>
+                    <div class="picnumber">{{p.imgnumber}}张图片</div>
                   </div>
                 </el-col>
               </el-row>
@@ -376,7 +376,7 @@
                 <el-col
                   :span="8"
                   v-for="(p,index) in getCollectpictures"
-                  :key="p.id"
+                  :key="index"
                   style="margin-bottom:20px"
                 >
                   <div class="box-card" @mouseover="showcollect(index)" @mouseleave="hiddencollect">
@@ -390,15 +390,15 @@
                         <i class="el-icon-money"></i>
                       </div>
                     </div>
-                    <a target="_blank" href>
-                      <img :src="p.coverimgurl" class="image" />
+                    <a target="_blank" :href="'/work?id='+p.itid">
+                      <img :src="p.coverimgurl+'/text_wateryin'" class="image" />
                     </a>
                     <div class="time">{{p.time}}</div>
                     <div class="title">
-                      <a href>{{p.title}}</a>
+                      <a target="_blank" :href="'/work?id='+p.itid">{{p.title}}</a>
                     </div>
                     <div class="tars">
-                      <span v-for="o in p.tars" :key="o">{{o}}</span>
+                      <span v-for="(o,index) in p.tars" :key="index">{{o}}</span>
                     </div>
                     <div class="info">
                       <el-row>
@@ -413,7 +413,7 @@
                         <el-col :span="7" style="min-height:1px">
                           <span
                             style="cursor:pointer;color:#c19c9c"
-                            @click="cancelcollectiontupian(index,p.id)"
+                            @click="cancelcollectiontupian(index,p.id,p.itid)"
                             v-show="getcollectlist == index"
                           >取消收藏</span>
                         </el-col>
@@ -436,7 +436,7 @@
                 <el-col
                   :span="12"
                   v-for="(p,index) in getCollectionarticles"
-                  :key="p.id"
+                  :key="index"
                   style="margin-bottom:20px"
                 >
                   <div
@@ -446,7 +446,7 @@
                   >
                     <div class="left">
                       <a target="_blank" href>
-                        <img :src="p.coverimgurl" class="image" />
+                        <img :src="p.coverimgurl+'/text_wateryin'" class="image" />
                       </a>
                     </div>
                     <div class="right">
@@ -465,7 +465,7 @@
                           <el-col :span="7">
                             <span
                               style="cursor:pointer;color:#c19c9c"
-                              @click="cancelcollectionbowen(index,p.id)"
+                              @click="cancelcollectionbowen(index,p.id,p.itid)"
                               v-show="getcollectlist == index"
                             >取消收藏</span>
                           </el-col>
@@ -508,11 +508,11 @@
               <div class="title">个人资料</div>
               <div class="item">
                 <span class="left">ID</span>
-                <span class="right">{{getId}}</span>
+                <span class="right">{{getUserdetails.exposeid}}</span>
               </div>
               <div class="item">
                 <span class="left">居住地</span>
-                <span class="right">{{getUserdetails.place}}</span>
+                <span class="right">{{getUserdetails.adress}}</span>
               </div>
               <div class="item">
                 <span class="left">年龄</span>
@@ -532,6 +532,10 @@
               </div>
               <div class="item">
                 <span class="left">我的装备</span>
+                 <span
+                  class="right"
+                  v-if="getUserdetails.equipment.secrecy == '保密'"
+                >{{getUserdetails.equipment.secrecy}}&#12288;&#12288;</span>
                 <span
                   class="right"
                   v-if="getUserdetails.equipment.camera != ''"
@@ -551,7 +555,7 @@
               </div>
               <div class="item">
                 <span class="left">个人说明</span>
-                <span class="right">{{getUserdetails.personalstatement}}</span>
+                <span class="right">{{getUserdetails.introduce}}</span>
               </div>
             </div>
           </template>
@@ -561,24 +565,24 @@
                 <el-col
                   :span="6"
                   v-for="(p,index) in getFollowusers"
-                  :key="p.id"
+                  :key="index"
                   style="margin-bottom: 60px;"
                 >
                   <div class="hercontent">
-                    <div style="width: 140px;height: 140px;border: 1px solid #e2e2e2;cursor: pointer;" @click="showherinfo(p.id)">
+                    <div style="width: 140px;height: 140px;border: 1px solid #e2e2e2;cursor: pointer;" @click="showherinfo(p.toid)">
                       <img
-                        :src="p.herheadurl"
+                        :src="p.toheadurl"
                         alt="头像"
                         style="width: 140px;height: 140px; border-radius: 50%;"
                       />
                     </div>
 
-                    <div class="name" style="cursor: pointer;" @click="showherinfo(p.id)">{{p.hername}}</div>
+                    <div class="name" style="cursor: pointer;" @click="showherinfo(p.toid)">{{p.toname}}</div>
                     <div @mouseover="changeguanzhu(index)" @mouseleave="leaveguanzhu(index)">
                       <button
                         :ref="'ouge'+index"
                         class="guanzhubutton"
-                        @click="removeconcerns(index,p.id)"
+                        @click="removeconcerns(index,p.toid)"
                       >
                         <i class="el-icon-check"></i>
                         已关注
@@ -624,6 +628,7 @@ import wgloginandblackheader from '@/components/Htmlviews/wgloginandblackheader.
 import basefooter from "@/components/Htmlviews/basefooter.vue";
 import albumsetdialog from "@/components/mydialog/albumsetdialog.vue";
 import albumcreatedialog from "@/components/mydialog/albumcreatedialog.vue";
+import {DeleteAblum,DelCollectByID,UserFans} from "@/api/allrequest.js";
 export default {
   components: { wgloginandblackheader, basefooter, albumsetdialog, albumcreatedialog },
   data() {
@@ -654,6 +659,9 @@ export default {
   },
   //计算属性不能直接呈现的需要用计算属性 如 src
   computed: {
+    getbackground(){
+      return this.$store.getters.my_backgroundimg;
+    },
     getMyAvatar() {
       return this.$store.getters.my_avatar;
     },
@@ -670,10 +678,22 @@ export default {
       return this.$store.getters.my_allworks;
     },
     getWorks() {
-      return this.$store.getters.my_works;
+      let result = [];
+      for(let t of this.getAllworks){
+        if(t.isbowen==false){
+          result.push(t)
+        }
+      }
+      return result;
     },
     getBowen() {
-      return this.$store.getters.my_bowen;
+      let result2 = [];
+      for(let t2 of this.getAllworks){
+        if(t2.isbowen==true){
+          result2.push(t2)
+        }
+      }
+      return result2;
     },
     getCollectpictures() {
       return this.$store.getters.my_collectpictures;
@@ -700,6 +720,13 @@ export default {
   created() {
     this.$store.dispatch("GetDetailedInfo").then((response)=>{
       console.log(response);
+      
+              this.$message({
+          message: '欢迎回家!',
+          type: 'success',
+          center:true,
+          duration:2000
+        });
     }).catch((e) => {});
   },
   mounted() {
@@ -737,13 +764,34 @@ export default {
       }
     },
     //取消收藏图片
-    cancelcollectiontupian(index, val) {
-      alert(index + " " + val);
+    cancelcollectiontupian(index,id,itid) {
+
+      DelCollectByID(id,itid,1)
+        .then(response => {
+          this.$message({
+          showClose: true,
+          message: '删除成功'
+        });
+          this.$store.dispatch("DeleteMyCollectPictute",index);
+        })
+        .catch(error => {
+          console.log(error);
+        });
       // this.getCollectpictures.splice(index,1);
     },
     //取消收藏博文
-    cancelcollectionbowen(index, val) {
-      alert(index + " " + val);
+    cancelcollectionbowen(index,id,itid) {
+        DelCollectByID(id,itid,2)
+        .then(response => {
+          this.$message({
+          showClose: true,
+          message: '删除成功'
+        });
+this.$store.dispatch("DeleteMyCollectBowen",index);
+        })
+        .catch(error => {
+          console.log(error);
+        });
       // this.getCollectpictures.splice(index,1);
     },
     //收藏的显示与否
@@ -754,12 +802,13 @@ export default {
       this.collectlist = -1;
     },
     //显示专辑详情
-    showalbum(index, title, describe, iskeyed,id) {
+    showalbum(index, title, describe, isprivate,id) {
+    
       this.albumset.albumindex = index;
       this.albumset.albumname = title;
       this.albumset.albumdescribe = describe;
-      this.albumset.albumprivate = iskeyed;
-      this.albumset.id = id;
+      this.albumset.albumprivate = isprivate;
+      this.albumset.albumid = id;
       this.albumset.visible = true;
     },
     //创建专辑
@@ -773,10 +822,16 @@ export default {
         type: "warning"
       })
         .then(() => {
+          DeleteAblum(albumid).then((response) =>{
+            this.$store.dispatch("DeleteMyAlbum",index);
           this.$message({
-            type: "success",
-            message: "删除成功!"
-          });
+          showClose: true,
+          message: '删除成功'
+        });
+          }).catch((error) =>{ 
+            console.log(error);
+            
+          })
         })
         .catch(() => {
           this.$message({
@@ -800,7 +855,15 @@ export default {
     },
     //取消关注
     removeconcerns(index, thisid) {
-      alert(index + " " + thisid);
+      UserFans(thisid).then((response) =>{
+        this.$store.dispatch("DeleteMyfollow",index);
+          this.$message({
+          showClose: true,
+          message: '删除成功'
+        });
+      }).catch((error) =>{ 
+        
+      })
     },
     changeguanzhu(index) {
       let f = "ouge" + index; //得到ref字符串了
@@ -868,7 +931,7 @@ export default {
         }
       }
       .myfollowsandfans {
-        color: white;
+        color:#cac3c3;
         font-size: 15px;
       }
     }
@@ -911,7 +974,7 @@ export default {
       .box-card {
         margin: 0;
         padding: 0;
-        min-height: 440px;
+        min-height: 445px;
         background: white;
         position: relative;
         img {
@@ -958,6 +1021,8 @@ export default {
           }
         }
         .tars {
+          height: 26px;
+    line-height: 140%;
           margin-left: 10px;
           span {
             padding: 7px 10px;

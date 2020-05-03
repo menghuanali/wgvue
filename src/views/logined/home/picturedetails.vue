@@ -1,7 +1,8 @@
 <template>
   <div style="overflow-x: hidden;" v-loading="isloading">
     <el-backtop></el-backtop>
-    <wgloginandblackheader></wgloginandblackheader>
+    <wgloginandblackheader v-if="token"></wgloginandblackheader>
+    <wgnologinandblackheader v-if="!token"></wgnologinandblackheader>
     <el-image-viewer
       v-if="showViewer"
       :on-close="closeViewer"
@@ -41,7 +42,8 @@
                 />
               </div>
             </div>
-            <div class="collectzhuanji">
+            <div class="collectzhuanji" v-if="!token" style="color: #a99a9a;font-size: 14px;"> 登陆后可收录到专辑</div>
+            <div class="collectzhuanji" v-if="token">
               <i class="el-icon-folder-add"></i>
               <el-popover width="200" trigger="click" placement="top-end" :visible-arrow="false">
                 <div style=" width: 200px;cursor: pointer;font-size: 16px;">
@@ -50,7 +52,7 @@
                     onmouseout="this.style.color='greenyellow';this.style.background='white'"
                     style="color: greenyellow;width: 200px; display: flex;position: relative;border-bottom: 1px solid #e4efe6;"
                     @click="createnewzhuanji()"
-                    @mouseover="changebg()"
+                  
                   >
                     <span>新增专辑</span>
                     <span style="position: absolute;right: 0;">
@@ -65,10 +67,13 @@
                     v-for="(p,index) in GetMyZhuanJi"
                     :key="index"
                   >
-                    <span>{{p.title}}</span>
+                    <span>{{p.title}}</span><span style="position: absolute;right: 0;color: red;" v-show="includeid==p.id">
+                      <i class="el-icon-check"></i>
+                    </span>
                   </div>
                 </div>
-                <el-button class="collectbtn" type="text" slot="reference">收录到专辑</el-button>
+                <el-button class="collectbtn" type="text" slot="reference" v-if="!itisinclude">收录到专辑</el-button>
+                <el-button class="collectbtn" type="text" slot="reference" v-if="itisinclude">已收录</el-button>
               </el-popover>
             </div>
           </el-col>
@@ -200,19 +205,21 @@
 <script>
 import ElImageViewer from "element-ui/packages/image/src/image-viewer";
 import wgloginandblackheader from "@/components/Htmlviews/wgloginandblackheader.vue";
+import wgnologinandblackheader from "@/components/Htmlviews/wgnologinandblackheader.vue";
 import basefooter from "@/components/Htmlviews/basefooter.vue";
 import albumcreatedialog from "@/components/mydialog/albumcreatedialog.vue";
 import bowen1 from "@/assets/jpg/bowen1.jpg";
 import { getToken } from "@/utils/auth";
 import comment from "@/components/Htmlviews/comment.vue";
-import { GetOneWork, UserCollect, UserFans, UserLike } from "@/api/allrequest";
+import { GetOneWork, UserCollect, UserFans, UserLike, IsInclude,AddAblumpicture} from "@/api/allrequest";
 export default {
   components: {
     wgloginandblackheader,
     basefooter,
     ElImageViewer,
     comment,
-    albumcreatedialog
+    albumcreatedialog,
+    wgnologinandblackheader
   },
   data() {
     return {
@@ -236,6 +243,9 @@ export default {
       bowen1: bowen1, //广告博文
       work: {},
       info:{},
+      includeid:0,
+      itisinclude:false,
+      ablumidlist:[],
     };
   },
   computed: {
@@ -257,12 +267,12 @@ export default {
     },
     token() {
       return getToken();
-    }
+    },
   },
   created: function() {
     GetOneWork(this.$route.query.id)
       .then(response => {
-        console.log(response.work);
+        // console.log(response.work);
         this.work = response.work;
         this.labels = this.work.dynamicTags; //得到标签
         this.Bowencommentszheng = this.work.commentModelListZheng;
@@ -282,6 +292,20 @@ export default {
       .catch(error => {
         console.log(error);
       });
+      if(this.token){
+          IsInclude(this.$route.query.id).then((response) =>{
+            console.log(response.albumidlist);
+            this.ablumidlist = response.albumidlist;
+            this.includeid = this.ablumidlist[0];
+            if(this.includeid!=0){
+              this.itisinclude=true;
+            }
+          }).catch((error) =>{ 
+            console.log(error);
+          });
+          this.$store.dispatch("GETMyAlbum");
+      }
+
   },
 
   methods: {
@@ -294,13 +318,40 @@ export default {
     },
     changeimg(v, p) {
       this.prorindex = v;
+      this.includeid = this.ablumidlist[v];
+      if(parseInt(this.includeid)==parseInt(0)){
+        this.itisinclude=false;
+      }else{
+        this.itisinclude=true;
+      }
+      console.log(this.itisinclude,this.includeid);
+      
     },
     downchange(v) {
       this.$refs.wgcarousel.setActiveItem(v);
     },
     //收录专辑
-    collectthispicture() {
-      alert(index);
+    collectthispicture(index) {
+      let Ablumpictureinfo = {};
+      Ablumpictureinfo.fromalbumid = this.$store.getters.my_album[index].id;
+      Ablumpictureinfo.pictureurl = this.srcList[this.prorindex];
+      Ablumpictureinfo.fromid = this.work.authorid;
+      Ablumpictureinfo.fromworkid = this.work.id;
+      Ablumpictureinfo.picturesort = this.prorindex;
+      Ablumpictureinfo.type = this.$store.getters.my_album[index].id==this.includeid?0:1;
+      console.log(Ablumpictureinfo);
+      AddAblumpicture(Ablumpictureinfo).then((response) =>{
+        console.log(response.message);
+        this.ablumidlist[this.prorindex] = this.$store.getters.my_album[index].id;
+        this.includeid = this.$store.getters.my_album[index].id;
+          if(response.message=="取消成功"){
+          this.ablumidlist[this.prorindex] = 0;
+        this.includeid = false;
+        }
+      }).catch((error) =>{ 
+        
+      })
+      // alert(index);
     },
     //创建新专辑
     createnewzhuanji() {

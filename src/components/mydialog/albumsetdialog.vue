@@ -43,8 +43,8 @@ export default {
     return {
       loading: true,
       isprivate:false,
-      name:"",
-      describe:"",
+      name:this.albumname,
+      describe:this.albumdescribe,
     };
   },
   props: {
@@ -61,8 +61,8 @@ export default {
       default: ""
     },
     albumprivate: {
-      type: Boolean,
-      default: false
+      type: Number,
+      default: 0
     },
     albumid: {
       type: Number,
@@ -82,7 +82,14 @@ export default {
     },
     sureresive() {
      SetAblum(this.albumid,this.name,this.describe,this.isprivate).then((response) =>{
-        
+        let abluminfo = {};
+        abluminfo.index = this.albumindex;
+        abluminfo.newablum = response.abluminfo;
+          this.$store.dispatch("CHANGEMyAlbum",abluminfo);
+          this.$message({
+          showClose: true,
+          message: '修改成功'
+        });
       }).catch((error) =>{ 
         console.log(error);
       })
@@ -91,7 +98,7 @@ export default {
   },
   mounted() {
     this.loading = false;
-    this.isprivate = albumprivate;
+    this.isprivate = this.albumprivate==1?true:false;
   }
 };
 </script>

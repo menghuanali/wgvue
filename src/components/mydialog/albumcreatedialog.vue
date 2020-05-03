@@ -62,7 +62,7 @@ export default {
     },
     sureresive() {
       CreateAblum(this.name,this.describe,this.isprivate).then((response) =>{
-        
+        this.$store.dispatch("ADDMyAlbum",response.abluminfo);
       }).catch((error) =>{ 
         console.log(error);
       })
