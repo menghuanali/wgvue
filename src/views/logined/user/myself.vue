@@ -316,7 +316,7 @@
                   style="margin-bottom: 10px;"
                 >
                   <div class="up">
-                    <a target="_blank" href>
+                    <a target="_blank" :href="'/ablumlist?id='+p.id">
                       <img :src="p.coverimgurl" class="image" style="height: 265px;"/>
                     </a>
                     <div class="operate" v-if="(p.type==0)">

@@ -192,6 +192,7 @@ export function AddAblumpicture(Ablumpictureinfo){
             fromworkid:Ablumpictureinfo.fromworkid,
             picturesort:Ablumpictureinfo.picturesort,
             type:Ablumpictureinfo.type,
+            fromworktitle:Ablumpictureinfo.fromworktitle,
         }
     })
 }
@@ -210,6 +211,5 @@ export function GetOneAblumList(id){
     return request({
         url:'/getoneablumlist/'+id,
         method:'get',
-
     })
 }

@@ -338,6 +338,7 @@ export default {
       Ablumpictureinfo.fromid = this.work.authorid;
       Ablumpictureinfo.fromworkid = this.work.id;
       Ablumpictureinfo.picturesort = this.prorindex;
+      Ablumpictureinfo.fromworktitle = this.work.title;
       Ablumpictureinfo.type = this.$store.getters.my_album[index].id==this.includeid?0:1;
       // console.log(Ablumpictureinfo);
       AddAblumpicture(Ablumpictureinfo).then((response) =>{

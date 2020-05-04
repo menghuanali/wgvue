@@ -36,7 +36,7 @@
             </li>
           </ul>
         </div>
-        <div class="collectzhuanji" v-if="!token" style="color: #a99a9a;font-size: 14px;"> 登陆后可收录到专辑</div>
+        <div class="collectzhuanji" v-if="!token" style="color: #a99a9a;font-size: 14px;">登陆后可收录到专辑</div>
         <div class="collectzhuanji" v-if="token">
           <i class="el-icon-folder-add"></i>
           <el-popover width="200" trigger="click" placement="top-end" :visible-arrow="false">
@@ -71,9 +71,18 @@
           </el-popover>
         </div>
       </el-col>
-      <el-col :span="5" style="margin-top:10px">1231324564</el-col>
+      <el-col :span="5" style="margin-top:10px">
+        <div class="headandname" @click="showherinfo()">
+          <div class="first">
+            <img :src="GetAuthorHeadimg" alt="头像" />
+          </div>
+          <div class="second">{{GetAuthorName}}</div>
+        </div>
+        <div class="itdes">{{GetItdescribe}}</div>
+        <div class="workid" @click="ShowThisWork()">查看完整作品</div>
+      </el-col>
     </el-row>
-        <albumcreatedialog
+    <albumcreatedialog
       ref="albumcreatedialog"
       v-if="albumcreate.visible"
       :visible.sync="albumcreate.visible"
@@ -82,81 +91,99 @@
 </template>
 <script>
 import ElImageViewer from "element-ui/packages/image/src/image-viewer";
-import { GetOneAblumList, UserFans,AddAblumpicture } from "@/api/allrequest";
+import { GetOneAblumList, AddAblumpicture} from "@/api/allrequest";
 import albumcreatedialog from "@/components/mydialog/albumcreatedialog.vue";
 import { getToken } from "@/utils/auth";
 export default {
-  components: { ElImageViewer,albumcreatedialog },
+  components: { ElImageViewer, albumcreatedialog },
   data() {
     return {
       showViewer: false,
-      srcList: [
-        "http://wg-bishe.oss-cn-chengdu.aliyuncs.com/workimgs/album.jpg",
-        "http://wg-bishe.oss-cn-chengdu.aliyuncs.com/workimgs/work1/1.jpg",
-        "http://wg-bishe.oss-cn-chengdu.aliyuncs.com/workimgs/album.jpg",
-        "http://wg-bishe.oss-cn-chengdu.aliyuncs.com/workimgs/album.jpg",
-        "http://wg-bishe.oss-cn-chengdu.aliyuncs.com/workimgs/album.jpg",
-        "http://wg-bishe.oss-cn-chengdu.aliyuncs.com/workimgs/album.jpg",
-        "http://wg-bishe.oss-cn-chengdu.aliyuncs.com/workimgs/album.jpg",
-        "http://wg-bishe.oss-cn-chengdu.aliyuncs.com/workimgs/album.jpg"
-      ],
+      srcList: [],
       prorindex: 0,
-      isloading: false,
+      isloading: true,
       picturslist: [
         {
-          url: "http://wg-bishe.oss-cn-chengdu.aliyuncs.com/workimgs/album.jpg"
-        },
-        {
-          url:
-            "http://wg-bishe.oss-cn-chengdu.aliyuncs.com/workimgs/work1/1.jpg"
-        },
-        {
-          url: "http://wg-bishe.oss-cn-chengdu.aliyuncs.com/workimgs/album.jpg"
-        },
-        {
-          url: "http://wg-bishe.oss-cn-chengdu.aliyuncs.com/workimgs/album.jpg"
-        },
-        {
-          url: "http://wg-bishe.oss-cn-chengdu.aliyuncs.com/workimgs/album.jpg"
-        },
-        {
-          url: "http://wg-bishe.oss-cn-chengdu.aliyuncs.com/workimgs/album.jpg"
-        },
-        {
-          url: "http://wg-bishe.oss-cn-chengdu.aliyuncs.com/workimgs/album.jpg"
-        },
-        {
-          url: "http://wg-bishe.oss-cn-chengdu.aliyuncs.com/workimgs/album.jpg"
-        },
-        {
-          url: "http://wg-bishe.oss-cn-chengdu.aliyuncs.com/workimgs/album.jpg"
-        },
-        {
-          url: "http://wg-bishe.oss-cn-chengdu.aliyuncs.com/workimgs/album.jpg"
-        },
-        {
-          url: "http://wg-bishe.oss-cn-chengdu.aliyuncs.com/workimgs/album.jpg"
+          id: "",
+          workid: "",
+          describe: "",
+          url: "",
+          worksort: "",
+          fromid: "",
+          fromheadurl: "",
+          fromname: "",
+          fromworktitle:"",
         }
       ],
-       albumcreate: {
+      albumcreate: {
         //创造专辑
-        visible: false,
+        visible: false
       },
-      includeid:0,
-      itisinclude:false,
-      ablumidlist:[],
+      includeid: 0,
+      itisinclude: false,
+      ablumidlist: []
     };
   },
   computed: {
-      GetMyZhuanJi() {
+    GetMyZhuanJi() {
       return this.$store.getters.my_album;
     },
     token() {
       return getToken();
     },
+    GetAuthorHeadimg() {
+      return this.picturslist[this.prorindex].fromheadurl;
     },
-  created: function() {},
+    GetAuthorName() {
+      return this.picturslist[this.prorindex].fromname;
+    },
+    GetAuthorID() {
+      return this.picturslist[this.prorindex].fromid;
+    },
+    GetItdescribe() {
+      return this.picturslist[this.prorindex].describe;
+    },
+    GetItWorkid() {
+      return this.picturslist[this.prorindex].workid;
+    },
+    GetIWorksort() {
+      return this.picturslist[this.prorindex].worksort;
+    },
+    GetIWorkTitle(){
+      return this.picturslist[this.prorindex].fromworktitle;
+    }
+  },
+  created: function() {
+    GetOneAblumList(this.$route.query.id)
+      .then(response => {
+        console.log(response);
+        this.picturslist = response.picturslist;
+        for (let v of this.picturslist) {
+          this.srcList.push(v.url);
+        }
+        console.log(response.albumidlist);
+            this.ablumidlist = response.albumidlist;
+            this.includeid = this.ablumidlist[0];
+            if(this.includeid!=0){
+              this.itisinclude=true;
+            }
+        this.isloading = false;
+      })
+      .catch(error => {
+       console.log(error);
+      });
+            if(this.token){
+
+          this.$store.dispatch("GETMyAlbum");
+      }
+  },
   methods: {
+    ShowThisWork(){
+      this.$router.push({path:"/work",query:{id:this.GetItWorkid}})
+    },
+    showherinfo(){
+      this.$router.push({path:"/user",query:{id:this.GetAuthorID}})
+    },
     closeViewer() {
       this.showViewer = false;
     },
@@ -173,33 +200,37 @@ export default {
       this.prorindex = index;
       this.showViewer = true;
     },
-        //创建新专辑
+    //创建新专辑
     createnewzhuanji() {
       this.albumcreate.visible = true;
     },
-     //收录专辑
+    //收录专辑
     collectthispicture(index) {
       let Ablumpictureinfo = {};
       Ablumpictureinfo.fromalbumid = this.$store.getters.my_album[index].id;
       Ablumpictureinfo.pictureurl = this.srcList[this.prorindex];
-    //   Ablumpictureinfo.fromid = this.picturslist.authorid;
-    //   Ablumpictureinfo.fromworkid = this.picturslist.workid;
-    //   Ablumpictureinfo.picturesort = this.picturslist.picturesort;
-      Ablumpictureinfo.type = this.$store.getters.my_album[index].id==this.includeid?0:1;
+        Ablumpictureinfo.fromid = this.GetAuthorID;
+        Ablumpictureinfo.fromworkid = this.GetItWorkid;
+        Ablumpictureinfo.picturesort = this.GetIWorksort;
+         Ablumpictureinfo.fromworktitle = this.GetIWorkTitle;
+      Ablumpictureinfo.type =
+        this.$store.getters.my_album[index].id == this.includeid ? 0 : 1;
       console.log(Ablumpictureinfo);
-      AddAblumpicture(Ablumpictureinfo).then((response) =>{
-        console.log(response.message);
-        this.ablumidlist[this.prorindex] = this.$store.getters.my_album[index].id;
-        this.includeid = this.$store.getters.my_album[index].id;
-          if(response.message=="取消成功"){
-          this.ablumidlist[this.prorindex] = 0;
-        this.includeid = false;
-        }
-      }).catch((error) =>{ 
-        
-      })
+      AddAblumpicture(Ablumpictureinfo)
+        .then(response => {
+          console.log(response.message);
+          this.ablumidlist[this.prorindex] = this.$store.getters.my_album[
+            index
+          ].id;
+          this.includeid = this.$store.getters.my_album[index].id;
+          if (response.message == "取消成功") {
+            this.ablumidlist[this.prorindex] = 0;
+            this.includeid = false;
+          }
+        })
+        .catch(error => {});
       // alert(index);
-    },
+    }
   }
 };
 </script>
@@ -283,6 +314,57 @@ export default {
         opacity: 1;
       }
     }
+  }
+}
+.headandname {
+  cursor: pointer;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+
+  .first {
+    img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 20px;
+    }
+  }
+  .second {
+    display: inline-block;
+    max-width: 165px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: #444;
+    font-size: 16px;
+    font-weight: 700;
+    padding-bottom: 0;
+    height: 30px;
+  }
+}
+.itdes {
+  padding: 15px 20px 10px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+  color: #444;
+  font-weight: 700;
+  margin-bottom: 2px;
+  line-height: 20px;
+}
+.workid {
+  padding: 20px;
+  background: #46d233;
+  color: #fff;
+  border: 0;
+  font-size: 15px;
+  margin: 0;
+  outline: 0;
+  text-align: center;
+  width: 75%;
+  cursor: pointer;
+  &:hover {
+    background: #125f08;
   }
 }
 </style>
