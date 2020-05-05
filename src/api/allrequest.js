@@ -213,3 +213,25 @@ export function GetOneAblumList(id){
         method:'get',
     })
 }
+//加载一个类别的作品
+export function GetOneClassWorks(classif,id){
+    return request({
+        url:'/getoneclassworks',
+        method:'post',
+        data:{
+            classif:classif,
+            id:id,
+        }
+    })
+}
+//加载一个年份的作品
+export function GetOneNianWorks(nian,id){
+    return request({
+        url:'/getonenianworks',
+        method:'post',
+        data:{
+            nian:nian,
+            id:id,
+        }
+    })
+}

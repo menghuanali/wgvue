@@ -128,7 +128,7 @@
             <el-col :span="3">
               <el-dropdown class="wg_aitu_to_user_head" placement="bottom">
                 <span class="el-dropdown-link">
-                  <el-avatar shape="circle" :size="30" fit="fill" :src="userheadurl"></el-avatar>
+                  <el-avatar shape="circle" :size="30" fit="fill" :src="getMyAvatar"></el-avatar>
                 </span>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item>
@@ -241,10 +241,12 @@ export default {
       ],
       selectvalue: "作品", //用户搜索的类型
       timeout: null,
-      userheadurl: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
     };
   },
   computed:{
+    getMyAvatar() {
+      return this.$store.getters.my_avatar;
+    },
     Allmsgnumber() {
       let allnumber =
         Number(this.$store.getters.my_msgnumber.like) +

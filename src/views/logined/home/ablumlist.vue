@@ -215,7 +215,7 @@ export default {
          Ablumpictureinfo.fromworktitle = this.GetIWorkTitle;
       Ablumpictureinfo.type =
         this.$store.getters.my_album[index].id == this.includeid ? 0 : 1;
-      console.log(Ablumpictureinfo);
+      // console.log(Ablumpictureinfo);
       AddAblumpicture(Ablumpictureinfo)
         .then(response => {
           console.log(response.message);

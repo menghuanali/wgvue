@@ -179,7 +179,9 @@
               <div class="fourth1" v-for="p in this.labels" :key="p">{{p}}</div>
             </div>
             <div class="fifth" id="writemycomment">
+              <a href="/bowen?id=106">
               <img :src="this.bowen1" alt="博文" />
+              </a>
             </div>
             <div class="sixth">
               <comment

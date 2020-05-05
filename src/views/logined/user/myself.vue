@@ -1,6 +1,6 @@
 <template>
   <div class="myselfcontainer">
-            <wgloginandblackheader></wgloginandblackheader>
+    <wgloginandblackheader></wgloginandblackheader>
     <!-- <img v-bind:src="getMyAvatar" alt="背景图" class="background"> -->
     <img :src="getbackground" alt="背景图" class="background" />
     <div class="myselfinfo">
@@ -107,12 +107,12 @@
             </el-menu>
           </div>
         </el-col>
-       
+
         <el-col :span="8" :push="1" style=" min-height: 1px;">
           <div class="right">
-            <el-dropdown  v-if="activeIndex==1&&downactiveIndex1==1">
+            <el-dropdown v-if="activeIndex==1&&downactiveIndex1==1">
               <span class="el-dropdown-link" style="font-size:15px">
-                全部类别
+                <span ref="thecalss">全部类别</span>
                 <i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown" style="padding: 10px 10px">
@@ -152,15 +152,15 @@
               </el-dropdown-menu>
             </el-dropdown>
 
-            <el-dropdown style="margin-left:100px"  v-if="activeIndex==1&&downactiveIndex1==1">
+            <el-dropdown style="margin-left:100px" v-if="activeIndex==1&&downactiveIndex1==1">
               <span class="el-dropdown-link" style="font-size:15px">
-                全部年份
+                 <span ref="thenian">全部年份</span>
                 <i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown" style="padding: 10px 10px">
                 <div v-if="(getNians.size == 0)">还没有哦</div>
                 <div v-for="(item) in getNians" :key="item">
-                  <el-button type="text" @click="jiazaibykey">{{item}}</el-button>
+                  <el-button type="text" @click="jiazaibykeynian">{{item}}</el-button>
                 </div>
               </el-dropdown-menu>
             </el-dropdown>
@@ -192,7 +192,12 @@
                   <i class="el-icon-document" style="font-size: 80px;"></i>
                   <div>暂无作品</div>
                 </div>
-                <el-col :span="8" v-for="(p,index) in getAllworks" :key="index" style="margin-bottom:20px">
+                <el-col
+                  :span="8"
+                  v-for="(p,index) in getAllworks"
+                  :key="index"
+                  style="margin-bottom:20px"
+                >
                   <div class="box-card">
                     <span class="type" v-if="p.isbowen">博文</span>
                     <a target="_blank" :href="p.isbowen==true?'/bowen?id='+p.id:'/work?id='+p.id">
@@ -200,7 +205,10 @@
                     </a>
                     <div class="time">{{p.time}}</div>
                     <div class="title">
-                      <a target="_blank" :href="p.isbowen==true?'/bowen?id='+p.id:'/work?id='+p.id">{{p.title}}</a>
+                      <a
+                        target="_blank"
+                        :href="p.isbowen==true?'/bowen?id='+p.id:'/work?id='+p.id"
+                      >{{p.title}}</a>
                     </div>
                     <div class="tars">
                       <span v-for="(o,index) in p.tars" :key="index">{{o}}</span>
@@ -230,7 +238,12 @@
                   <i class="el-icon-document" style="font-size: 80px;"></i>
                   <div>暂无作品</div>
                 </div>
-                <el-col :span="8" v-for="(p,index) in getWorks" :key="index" style="margin-bottom:20px">
+                <el-col
+                  :span="8"
+                  v-for="(p,index) in getWorks"
+                  :key="index"
+                  style="margin-bottom:20px"
+                >
                   <div class="box-card">
                     <span class="type" v-if="p.isbowen">博文</span>
                     <a target="_blank" :href="p.isbowen==true?'/bowen?id='+p.id:'/work?id='+p.id">
@@ -238,7 +251,10 @@
                     </a>
                     <div class="time">{{p.time}}</div>
                     <div class="title">
-                      <a target="_blank" :href="p.isbowen==true?'/bowen?id='+p.id:'/work?id='+p.id">{{p.title}}</a>
+                      <a
+                        target="_blank"
+                        :href="p.isbowen==true?'/bowen?id='+p.id:'/work?id='+p.id"
+                      >{{p.title}}</a>
                     </div>
                     <div class="tars">
                       <span v-for="(o,index) in p.tars" :key="index">{{o}}</span>
@@ -268,7 +284,12 @@
                   <i class="el-icon-document" style="font-size: 80px;"></i>
                   <div>暂无作品</div>
                 </div>
-                <el-col :span="8" v-for="(p,index) in getBowen" :key="index" style="margin-bottom:20px">
+                <el-col
+                  :span="8"
+                  v-for="(p,index) in getBowen"
+                  :key="index"
+                  style="margin-bottom:20px"
+                >
                   <div class="box-card">
                     <span class="type" v-if="p.isbowen">博文</span>
                     <a target="_blank" :href="p.isbowen==true?'/bowen?id='+p.id:'/work?id='+p.id">
@@ -276,7 +297,10 @@
                     </a>
                     <div class="time">{{p.time}}</div>
                     <div class="title">
-                      <a target="_blank" :href="p.isbowen==true?'/bowen?id='+p.id:'/work?id='+p.id">{{p.title}}</a>
+                      <a
+                        target="_blank"
+                        :href="p.isbowen==true?'/bowen?id='+p.id:'/work?id='+p.id"
+                      >{{p.title}}</a>
                     </div>
                     <div class="tars">
                       <span v-for="(o,index) in p.tars" :key="index">{{o}}</span>
@@ -317,7 +341,7 @@
                 >
                   <div class="up">
                     <a target="_blank" :href="'/ablumlist?id='+p.id">
-                      <img :src="p.coverimgurl" class="image" style="height: 265px;"/>
+                      <img :src="p.coverimgurl" class="image" style="height: 265px;" />
                     </a>
                     <div class="operate" v-if="(p.type==0)">
                       <span @click="showalbum(index,p.title,p.itdescribe,p.isprivate,p.id)">设置</span>
@@ -445,7 +469,7 @@
                     @mouseleave="hiddencollect"
                   >
                     <div class="left">
-                      <a target="_blank" href>
+                      <a target="_blank" :href="'/bowen?id='+p.itid">
                         <img :src="p.coverimgurl+'/text_wateryin'" class="image" />
                       </a>
                     </div>
@@ -532,7 +556,7 @@
               </div>
               <div class="item">
                 <span class="left">我的装备</span>
-                 <span
+                <span
                   class="right"
                   v-if="getUserdetails.equipment.secrecy == '保密'"
                 >{{getUserdetails.equipment.secrecy}}&#12288;&#12288;</span>
@@ -569,7 +593,10 @@
                   style="margin-bottom: 60px;"
                 >
                   <div class="hercontent">
-                    <div style="width: 140px;height: 140px;border: 1px solid #e2e2e2;cursor: pointer;" @click="showherinfo(p.toid)">
+                    <div
+                      style="width: 140px;height: 140px;border: 1px solid #e2e2e2;cursor: pointer;"
+                      @click="showherinfo(p.toid)"
+                    >
                       <img
                         :src="p.toheadurl"
                         alt="头像"
@@ -577,7 +604,11 @@
                       />
                     </div>
 
-                    <div class="name" style="cursor: pointer;" @click="showherinfo(p.toid)">{{p.toname}}</div>
+                    <div
+                      class="name"
+                      style="cursor: pointer;"
+                      @click="showherinfo(p.toid)"
+                    >{{p.toname}}</div>
                     <div @mouseover="changeguanzhu(index)" @mouseleave="leaveguanzhu(index)">
                       <button
                         :ref="'ouge'+index"
@@ -624,13 +655,24 @@
   </div>
 </template>
 <script>
-import wgloginandblackheader from '@/components/Htmlviews/wgloginandblackheader.vue'
+import wgloginandblackheader from "@/components/Htmlviews/wgloginandblackheader.vue";
 import basefooter from "@/components/Htmlviews/basefooter.vue";
 import albumsetdialog from "@/components/mydialog/albumsetdialog.vue";
 import albumcreatedialog from "@/components/mydialog/albumcreatedialog.vue";
-import {DeleteAblum,DelCollectByID,UserFans} from "@/api/allrequest.js";
+import {
+  DeleteAblum,
+  DelCollectByID,
+  UserFans,
+  GetOneClassWorks,
+  GetOneNianWorks
+} from "@/api/allrequest.js";
 export default {
-  components: { wgloginandblackheader, basefooter, albumsetdialog, albumcreatedialog },
+  components: {
+    wgloginandblackheader,
+    basefooter,
+    albumsetdialog,
+    albumcreatedialog
+  },
   data() {
     return {
       myselfData: {},
@@ -646,8 +688,9 @@ export default {
         albumdescribe: "",
         albumprivate: false,
         albumindex: 0,
-        ablumid:0,
+        ablumid: 0
       },
+      allworktemp: [],
       albumcreate: {
         visible: false,
         albumname: "",
@@ -659,7 +702,7 @@ export default {
   },
   //计算属性不能直接呈现的需要用计算属性 如 src
   computed: {
-    getbackground(){
+    getbackground() {
       return this.$store.getters.my_backgroundimg;
     },
     getMyAvatar() {
@@ -675,22 +718,22 @@ export default {
       return this.$store.getters.my_nians;
     },
     getAllworks() {
-      return this.$store.getters.my_allworks;
+      return this.allworktemp;
     },
     getWorks() {
       let result = [];
-      for(let t of this.getAllworks){
-        if(t.isbowen==false){
-          result.push(t)
+      for (let t of this.getAllworks) {
+        if (t.isbowen == false) {
+          result.push(t);
         }
       }
       return result;
     },
     getBowen() {
       let result2 = [];
-      for(let t2 of this.getAllworks){
-        if(t2.isbowen==true){
-          result2.push(t2)
+      for (let t2 of this.getAllworks) {
+        if (t2.isbowen == true) {
+          result2.push(t2);
         }
       }
       return result2;
@@ -718,16 +761,18 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch("GetDetailedInfo").then((response)=>{
-      console.log(response);
-      
-              this.$message({
-          message: '欢迎回家!',
-          type: 'success',
-          center:true,
-          duration:2000
+    this.$store
+      .dispatch("GetDetailedInfo")
+      .then(response => {
+        this.allworktemp = this.$store.getters.my_allworks;
+        this.$message({
+          message: "欢迎回家!",
+          type: "success",
+          center: true,
+          duration: 2000
         });
-    }).catch((e) => {});
+      })
+      .catch(e => {});
   },
   mounted() {
     // 事件监听滚动条
@@ -748,10 +793,35 @@ export default {
       this.downactiveIndex3 = key;
     },
     jiazaibykey: function(e) {
-      console.log(e.toElement.innerText);
+      let classif = e.toElement.innerText;
+      this.$refs.thenian.innerText = "全部年份";
+      this.$refs.thecalss.innerText = classif;
+      if (classif == "全部类别") {
+        this.allworktemp = this.$store.getters.my_allworks;
+      } else {
+        GetOneClassWorks(classif, this.getId)
+          .then(response => {
+            this.allworktemp = response.allworks;
+          })
+          .catch(error => {});
+      }
+    },
+    jiazaibykeynian: function(e) {
+      let nian = e.toElement.innerText;
+       this.$refs.thecalss.innerText = "全部类别";
+      this.$refs.thenian.innerText = nian;
+      if (nian == "全部年份") {
+        this.allworktemp = this.$store.getters.my_allworks;
+      } else {
+        GetOneNianWorks(nian, this.getId)
+          .then(response => {
+            this.allworktemp = response.allworks;
+          })
+          .catch(error => {});
+      }
     },
     //吸顶效果
-    watchScroll() {     
+    watchScroll() {
       var scrollTop =
         window.pageYOffset ||
         document.documentElement.scrollTop ||
@@ -764,15 +834,14 @@ export default {
       }
     },
     //取消收藏图片
-    cancelcollectiontupian(index,id,itid) {
-
-      DelCollectByID(id,itid,1)
+    cancelcollectiontupian(index, id, itid) {
+      DelCollectByID(id, itid, 1)
         .then(response => {
           this.$message({
-          showClose: true,
-          message: '删除成功'
-        });
-          this.$store.dispatch("DeleteMyCollectPictute",index);
+            showClose: true,
+            message: "删除成功"
+          });
+          this.$store.dispatch("DeleteMyCollectPictute", index);
         })
         .catch(error => {
           console.log(error);
@@ -780,14 +849,14 @@ export default {
       // this.getCollectpictures.splice(index,1);
     },
     //取消收藏博文
-    cancelcollectionbowen(index,id,itid) {
-        DelCollectByID(id,itid,2)
+    cancelcollectionbowen(index, id, itid) {
+      DelCollectByID(id, itid, 2)
         .then(response => {
           this.$message({
-          showClose: true,
-          message: '删除成功'
-        });
-this.$store.dispatch("DeleteMyCollectBowen",index);
+            showClose: true,
+            message: "删除成功"
+          });
+          this.$store.dispatch("DeleteMyCollectBowen", index);
         })
         .catch(error => {
           console.log(error);
@@ -802,8 +871,7 @@ this.$store.dispatch("DeleteMyCollectBowen",index);
       this.collectlist = -1;
     },
     //显示专辑详情
-    showalbum(index, title, describe, isprivate,id) {
-    
+    showalbum(index, title, describe, isprivate, id) {
       this.albumset.albumindex = index;
       this.albumset.albumname = title;
       this.albumset.albumdescribe = describe;
@@ -822,16 +890,17 @@ this.$store.dispatch("DeleteMyCollectBowen",index);
         type: "warning"
       })
         .then(() => {
-          DeleteAblum(albumid).then((response) =>{
-            this.$store.dispatch("DeleteMyAlbum",index);
-          this.$message({
-          showClose: true,
-          message: '删除成功'
-        });
-          }).catch((error) =>{ 
-            console.log(error);
-            
-          })
+          DeleteAblum(albumid)
+            .then(response => {
+              this.$store.dispatch("DeleteMyAlbum", index);
+              this.$message({
+                showClose: true,
+                message: "删除成功"
+              });
+            })
+            .catch(error => {
+              console.log(error);
+            });
         })
         .catch(() => {
           this.$message({
@@ -855,15 +924,15 @@ this.$store.dispatch("DeleteMyCollectBowen",index);
     },
     //取消关注
     removeconcerns(index, thisid) {
-      UserFans(thisid).then((response) =>{
-        this.$store.dispatch("DeleteMyfollow",index);
+      UserFans(thisid)
+        .then(response => {
+          this.$store.dispatch("DeleteMyfollow", index);
           this.$message({
-          showClose: true,
-          message: '删除成功'
-        });
-      }).catch((error) =>{ 
-        
-      })
+            showClose: true,
+            message: "删除成功"
+          });
+        })
+        .catch(error => {});
     },
     changeguanzhu(index) {
       let f = "ouge" + index; //得到ref字符串了
@@ -875,22 +944,10 @@ this.$store.dispatch("DeleteMyCollectBowen",index);
         '<i data-v-6fd0474b="" class="el-icon-check"></i>已关注';
     },
     //跳转到他人界面
-    showherinfo(id){
-      this.$store.dispatch("GetHerInfo",id).then((response)=>{
-              // console.log(response);
-              let code = response.code;
-              // console.log(code);
-              if (code == 200) {
-                this.$router.push({
-                  path: "/user"
-                });
-              } else {
-                this.$router.push({
-                  path: "/404"
-                });
-              }
-      }).catch((e) => {
-
+    showherinfo(id) {
+      this.$router.replace({
+        path: "/user",
+        query: { id: id }
       });
     }
   }
@@ -903,7 +960,7 @@ this.$store.dispatch("DeleteMyCollectBowen",index);
     height: 420px;
     position: absolute;
     z-index: -1;
-        width: 100%;
+    width: 100%;
     object-fit: cover;
   }
   .myselfinfo {
@@ -927,11 +984,11 @@ this.$store.dispatch("DeleteMyCollectBowen",index);
         padding: 0;
 
         .icon {
-          width: 20px;
+          width: 48px;
         }
       }
       .myfollowsandfans {
-        color:#cac3c3;
+        color: #cac3c3;
         font-size: 15px;
       }
     }
@@ -1022,7 +1079,7 @@ this.$store.dispatch("DeleteMyCollectBowen",index);
         }
         .tars {
           height: 26px;
-    line-height: 140%;
+          line-height: 140%;
           margin-left: 10px;
           span {
             padding: 7px 10px;
@@ -1227,7 +1284,6 @@ this.$store.dispatch("DeleteMyCollectBowen",index);
             margin-left: 10px;
             overflow: hidden;
             height: 50px;
-           
           }
           .collectinfo {
             color: #707070;
@@ -1313,7 +1369,7 @@ this.$store.dispatch("DeleteMyCollectBowen",index);
           }
         }
       }
-            .wg_end {
+      .wg_end {
         display: flex;
         justify-content: center;
         margin-bottom: 70px;

@@ -18,13 +18,13 @@ import { removeToken } from '@/utils/auth'
     //   return outdata;
     // });
     //获取其他用户信息
-    Mock.mock(/^http:\/\/localhost:8090\/user\?herid=\d+$/,'get',() => {
-      let data = {
-        code:200,
-        message:"成功"
-      }
-      return data;
-    });
+    // Mock.mock(/^http:\/\/localhost:8090\/user\?herid=\d+$/,'get',() => {
+    //   let data = {
+    //     code:200,
+    //     message:"成功"
+    //   }
+    //   return data;
+    // });
     //注册
     // Mock.mock("http://localhost:8090/admin/register",'post',() =>{
     //   let data = {

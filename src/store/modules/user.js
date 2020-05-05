@@ -13,7 +13,7 @@ import {
 } from '@/api/login'
 const user = {
   state: {
-    id: 64753241,
+    id: 9999,
     // token: getToken(),
     name: '初始值',
     avatar: 'https://image.riba2534.cn/18-12-13/34184894.jpg',
@@ -587,6 +587,8 @@ const user = {
               equipment.aerialequipment = arrayeqs[3];
             }
             my.userdetails.equipment = equipment;
+            my.category.unshift("全部类别");
+            my.nians.unshift("全部年份");
             commit('SET_userdetails',my.userdetails);
             commit('SET_FOLLOWUSERS', my.followusers);
             commit('SET_album', my.album);
