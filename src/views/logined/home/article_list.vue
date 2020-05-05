@@ -9,8 +9,12 @@
         <div style>
           <el-carousel trigger="click" height="360px">
             <el-carousel-item v-for="(p,index) in ridinlanternbowens" :key="index">
-              <div @click.self.stop="GoToThisBowen(p.id)">
-                <img :src="p.coverimgurl" alt="图片" style="object-fit: cover;" />
+              <div @click.self.stop="GoToThisBowen(p.id)" style="text-align: center;">
+                <img
+                  :src="p.coverimgurl+'/text_wateryin'"
+                  alt="图片"
+                  style="object-fit: cover;height: 100%;width: 100%;"
+                />
               </div>
             </el-carousel-item>
           </el-carousel>
@@ -33,15 +37,17 @@
           </el-menu>
         </div>
         <div style="margin-top:20px">
-          <div style="height:180px;width:100%" v-for="(p,index) in imgsArr" :key="index">
+          <div style="height:180px;width:100%;margin: 10px 0;" v-for="(p,index) in imgsArr" :key="index">
             <el-row :gutter="20" style="height:180px;width:100%">
               <el-col :span="7" style="min-height:1px">
+                <div style="width: 100%;overflow: hidden;height:180px;">
                 <img
                   style="object-fit: cover;height:100%;width:100%;cursor: pointer;"
-                  :src="p.coverimgurl"
+                  :src="p.coverimgurl+'/text_wateryin'"
                   alt="封面图"
                   @click.self.stop="GoToThisBowen(p.id)"
                 />
+                </div>
               </el-col>
               <el-col :span="17">
                 <p
@@ -79,7 +85,7 @@
           >{{this.hotweekbowen.title}}</router-link>
           <div style="margin-top: 20px;">
             <img
-              :src="this.hotweekbowen.coverimgurl"
+              :src="this.hotweekbowen.coverimgurl+'/text_wateryin'"
               alt="图片"
               class="hotimg"
               @click.stop="GoToThisBowen(hotweekbowen.id)"
@@ -133,8 +139,13 @@ export default {
         activeIndex: this.activeIndex,
         group: this.group
       };
+      let config = {
+        headers: {
+          Aitutoken: getToken()
+        }
+      };
       axios
-        .post("http://localhost:8090/bowenlist", postData)
+        .post("http://localhost:8090/bowenlist", postData, config)
         .then(res => {
           console.log(res.data);
           this.group++;
@@ -158,9 +169,13 @@ export default {
         activeIndex: this.activeIndex,
         group: this.group
       };
-
+      let config = {
+        headers: {
+          Aitutoken: getToken()
+        }
+      };
       axios
-        .post("http://localhost:8090/addbowenlist", postData)
+        .post("http://localhost:8090/addbowenlist", postData, config)
         .then(res => {
           console.log(res.data);
           this.group++;
@@ -192,7 +207,7 @@ export default {
         window.pageYOffset ||
         document.documentElement.scrollTop ||
         document.body.scrollTop;
-      console.log(scrollTop2);
+      // console.log(scrollTop2);
 
       //  当滚动超过 516 时，实现吸顶效果
       if (scrollTop2 > 140) {
@@ -206,10 +221,40 @@ export default {
       }
     },
     GoToThisBowen(bowenid) {
-      alert(bowenid);
+      this.$router.push({
+        path: "/bowen",
+        query: { id: bowenid }
+      });
     },
     menuSelect(key, keyPath) {
       this.activeIndex = key;
+      this.group = 0;
+      let postData = {
+        nowclasstype: this.nowclasstype,
+        activeIndex: this.activeIndex,
+        group: this.group
+      };
+      let config = {
+        headers: {
+          Aitutoken: getToken()
+        }
+      };
+      axios
+        .post("http://localhost:8090/addbowenlist", postData, config)
+        .then(res => {
+          console.log(res.data);
+          this.group++;
+          if (res.data.message === "nodata") {
+            // 模拟已经无新数据，显示 slot="waterfall-over"
+            this.$refs.waterfall.waterfallOver();
+            return;
+          }
+          this.imgsArr = this.imgsArr.concat(res.data.bowen.allbowenlist);
+          //   console.log(this.imgsArr);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   }
 };

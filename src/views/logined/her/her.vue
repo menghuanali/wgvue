@@ -685,10 +685,11 @@ export default {
     this.token = getToken();
     if (this.token) {
       if (this.$route.query.id == this.$store.getters.my_id) {
-        this.$router.push({ path: "/myself" });
+        this.$router.replace({ path: "/myself" });
       }
     }
-    getherinfo(this.$route.query.id)
+
+    getherinfo(this.$route.query.id==undefined?0:this.$route.query.id)
       .then(response => {
         this.her = response.her;
         this.her.tars.unshift("全部类别");
@@ -723,7 +724,7 @@ export default {
   methods: {
     //跳转到他人界面
     showherinfo(id) {
-      this.$router.replace({
+      this.$router.push({
         path: "/user",
         query: { id: id }
       });

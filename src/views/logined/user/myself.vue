@@ -945,7 +945,7 @@ export default {
     },
     //跳转到他人界面
     showherinfo(id) {
-      this.$router.replace({
+      this.$router.push({
         path: "/user",
         query: { id: id }
       });

@@ -33,72 +33,76 @@
               v-for="(p,index) in imgsArr"
               :key="index"
               style="position: relative;"
-              
             >
-            <div @mouseover="ShowInfoIndex(index)"
-                @mouseleave="CloseInfoIndex()">
-              <div
-                v-show="showindex == index"
-                style="position: absolute;z-index: 1;right: 30px;top: 20px;"
-              >
+              <div @mouseover="ShowInfoIndex(index)" @mouseleave="CloseInfoIndex()">
                 <div
-                  style="color:#ffffff;background: rgb(149, 150, 147);margin-right:20px;display: inline-block;padding: 10px;vertical-align:top;opacity: 0.7;"
+                  v-show="showindex == index&&!(activeIndex==4)"
+                  style="position: absolute;z-index: 1;right: 30px;top: 20px;"
                 >
-                  <span style="display: inline-block;vertical-align: middle;">{{p.imgnumber}}</span>
-                  <svg-icon icon-class="images" style=""></svg-icon>
+                  <div
+                    style="color:#ffffff;background: rgb(149, 150, 147);margin-right:20px;display: inline-block;padding: 10px;vertical-align:top;opacity: 0.7;"
+                  >
+                    <span style="display: inline-block;vertical-align: middle;">{{p.imgnumber}}</span>
+                    <svg-icon icon-class="images" style></svg-icon>
+                  </div>
+                  <div
+                    style="color:#ffffff;background: rgb(149, 150, 147);display: inline-block;padding: 12px;opacity: 0.7;"
+                  >{{p.seenumber}}浏览</div>
                 </div>
                 <div
-                  style="color:#ffffff;background: rgb(149, 150, 147);display: inline-block;padding: 12px;opacity: 0.7;"
+                  style="position: absolute;z-index: 1;height: 44px;left: 30px;bottom: 20px;"
+                  v-show="showindex == index"
                 >
-                  {{p.seenumber}}浏览
+                  <div
+                    style="float: left;float: left;display: flex;align-items: center;"
+                    @click.stop="showherinfo(p.userid)"
+                  >
+                    <img
+                      :src="p.userheadurl"
+                      alt="头像"
+                      style="width: 40xp;height: 40px;border-radius: 50%;"
+                    />
+                    <span style="padding-left:10px;color: #d48319;">{{p.username}}</span>
+                  </div>
                 </div>
-              </div>
-              <div style="position: absolute;z-index: 1;height: 44px;left: 30px;bottom: 20px;" v-show="showindex == index">
-                <div style="float: left;float: left;display: flex;align-items: center;" @click.self.stop="GoToHer(p.userid)">
+                <!-- v-show="showindex == index" -->
+                <div
+                  style="position: absolute;z-index: 1;right: 30px;bottom: 10px;opacity: 0.5;padding: 10px;"
+                  v-show="showindex == index&&!(activeIndex==4)"
+                >
+                  <div
+                    style="color:red;background: rgb(149, 150, 147);padding: 10px;"
+                    v-show="p.islike"
+                    @click.stop="SubGoodLike(index)"
+                  >
+                    <svg-icon icon-class="good_red"></svg-icon>
+                    {{p.likenumber}}
+                  </div>
+                  <div
+                    style="color:#ffffff;background: rgb(149, 150, 147);padding: 10px;"
+                    v-show="!p.islike"
+                    @click.stop="AddGoodLike(index)"
+                  >
+                    <svg-icon icon-class="good_grey"></svg-icon>
+                    {{p.likenumber}}
+                  </div>
+                </div>
+                <a target="_blank" :href="'/work?id='+p.id">
                   <img
-                    :src="p.userheadurl"
-                    alt="头像"
-                    style="width: 40xp;height: 40px;border-radius: 50%;"
+                    :src="p.src+'/text_wateryin'"
+                    alt="图片"
+                    html
+                    :style="{ height: randomheightarray[index%51] + 'px' }"
+                    style="width: 100%;object-fit: cover;"
                   />
-                  <span style="padding-left:10px">{{p.username}}</span>
-                </div>
-                
-              </div>
-              <!-- v-show="showindex == index" -->
-              <div style="position: absolute;z-index: 1;right: 30px;bottom: 10px;opacity: 0.5;padding: 10px;" v-show="showindex == index">
-                <div
-                  style="color:red;background: rgb(149, 150, 147);padding: 10px;"
-                  v-show="p.islike"
-                  @click.stop="SubGoodLike(index)"
-                >
-                  <svg-icon icon-class="good_red"></svg-icon>
-                  {{p.likenumber}}
-                </div>
-                <div
-                  style="color:#ffffff;background: rgb(149, 150, 147);padding: 10px;"
-                  v-show="!p.islike"
-                  @click.stop="AddGoodLike(index)"
-                >
-                  <svg-icon icon-class="good_grey"></svg-icon>
-                  {{p.likenumber}}
-                </div>
-              </div>
-              <img
-                :src="p.src"
-                alt="图片"
-                html
-                :style="{ height: randomheightarray[index%51] + 'px' }"
-                style="width: 100%;object-fit: cover;"
-                
-                @click.self.stop="GoToThisWork(p.id)"
-              />
+                </a>
               </div>
             </el-col>
           </el-row>
         </div>
       </el-col>
       <el-col :span="3" style="min-height: 1px">
-        <div class="classifytip" @click.stop="OpenClassify()">
+        <div class="classifytip" @click.stop="OpenClassify()" v-show="!(activeIndex==4)">
           <span>{{this.nowclasstype}}</span>
 
           <i class="el-icon-caret-top" v-show="isfenleiguanbi"></i>
@@ -203,11 +207,12 @@
 import wgloginandblackheader from "@/components/Htmlviews/wgloginandblackheader.vue";
 import wgnologinandblackheader from "@/components/Htmlviews/wgnologinandblackheader.vue";
 import { getToken } from "@/utils/auth";
+import { UserLike } from "@/api/allrequest";
 import axios from "axios";
 export default {
   components: {
     wgnologinandblackheader,
-    wgloginandblackheader,
+    wgloginandblackheader
   },
   data() {
     return {
@@ -347,16 +352,21 @@ export default {
         activeIndex: this.activeIndex,
         group: this.group
       };
+      let config = {
+        headers: {
+          Aitutoken: getToken()
+        }
+      };
       axios
-        .post("http://localhost:8090/waterfall", postData)
+        .post("http://localhost:8090/waterfall", postData, config)
         .then(res => {
           console.log(res.data);
           this.group++;
-          if (this.group === 5) {
-            // 模拟已经无新数据，显示 slot="waterfall-over"
-            this.$refs.waterfall.waterfallOver();
-            return;
-          }
+          // if (this.group === 5) {
+          //   // 模拟已经无新数据，显示 slot="waterfall-over"
+          //   this.$refs.waterfall.waterfallOver();
+          //   return;
+          // }
           this.imgsArr = this.imgsArr.concat(res.data.imgarr);
           console.log(this.imgsArr);
         })
@@ -386,23 +396,45 @@ export default {
     CloseInfoIndex() {
       this.showindex = -1;
     },
-    GoToThisWork(id) {
-      alert(id);
+    //跳转到他人界面
+    showherinfo(id) {
+      this.$router.push({
+        path: "/user",
+        query: { id: id }
+      });
     },
     AddGoodLike(index) {
       //添加后台代码判断返回
-      alert("点赞");
-      this.imgsArr[index].islike = true;
-      this.imgsArr[index].likenumber = this.imgsArr[index].likenumber + 1;
+      let likeModel = {
+        toid: this.imgsArr[index].userid,
+        itid: this.imgsArr[index].id,
+        ltitle: this.imgsArr[index].title,
+        type: 1
+      };
+      UserLike(likeModel)
+        .then(response => {
+          this.imgsArr[index].islike = true;
+          this.imgsArr[index].likenumber = this.imgsArr[index].likenumber + 1;
+        })
+        .catch(error => {});
     },
     SubGoodLike(index) {
       //添加后台代码判断返回
-      alert("取消点赞");
-      this.imgsArr[index].islike = false;
-      this.imgsArr[index].likenumber = this.imgsArr[index].likenumber - 1;
+      let likeModel = {
+        toid: this.imgsArr[index].userid,
+        itid: this.imgsArr[index].id,
+        ltitle: this.imgsArr[index].title,
+        type: 1
+      };
+      UserLike(likeModel)
+        .then(response => {
+          this.imgsArr[index].islike = false;
+          this.imgsArr[index].likenumber = this.imgsArr[index].likenumber - 1;
+        })
+        .catch(error => {});
     },
-    GoToHer(id){
-        alert(id)
+    GoToHer(id) {
+      alert(id);
     },
     menuSelect(key, keyPath) {
       this.activeIndex = key;
@@ -413,6 +445,26 @@ export default {
       } else if (key == "2-3") {
         this.$refs.renqibang.innerHTML = "30天人气榜";
       }
+      this.group = 0;
+      let postData = {
+        nowclasstype: this.nowclasstype,
+        activeIndex: this.activeIndex,
+        group: this.group
+      };
+      let config = {
+        headers: {
+          Aitutoken: getToken()
+        }
+      };
+      axios
+        .post("http://localhost:8090/waterfall", postData, config)
+        .then(response => {
+          // console.log(response.data);
+          this.imgsArr = response.data.imgarr;
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     //展开关闭分类
     OpenClassify() {
@@ -421,15 +473,22 @@ export default {
     LoadThisClass(classtype) {
       console.log(classtype);
       this.group = 0;
+      this.nowclasstype = classtype;
       let postData = {
         nowclasstype: this.nowclasstype,
         activeIndex: this.activeIndex,
         group: this.group
       };
+      let config = {
+        headers: {
+          Aitutoken: getToken()
+        }
+      };
       axios
-        .post("http://localhost:8090/waterfall", postData)
+        .post("http://localhost:8090/waterfall", postData, config)
         .then(response => {
           console.log(response.data);
+          this.imgsArr = response.data.imgarr;
         })
         .catch(error => {
           console.log(error);
