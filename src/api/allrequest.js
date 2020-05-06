@@ -235,3 +235,21 @@ export function GetOneNianWorks(nian,id){
         }
     })
 }
+//加载好友动态
+export function getDynamic(pageNumber){
+    return request({
+        url: "/getfollowlist",
+        method: "post",
+        data: {
+        pageNumber: pageNumber,
+        // pageSize: 6 //每页查询条数 
+        }
+    })
+}
+//加载首页
+export function GetIndexData(){
+    return request({
+        url: "/index/getindex",
+        method: "get",
+    })
+}

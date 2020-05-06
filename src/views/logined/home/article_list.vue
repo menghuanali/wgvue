@@ -9,7 +9,7 @@
         <div style>
           <el-carousel trigger="click" height="360px">
             <el-carousel-item v-for="(p,index) in ridinlanternbowens" :key="index">
-              <div @click.self.stop="GoToThisBowen(p.id)" style="text-align: center;">
+              <div @click.stop="GoToThisBowen(p.id)" style="text-align: center;">
                 <img
                   :src="p.coverimgurl+'/text_wateryin'"
                   alt="图片"
@@ -134,6 +134,24 @@ export default {
   methods: {
     getData() {
       this.group = 0;
+      if(this.activeIndex==1){
+this.nowclasstype = "全部分类"
+      }else if(this.activeIndex==2){
+this.nowclasstype = "基础理论"
+      }else if(this.activeIndex==3){
+        this.nowclasstype = "实战技巧"
+      }else if(this.activeIndex==4){
+        this.nowclasstype = "后期教程"
+      }else if(this.activeIndex==5){
+        this.nowclasstype = "分享探讨"
+      }else if(this.activeIndex==6){
+        this.nowclasstype = "心得点评"
+      }else if(this.activeIndex==7){
+        this.nowclasstype = "摄影器材"
+      }else if(this.activeIndex==8){
+        this.nowclasstype = "其他类别"
+      }
+      
       let postData = {
         nowclasstype: this.nowclasstype,
         activeIndex: this.activeIndex,
@@ -164,6 +182,23 @@ export default {
         });
     },
     addData() {
+            if(this.activeIndex==1){
+this.nowclasstype = "全部分类"
+      }else if(this.activeIndex==2){
+this.nowclasstype = "基础理论"
+      }else if(this.activeIndex==3){
+        this.nowclasstype = "实战技巧"
+      }else if(this.activeIndex==4){
+        this.nowclasstype = "后期教程"
+      }else if(this.activeIndex==5){
+        this.nowclasstype = "分享探讨"
+      }else if(this.activeIndex==6){
+        this.nowclasstype = "心得点评"
+      }else if(this.activeIndex==7){
+        this.nowclasstype = "摄影器材"
+      }else if(this.activeIndex==8){
+        this.nowclasstype = "其他类别"
+      }
       let postData = {
         nowclasstype: this.nowclasstype,
         activeIndex: this.activeIndex,
@@ -229,6 +264,23 @@ export default {
     menuSelect(key, keyPath) {
       this.activeIndex = key;
       this.group = 0;
+            if(this.activeIndex==1){
+this.nowclasstype = "全部分类"
+      }else if(this.activeIndex==2){
+this.nowclasstype = "基础理论"
+      }else if(this.activeIndex==3){
+        this.nowclasstype = "实战技巧"
+      }else if(this.activeIndex==4){
+        this.nowclasstype = "后期教程"
+      }else if(this.activeIndex==5){
+        this.nowclasstype = "分享探讨"
+      }else if(this.activeIndex==6){
+        this.nowclasstype = "心得点评"
+      }else if(this.activeIndex==7){
+        this.nowclasstype = "摄影器材"
+      }else if(this.activeIndex==8){
+        this.nowclasstype = "其他类别"
+      }
       let postData = {
         nowclasstype: this.nowclasstype,
         activeIndex: this.activeIndex,
@@ -244,12 +296,8 @@ export default {
         .then(res => {
           console.log(res.data);
           this.group++;
-          if (res.data.message === "nodata") {
-            // 模拟已经无新数据，显示 slot="waterfall-over"
-            this.$refs.waterfall.waterfallOver();
-            return;
-          }
-          this.imgsArr = this.imgsArr.concat(res.data.bowen.allbowenlist);
+          this.imgsArr = [];
+          this.imgsArr = res.data.bowen.allbowenlist;
           //   console.log(this.imgsArr);
         })
         .catch(error => {

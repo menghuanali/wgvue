@@ -2,14 +2,14 @@
   <div style=" overflow-x: hidden;">
     <wgloginandwhiteheader v-if="token"></wgloginandwhiteheader>
     <wgnologinandwhiteheader v-if="!token"></wgnologinandwhiteheader>
-    <div class="wg_aitu_index_background" @click="GoToBowen()"></div>
+    <div class="wg_aitu_index_background" @click="GoToWork()"></div>
     <div style="position: relative;margin-top: 650px;margin-bottom: 50px;">
       <div class="third">
         <el-row>
           <el-col :span="3" style="min-height: 1px;"></el-col>
           <el-col :span="18" style="min-height: 1px;">
             <div style="text-align: center;">
-              <img src="@/assets/jpg/bowen2.jpg" alt />
+              <img src="@/assets/jpg/bowen2.jpg" @click="GoToBowen()" />
               <p class="third1">
                 <i class="el-icon-medal" style="color:#46d233"></i> 首页推荐
                 <i class="el-icon-medal" style="color:#46d233"></i>
@@ -18,15 +18,15 @@
             <div class="third2">
               <el-row :gutter="10">
                 <el-col :span="6" v-for="(p,index) in GetHomeData.homerecommend" :key="index">
-                  <div class="box" @click="GoToWork(p.id)">
-                    <img :src="p.coverimgurl" alt="封面图片" />
+                  <div class="box" @click="GoToTheWork(p.id)">
+                    <img :src="p.coverimgurl+'/text_wateryin'" alt="封面图片" />
                     <p class="third21">{{p.classification}}</p>
                     <div class="authorinfo">
-                      <div class="third22" @click.stop="GoToUser(p.authorid)">
+                      <div class="third22" @click.stop="showherinfo(p.authorid)">
                         <img :src="p.authorheadurl" alt="头像" />
                       </div>
-                      <div class="third23" @click.stop="GoToUser(p.authorid)">{{p.authorname}}</div>
-                      <div class="third24" @click.stop="GetItgood(p.id,p.isgood)">
+                      <div class="third23" @click.stop="showherinfo(p.authorid)">{{p.authorname}}</div>
+                      <div class="third24" @click.stop="UserLike1(index,p.authorid,p.id,p.title)">
                         <svg-icon icon-class="good_grey" v-show="!p.isgood"></svg-icon>
                         <svg-icon icon-class="good_red" v-show="p.isgood"></svg-icon>
                         {{p.goodnumber}}
@@ -37,15 +37,15 @@
               </el-row>
             </div>
             <div class="third3">
-              <a href="#">人像</a>
-              <a href="#">风景</a>
-              <a href="#">生态</a>
-              <a href="#">纪实</a>
-              <a href="#">生活</a>
-              <a href="#">潜水</a>
-              <a href="#">航拍</a>
-              <a href="#">手机摄影</a>
-              <a href="#">查看更多</a>
+              <a href="/worklist?classtype=人像">人像</a>
+              <a href="/worklist?classtype=风景">风景</a>
+              <a href="/worklist?classtype=生态">生态</a>
+              <a href="/worklist?classtype=纪实">纪实</a>
+              <a href="/worklist?classtype=生活">生活</a>
+              <a href="/worklist?classtype=潜水">潜水</a>
+              <a href="/worklist?classtype=航拍">航拍</a>
+              <a href="/worklist?classtype=手机摄影">手机摄影</a>
+              <a href="/worklist">查看更多</a>
             </div>
             <div class="third4">
               <i class="el-icon-medal" style="color:#46d233"></i> 摄影技巧
@@ -57,11 +57,11 @@
                   <el-row :gutter="10" style="margin-bottom: 20px;">
                     <el-col :span="11">
                       <div style="width: 100%;height: 100%;cursor: pointer;">
-                        <img :src="p.coverimgurl" alt />
+                        <img :src="p.coverimgurl+'/text_wateryin'" @click.stop="GoToTheBowen(p.id)" />
                       </div>
                     </el-col>
                     <el-col :span="13">
-                      <p class="title">{{p.title}}</p>
+                      <p class="title" @click.stop="GoToTheBowen(p.id)">{{p.title}}</p>
                       <p class="smalldec">{{p.smallintroduction}}</p>
                     </el-col>
                   </el-row>
@@ -69,7 +69,7 @@
               </el-row>
             </div>
             <div class="third6">
-              <a href="#">
+              <a href="/bowenlist">
                 <span>查看更多</span>
               </a>
             </div>
@@ -80,7 +80,7 @@
             <div class="third8">
               <el-row :gutter="20">
                 <el-col :span="6" v-for="(p,index) in GetHomeData.photographer" :key="index">
-                  <div class="aphotoer" @click="GoToUser(p.id)">
+                  <div class="aphotoer" @click="showherinfo(p.id)">
                     <div class="imgbox">
                       <img :src="p.coverimgurl" alt="背景" />
                     </div>
@@ -91,18 +91,18 @@
                 </el-col>
               </el-row>
             </div>
-                        <div class="third2">
+            <div class="third2">
               <el-row :gutter="10">
                 <el-col :span="6" v-for="(p,index) in GetHomeData.photographerwork" :key="index">
-                  <div class="box" @click="GoToWork(p.id)">
-                    <img :src="p.coverimgurl" alt="封面图片" />
+                  <div class="box" @click="GoToTheWork(p.id)">
+                    <img :src="p.coverimgurl+'/text_wateryin'" alt="封面图片" />
                     <p class="third21">{{p.classification}}</p>
                     <div class="authorinfo">
-                      <div class="third22" @click.stop="GoToUser(p.authorid)">
+                      <div class="third22" @click.stop="showherinfo(p.authorid)">
                         <img :src="p.authorheadurl" alt="头像" />
                       </div>
-                      <div class="third23" @click.stop="GoToUser(p.authorid)">{{p.authorname}}</div>
-                      <div class="third24" @click.stop="GetItgood(p.id,p.isgood)">
+                      <div class="third23" @click.stop="showherinfo(p.authorid)">{{p.authorname}}</div>
+                      <div class="third24" @click.stop="UserLike2(index,p.authorid,p.id,p.title)">
                         <svg-icon icon-class="good_grey" v-show="!p.isgood"></svg-icon>
                         <svg-icon icon-class="good_red" v-show="p.isgood"></svg-icon>
                         {{p.goodnumber}}
@@ -117,7 +117,7 @@
         </el-row>
       </div>
     </div>
-<basefooter></basefooter>
+    <basefooter></basefooter>
   </div>
 </template>
 
@@ -128,46 +128,137 @@ import basefooter from "@/components/Htmlviews/basefooter.vue";
 import { getToken } from "@/utils/auth";
 import comment from "@/components/Htmlviews/comment.vue";
 import monicommentdata from "@/mock/commentdata.js";
+import { UserLike, GetIndexData } from "@/api/allrequest";
 export default {
-  components: { wgloginandwhiteheader, wgnologinandwhiteheader,basefooter },
+  components: { wgloginandwhiteheader, wgnologinandwhiteheader, basefooter },
   data() {
-    return {};
+    return {
+      homedata: {
+        homerecommend: [],
+        homebowen: [],
+        photographer: [],
+        photographerwork: []
+      }
+    };
   },
   computed: {
     token() {
       return getToken();
     },
     GetHomeData() {
-      return this.$store.getters.home_homedata;
+      return this.homedata;
     }
   },
   created() {
-     
+    GetIndexData()
+      .then(response => {
+        console.log(response);
+        this.homedata.homerecommend = response.homerecommend;
+        this.homedata.homebowen = response.homebowen;
+        this.homedata.photographer = response.photographer;
+        this.homedata.photographerwork = response.photographerwork;
+      })
+      .catch(error => {});
   },
   methods: {
     GoToBowen() {
-      alert("博文");
-    },
-    GoToWork(id) {
-      //先请求数据 然后转到work
-      const loading = this.$loading({
-        lock: true,
-        text: "Loading",
-        spinner: "el-icon-loading",
-        background: "rgba(0, 0, 0, 0.7)"
+      this.$router.push({
+        path: "/bowen",
+        query: { id: 1 }
       });
-      setTimeout(() => {
-        loading.close();
-      }, 2000);
     },
-    GoToUser(id) {
-      alert(id);
+    GoToWork() {
+      this.$router.push({
+        path: "/work",
+        query: { id: 208 }
+      });
+    },
+    GoToTheWork(id) {
+      //先请求数据 然后转到work
+      this.$router.push({
+        path: "/work",
+        query: { id: id }
+      });
+      // const loading = this.$loading({
+      //   lock: true,
+      //   text: "Loading",
+      //   spinner: "el-icon-loading",
+      //   background: "rgba(0, 0, 0, 0.7)"
+      // });
+      // setTimeout(() => {
+      //   loading.close();
+      // }, 2000);
+    },
+        GoToTheBowen(id) {
+      //先请求数据 然后转到work
+      this.$router.push({
+        path: "/bowen",
+        query: { id: id }
+      });
+      // const loading = this.$loading({
+      //   lock: true,
+      //   text: "Loading",
+      //   spinner: "el-icon-loading",
+      //   background: "rgba(0, 0, 0, 0.7)"
+      // });
+      // setTimeout(() => {
+      //   loading.close();
+      // }, 2000);
+    },
+    showherinfo(id) {
+      this.$router.push({
+        path: "/user",
+        query: { id: id }
+      });
     },
     //点赞
-    GetItgood(id, isgood) {
-      // alert(id);
-      isgood = !isgood;
-      this.$store.dispatch("Setisgoodandhome", { id, isgood });
+    UserLike1(index, toid, itid, title) {
+      if (this.getToken) {
+        this.$router.push({ path: "/login" });
+      }
+      let likeModel = {
+        toid: toid,
+        itid: itid,
+        title: title,
+        type: 1
+      };
+      UserLike(likeModel)
+        .then(response => {
+          if (this.homedata.homerecommend[index].isgood == true) {
+            this.homedata.homerecommend[index].goodnumber =
+              this.homedata.homerecommend[index].goodnumber - 1;
+          } else {
+            this.homedata.homerecommend[index].goodnumber =
+              this.homedata.homerecommend[index].goodnumber + 1;
+          }
+          this.homedata.homerecommend[index].isgood = !this.homedata
+            .homerecommend[index].isgood;
+        })
+        .catch(error => {});
+    },
+    UserLike2(index, toid, itid, title) {
+      if (this.getToken) {
+        this.$router.push({ path: "/login" });
+      }
+      let likeModel = {
+        toid: toid,
+        itid: itid,
+        title: title,
+        type: 1
+      };
+      UserLike(likeModel)
+        .then(response => {
+          if (this.homedata.photographerwork[index].isgood == true) {
+            this.homedata.photographerwork[index].goodnumber =
+              this.homedata.photographerwork[index].goodnumber - 1;
+          } else {
+            this.homedata.photographerwork[index].goodnumber =
+              this.homedata.photographerwork[index].goodnumber + 1;
+          }
+          this.homedata.photographerwork[index].isgood = !this.homedata
+            .photographerwork[index].isgood;
+        })
+        .catch(error => {});
     }
   }
 };
@@ -206,8 +297,8 @@ export default {
         position: absolute;
         left: 15px;
         top: 0;
-        background-color: #bbbfb9;
-        color: #ffffff;
+        background-color: #e1e6de;
+        color: #632f2f;
         font-size: 18px;
         text-align: center;
         padding: 5px 10px;

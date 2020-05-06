@@ -337,7 +337,14 @@ export default {
     }
   },
   created: function() {
-    this.getData();
+    if(this.$route.query.classtype!=undefined){
+        this.nowclasstype = this.$route.query.classtype;
+         this.getData();
+    }else{
+       this.getData();
+    }
+    
+   
   },
   mounted() {
     window.addEventListener("scroll", this.getScroll);

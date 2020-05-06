@@ -373,7 +373,7 @@ export default {
       ///后台数据库修改成功返回后
       UserFans(this.work.authorid)
         .then(response => {
-          this.$message(response, message);
+          this.$message(response.message);
           this.work.authorisguanzhu = !this.work.authorisguanzhu;
         })
         .catch(error => {
