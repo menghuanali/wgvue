@@ -80,6 +80,11 @@
           粉丝 {{this.her.maininfo.fans}}
         </div>
       </div>
+      <div style="height: 72px;margin-left: 20px;opacity: 0.7;">
+        <el-button round v-if="this.her.isguanzhu==false" @click="FollowHer(her.maininfo.herid)">关注</el-button>
+        <el-button round v-if="this.her.isguanzhu==true" @click="FollowHer(her.maininfo.herid)">已关注</el-button>
+        <el-button type="primary" round @click="showletter(her.maininfo.herid,her.maininfo.name)">私信</el-button>
+      </div>
     </div>
     <div
       class="centercontroller"
@@ -589,6 +594,12 @@
         <el-col :span="6" style="min-height: 1px"></el-col>
       </el-row>
     </div>
+              <letterdialog
+              v-if="letterinfo.visible"
+              :visible.sync="letterinfo.visible"
+              :toname.sync="letterinfo.toname"
+              :toid.sync="letterinfo.toid"
+            ></letterdialog>
     <basefooter></basefooter>
   </div>
 </template>
@@ -597,21 +608,19 @@ import wgloginandblackheader from "@/components/Htmlviews/wgloginandblackheader.
 import wgnologinandblackheader from "@/components/Htmlviews/wgnologinandblackheader.vue";
 import { getToken } from "@/utils/auth";
 import basefooter from "@/components/Htmlviews/basefooter.vue";
-import albumsetdialog from "@/components/mydialog/albumsetdialog.vue";
-import albumcreatedialog from "@/components/mydialog/albumcreatedialog.vue";
+import letterdialog from "@/components/mydialog/letterdialog.vue";
 import {
   getherinfo,
   UserFans,
   GetOneClassWorks,
-  GetOneNianWorks
+  GetOneNianWorks,
 } from "@/api/allrequest.js";
 export default {
   components: {
     wgloginandblackheader,
     wgnologinandblackheader,
     basefooter,
-    albumsetdialog,
-    albumcreatedialog
+    letterdialog
   },
   data() {
     return {
@@ -655,7 +664,8 @@ export default {
         followusers: [],
         album: [],
         collectpictures: [],
-        collectionarticles: []
+        collectionarticles: [],
+        isguanzhu:false,
       },
       allworktemp: [],
       worktemp: [],
@@ -666,7 +676,12 @@ export default {
         mobilephone: "2",
         downwaterequipment: "3",
         aerialequipment: "4"
-      }
+      },
+      letterinfo:{
+        visible: false,
+        toname: "",
+        toid: 0
+      },
     };
   },
   //计算属性不能直接呈现的需要用计算属性 如 src
@@ -722,6 +737,30 @@ export default {
   },
 
   methods: {
+    //私信
+    showletter(id,name){
+            if (!this.token) {
+        this.$router.push({ path: "/login" });
+      } else {
+this.letterinfo.toname=name;
+      this.letterinfo.toid=id;
+        this.letterinfo.visible=true;
+      }
+      
+    },
+    //关注
+    FollowHer(id) {
+      if (!this.token) {
+        this.$router.push({ path: "/login" });
+      } else {
+        UserFans(id)
+          .then(response => {
+            this.$message(response.message);
+            this.her.isguanzhu = !this.her.isguanzhu;
+          })
+          .catch(error => {});
+      }
+    },
     //跳转到他人界面
     showherinfo(id) {
       this.$router.push({

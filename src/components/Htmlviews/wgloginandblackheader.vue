@@ -243,6 +243,9 @@ export default {
       timeout: null,
     };
   },
+  created: function() {
+    this.$store.dispatch("GetMyInfo");
+  },
   computed:{
     getMyAvatar() {
       return this.$store.getters.my_avatar;

@@ -30,391 +30,24 @@ const user = {
     },
     follows: 0, //关注数量
     followusers: [
-      // {
-      //   id: 1,
-      //   herheadurl: "https://image.riba2534.cn/18-12-13/34184894.jpg",
-      //   hername: "星星依米",
-      // },
-      // {
-      //   id: 2,
-      //   herheadurl: "https://image.riba2534.cn/18-12-13/34184894.jpg",
-      //   hername: "星星依米",
-      // }, {
-      //   id: 3,
-      //   herheadurl: "https://image.riba2534.cn/18-12-13/34184894.jpg",
-      //   hername: "星星依米",
-      // },
-      // {
-      //   id: 4,
-      //   herheadurl: "https://image.riba2534.cn/18-12-13/34184894.jpg",
-      //   hername: "星星依米",
-      // },
-      // {
-      //   id: 5,
-      //   herheadurl: "https://image.riba2534.cn/18-12-13/34184894.jpg",
-      //   hername: "星星依米",
-      // },
-      // {
-      //   id: 6,
-      //   herheadurl: "https://image.riba2534.cn/18-12-13/34184894.jpg",
-      //   hername: "星星依米",
-      // }
     ], //关注人列表
     userdetails: { //用户详情
-      // integral: 194, //积分
-      // grade: "摄影乐园二级", //等级
-      // place: "香港特别行政区香港岛", //居住地
-      // age: 110, //年龄
-      // email: "1441471911@qq.com",
-      // phone: "15881614775",
-      // qq: "45145214",
-      // equipment: {
-      //   camera: "相机",
-      //   mobilephone: "手机",
-      //   downwaterequipment: "水下设备",
-      //   aerialequipment: "航拍设备",
-      // }, //装备
-      // personalstatement: "个人说明谁的青春不迷茫",
     },
     album: [
-      // {
-      //   id: 1,
-      //   coverimgurl: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1585840610491&di=78aaa0ba16185710ab9cfe1547d1b475&imgtype=0&src=http%3A%2F%2Ft8.baidu.com%2Fit%2Fu%3D1484500186%2C1503043093%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1280%26h%3D853",
-      //   isdefault: true,
-      //   iskeyed: true,
-      //   title: "默认专辑",
-      //   describe: "这是专辑的描述！",
-      //   picturesnumber: 12,
-      // },
-      // {
-      //   id: 2,
-      //   coverimgurl: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1585840610491&di=78aaa0ba16185710ab9cfe1547d1b475&imgtype=0&src=http%3A%2F%2Ft8.baidu.com%2Fit%2Fu%3D1484500186%2C1503043093%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1280%26h%3D853",
-      //   isdefault: false,
-      //   iskeyed: true,
-      //   title: "哈哈哈",
-      //   describe: "这是专辑的描述！",
-      //   picturesnumber: 12,
-      // },
-      // {
-      //   id: 3,
-      //   coverimgurl: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1585840610491&di=78aaa0ba16185710ab9cfe1547d1b475&imgtype=0&src=http%3A%2F%2Ft8.baidu.com%2Fit%2Fu%3D1484500186%2C1503043093%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1280%26h%3D853",
-      //   isdefault: false,
-      //   iskeyed: false,
-      //   title: "测试2",
-      //   describe: "这是专辑的描述！",
-      //   picturesnumber: 12,
-      // }
     ], //专辑
     collectpictures: [ //收藏的图片
-      // {
-      //   id: 1,
-      //   // coverimgurl:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1585840610492&di=83c160d89f06b81bdd9cea8f870cf6a3&imgtype=0&src=http%3A%2F%2Ft7.baidu.com%2Fit%2Fu%3D3616242789%2C1098670747%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D900%26h%3D1350",
-      //   coverimgurl: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1585840610491&di=78aaa0ba16185710ab9cfe1547d1b475&imgtype=0&src=http%3A%2F%2Ft8.baidu.com%2Fit%2Fu%3D1484500186%2C1503043093%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1280%26h%3D853",
-      //   authorid: 1,
-      //   authorheadurl: "https://image.riba2534.cn/18-12-13/34184894.jpg",
-      //   authorname: "大卫Data",
-      //   picturesnumber: 39,
-      //   time: "2020年4月1日",
-      //   title: "我是标题kiss我爱您，真的，比珍珠还真",
-      //   tars: ["写真", "美女", "美食", "我要上封面"],
-      //   seenumber: 123,
-      //   writenumber: 456,
-      //   goodnumber: 789
-      // },
-      // {
-      //   id: 2,
-      //   // coverimgurl:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1585840610492&di=83c160d89f06b81bdd9cea8f870cf6a3&imgtype=0&src=http%3A%2F%2Ft7.baidu.com%2Fit%2Fu%3D3616242789%2C1098670747%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D900%26h%3D1350",
-      //   coverimgurl: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1585840610491&di=78aaa0ba16185710ab9cfe1547d1b475&imgtype=0&src=http%3A%2F%2Ft8.baidu.com%2Fit%2Fu%3D1484500186%2C1503043093%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1280%26h%3D853",
-      //   authorid: 3,
-      //   authorheadurl: "https://image.riba2534.cn/18-12-13/34184894.jpg",
-      //   authorname: "大卫Data",
-      //   picturesnumber: 39,
-      //   time: "2020年4月1日",
-      //   title: "我是标题kiss我爱您，真的，比珍珠还真",
-      //   tars: ["写真", "美女", "美食", "我要上封面"],
-      //   seenumber: 123,
-      //   writenumber: 456,
-      //   goodnumber: 789
-      // },
-      // {
-      //   id: 3,
-      //   // coverimgurl:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1585840610492&di=83c160d89f06b81bdd9cea8f870cf6a3&imgtype=0&src=http%3A%2F%2Ft7.baidu.com%2Fit%2Fu%3D3616242789%2C1098670747%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D900%26h%3D1350",
-      //   coverimgurl: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1585840610491&di=78aaa0ba16185710ab9cfe1547d1b475&imgtype=0&src=http%3A%2F%2Ft8.baidu.com%2Fit%2Fu%3D1484500186%2C1503043093%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1280%26h%3D853",
-      //   authorid: 3,
-      //   authorheadurl: "https://image.riba2534.cn/18-12-13/34184894.jpg",
-      //   authorname: "大卫Data",
-      //   picturesnumber: 39,
-      //   time: "2020年4月1日",
-      //   title: "我是标题kiss我爱您，真的，比珍珠还真",
-      //   tars: ["写真", "美女", "美食", "我要上封面"],
-      //   seenumber: 123,
-      //   writenumber: 456,
-      //   goodnumber: 789
-      // },
-      // {
-      //   id: 4,
-      //   // coverimgurl:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1585840610492&di=83c160d89f06b81bdd9cea8f870cf6a3&imgtype=0&src=http%3A%2F%2Ft7.baidu.com%2Fit%2Fu%3D3616242789%2C1098670747%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D900%26h%3D1350",
-      //   coverimgurl: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1585840610491&di=78aaa0ba16185710ab9cfe1547d1b475&imgtype=0&src=http%3A%2F%2Ft8.baidu.com%2Fit%2Fu%3D1484500186%2C1503043093%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1280%26h%3D853",
-      //   authorid: 3,
-      //   authorheadurl: "https://image.riba2534.cn/18-12-13/34184894.jpg",
-      //   authorname: "大卫Data",
-      //   picturesnumber: 39,
-      //   time: "2020年4月1日",
-      //   title: "我是标题kiss我爱您，真的，比珍珠还真",
-      //   tars: ["写真", "美女", "美食", "我要上封面"],
-      //   seenumber: 123,
-      //   writenumber: 456,
-      //   goodnumber: 789
-      // },
-      // {
-      //   id: 5,
-      //   // coverimgurl:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1585840610492&di=83c160d89f06b81bdd9cea8f870cf6a3&imgtype=0&src=http%3A%2F%2Ft7.baidu.com%2Fit%2Fu%3D3616242789%2C1098670747%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D900%26h%3D1350",
-      //   coverimgurl: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1585840610491&di=78aaa0ba16185710ab9cfe1547d1b475&imgtype=0&src=http%3A%2F%2Ft8.baidu.com%2Fit%2Fu%3D1484500186%2C1503043093%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1280%26h%3D853",
-      //   authorid: 3,
-      //   authorheadurl: "https://image.riba2534.cn/18-12-13/34184894.jpg",
-      //   authorname: "大卫Data",
-      //   picturesnumber: 39,
-      //   time: "2020年4月1日",
-      //   title: "我是标题kiss我爱您，真的，比珍珠还真",
-      //   tars: ["写真", "美女", "美食", "我要上封面"],
-      //   seenumber: 123,
-      //   writenumber: 456,
-      //   goodnumber: 789
-      // },
-      // {
-      //   id: 6,
-      //   // coverimgurl:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1585840610492&di=83c160d89f06b81bdd9cea8f870cf6a3&imgtype=0&src=http%3A%2F%2Ft7.baidu.com%2Fit%2Fu%3D3616242789%2C1098670747%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D900%26h%3D1350",
-      //   coverimgurl: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1585840610491&di=78aaa0ba16185710ab9cfe1547d1b475&imgtype=0&src=http%3A%2F%2Ft8.baidu.com%2Fit%2Fu%3D1484500186%2C1503043093%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1280%26h%3D853",
-      //   authorid: 3,
-      //   authorheadurl: "https://image.riba2534.cn/18-12-13/34184894.jpg",
-      //   authorname: "大卫Data",
-      //   picturesnumber: 39,
-      //   time: "2020年4月1日",
-      //   title: "我是标题kiss我爱您，真的，比珍珠还真",
-      //   tars: ["写真", "美女", "美食", "我要上封面"],
-      //   seenumber: 123,
-      //   writenumber: 456,
-      //   goodnumber: 789
-      // }
+
     ],
     collectionarticles: [
-      // {
-      //   id: 1,
-      //   coverimgurl: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1585840610491&di=78aaa0ba16185710ab9cfe1547d1b475&imgtype=0&src=http%3A%2F%2Ft8.baidu.com%2Fit%2Fu%3D1484500186%2C1503043093%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1280%26h%3D853",
-      //   title: "我是标题kiss我爱您，真的，比珍珠还真",
-      //   content: "怎么才能登陆火星呢?", //这是简介
-      //   seenumber: 123,
-      //   collectnumber: 456
-      // },
-      // {
-      //   id: 2,
-      //   coverimgurl: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1585840610491&di=78aaa0ba16185710ab9cfe1547d1b475&imgtype=0&src=http%3A%2F%2Ft8.baidu.com%2Fit%2Fu%3D1484500186%2C1503043093%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1280%26h%3D853",
-      //   title: "我是标题kiss我爱您，真的，比珍珠还真",
-      //   content: "怎么才能登陆火星呢?", //这是简介
-      //   seenumber: 123,
-      //   collectnumber: 456
-      // },
-      // {
-      //   id: 3,
-      //   coverimgurl: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1585840610491&di=78aaa0ba16185710ab9cfe1547d1b475&imgtype=0&src=http%3A%2F%2Ft8.baidu.com%2Fit%2Fu%3D1484500186%2C1503043093%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1280%26h%3D853",
-      //   title: "我是标题kiss我爱您，真的，比珍珠还真",
-      //   content: "怎么才能登陆火星呢?", //这是简介
-      //   seenumber: 123,
-      //   collectnumber: 456
-      // },
-      // {
-      //   id: 4,
-      //   coverimgurl: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1585840610491&di=78aaa0ba16185710ab9cfe1547d1b475&imgtype=0&src=http%3A%2F%2Ft8.baidu.com%2Fit%2Fu%3D1484500186%2C1503043093%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1280%26h%3D853",
-      //   title: "我是标题kiss我爱您，真的，比珍珠还真的你相信我",
-      //   content: "怎么才能登陆火星呢?", //这是简介
-      //   seenumber: 123,
-      //   collectnumber: 456
-      // }
     ], //收藏的博文
     tars: [], //类别
     nians: [], //年份
     roles: [], //权限
     works: [
-      // {
-      //   id: 1,
-      //   coverimgurl: "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-      //   isbowen: false,
-      //   time: "2020年4月1日",
-      //   title: "我是标题kiss我爱您，真的，比珍珠还真",
-      //   tars: ["写真", "美女", "美食", "我要上封面"],
-      //   seenumber: 123,
-      //   writenumber: 456,
-      //   goodnumber: 789
-      // },
-      // {
-      //   id: 2,
-      //   coverimgurl: "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-      //   isbowen: false,
-      //   time: "2020年4月1日",
-      //   title: "我是标题kiss我爱您，真的，比珍珠还真",
-      //   tars: ["写真", "美女", "美食", "我要上封面"],
-      //   seenumber: 123,
-      //   writenumber: 456,
-      //   goodnumber: 789
-      // },
-      // {
-      //   id: 4,
-      //   coverimgurl: "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-      //   isbowen: false,
-      //   time: "2020年4月1日",
-      //   title: "我是标题kiss我爱您，真的，比珍珠还真",
-      //   tars: ["写真", "美女", "美食", "我要上封面"],
-      //   seenumber: 123,
-      //   writenumber: 456,
-      //   goodnumber: 789
-      // },
-      // {
-      //   id: 5,
-      //   coverimgurl: "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-      //   isbowen: false,
-      //   time: "2020年4月1日",
-      //   title: "我是标题kiss我爱您，真的，比珍珠还真",
-      //   tars: ["写真", "美女", "美食", "我要上封面"],
-      //   seenumber: 123,
-      //   writenumber: 456,
-      //   goodnumber: 789
-      // },
-      // {
-      //   id: 6,
-      //   coverimgurl: "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-      //   isbowen: false,
-      //   time: "2020年4月1日",
-      //   title: "我是标题kiss我爱您，真的，比珍珠还真",
-      //   tars: ["写真", "美女", "美食", "我要上封面"],
-      //   seenumber: 123,
-      //   writenumber: 456,
-      //   goodnumber: 789
-      // },
-      // {
-      //   id: 7,
-      //   coverimgurl: "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-      //   isbowen: false,
-      //   time: "2020年4月1日",
-      //   title: "我是标题kiss我爱您，真的，比珍珠还真",
-      //   tars: ["写真", "美女", "美食", "我要上封面"],
-      //   seenumber: 123,
-      //   writenumber: 456,
-      //   goodnumber: 789
-      // }
     ], //作品
     allworks: [
-      // {
-      //   id: 1,
-      //   coverimgurl: "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-      //   isbowen: false,
-      //   time: "2020年4月1日",
-      //   title: "我是标题kiss我爱您，真的，比珍珠还真",
-      //   tars: ["写真", "美女", "美食", "我要上封面"],
-      //   seenumber: 123,
-      //   writenumber: 456,
-      //   goodnumber: 789
-      // },
-      // {
-      //   id: 2,
-      //   coverimgurl: "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-      //   isbowen: false,
-      //   time: "2020年4月1日",
-      //   title: "我是标题kiss我爱您，真的，比珍珠还真",
-      //   tars: ["写真", "美女", "美食", "我要上封面"],
-      //   seenumber: 123,
-      //   writenumber: 456,
-      //   goodnumber: 789
-      // },
-      // {
-      //   id: 3,
-      //   coverimgurl: "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-      //   isbowen: true,
-      //   time: "2020年4月1日",
-      //   title: "我是标题kiss我爱您，真的，比珍珠还真",
-      //   tars: ["写真", "美女", "美食", "我要上封面"],
-      //   seenumber: 123,
-      //   writenumber: 456,
-      //   goodnumber: 789
-      // },
-      // {
-      //   id: 4,
-      //   coverimgurl: "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-      //   isbowen: false,
-      //   time: "2020年4月1日",
-      //   title: "我是标题kiss我爱您，真的，比珍珠还真",
-      //   tars: ["写真", "美女", "美食", "我要上封面"],
-      //   seenumber: 123,
-      //   writenumber: 456,
-      //   goodnumber: 789
-      // },
-      // {
-      //   id: 5,
-      //   coverimgurl: "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-      //   isbowen: false,
-      //   time: "2020年4月1日",
-      //   title: "我是标题kiss我爱您，真的，比珍珠还真",
-      //   tars: ["写真", "美女", "美食", "我要上封面"],
-      //   seenumber: 123,
-      //   writenumber: 456,
-      //   goodnumber: 789
-      // },
-      // {
-      //   id: 6,
-      //   coverimgurl: "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-      //   isbowen: false,
-      //   time: "2020年4月1日",
-      //   title: "我是标题kiss我爱您，真的，比珍珠还真",
-      //   tars: ["写真", "美女", "美食", "我要上封面"],
-      //   seenumber: 123,
-      //   writenumber: 456,
-      //   goodnumber: 789
-      // },
-      // {
-      //   id: 7,
-      //   coverimgurl: "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-      //   isbowen: false,
-      //   time: "2020年4月1日",
-      //   title: "我是标题kiss我爱您，真的，比珍珠还真",
-      //   tars: ["写真", "美女", "美食", "我要上封面"],
-      //   seenumber: 123,
-      //   writenumber: 456,
-      //   goodnumber: 789
-      // },
-      // {
-      //   id: 8,
-      //   coverimgurl: "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-      //   isbowen: true,
-      //   time: "2020年4月1日",
-      //   title: "我是标题kiss我爱您，真的，比珍珠还真",
-      //   tars: ["写真", "美女", "美食", "我要上封面"],
-      //   seenumber: 123,
-      //   writenumber: 456,
-      //   goodnumber: 789
-      // }
     ], //作品加博文
     bowen: [
-      // {
-      //   id: 3,
-      //   coverimgurl: "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-      //   isbowen: true,
-      //   time: "2020年4月1日",
-      //   title: "我是标题kiss我爱您，真的，比珍珠还真",
-      //   tars: ["写真", "美女", "美食", "我要上封面"],
-      //   seenumber: 123,
-      //   writenumber: 456,
-      //   goodnumber: 789
-      // },
-      // {
-      //   id: 8,
-      //   coverimgurl: "https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png",
-      //   isbowen: true,
-      //   time: "2020年4月1日",
-      //   title: "我是标题kiss我爱您，真的，比珍珠还真",
-      //   tars: ["写真", "美女", "美食", "我要上封面"],
-      //   seenumber: 123,
-      //   writenumber: 456,
-      //   goodnumber: 789
-      // }
     ] //博文
   },
   mutations: {
@@ -500,6 +133,20 @@ const user = {
     DEL_followusers:(state,index) =>{
       state.followusers.splice(index,1);
       state.follows = state.follows-1;
+    },
+    DEL_messagenumber:(state,type) =>{
+      if(type==1){
+        console.log(state.messagenumber.like);
+        state.messagenumber.like = state.messagenumber.like-1;
+        console.log(state.messagenumber.like);
+        
+      }else if(type==2){
+        state.messagenumber.comment--;
+      }else if(type==3){
+        state.messagenumber.collect--;
+      }else if(type==4){
+        state.messagenumber.fans--;
+      }
     },
     CHANGE_ablum:(state,abluminfo) =>{
       state.album.splice(abluminfo.index,1,abluminfo.newablum);
@@ -664,7 +311,11 @@ const user = {
     //删除关注
     DeleteMyfollow({commit},index){
       commit('DEL_followusers', index);
-    }
+    },
+    //删除消息Messahe 除开私信
+    DeleteMyMessahe({commit},type){
+      commit('DEL_messagenumber', type);
+    },
   }
 }
 

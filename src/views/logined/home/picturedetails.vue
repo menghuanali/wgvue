@@ -84,7 +84,7 @@
                   <el-avatar :size="50" :src="GetItPictures.authorheadurl"></el-avatar>
                 </el-col>
                 <el-col :span="12" style="text-align: left;">
-                  <p>{{GetItPictures.authorname}}</p>
+                  <p style="cursor: pointer;" @click="showherinfo(GetItPictures.authorid)">{{GetItPictures.authorname}}</p>
                   <span
                     style="color: #251e1e;font-weight: 100;font-size: 10px;"
                   >{{GetItPictures.authorlevel}}</span>
@@ -296,7 +296,7 @@ export default {
       });
       if(this.token){
           IsInclude(this.$route.query.id).then((response) =>{
-            console.log(response.albumidlist);
+            // console.log(response.albumidlist);
             this.ablumidlist = response.albumidlist;
             this.includeid = this.ablumidlist[0];
             if(this.includeid!=0){
@@ -311,6 +311,13 @@ export default {
   },
 
   methods: {
+        //跳转到他人界面
+    showherinfo(id) {
+      this.$router.push({
+        path: "/user",
+        query: { id: id }
+      });
+    },
     onPreview(index) {
       this.prorindex = index;
       this.showViewer = true;

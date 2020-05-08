@@ -94,6 +94,8 @@ export function UserReplay(replayinfo){
             type:replayinfo.type,
             title:replayinfo.title,
             toname:replayinfo.toname,
+            ownerId:replayinfo.ownerId,
+            ownertype:replayinfo.ownertype,
         }
     })
 }
@@ -105,10 +107,14 @@ export function UserFans(itid){
     })
 }
 //私信
-export function UserLetter(itid){
+export function UserLetter(letterinfo){
     return request({
-        url:'/fans/'+itid,
-        method:'get'
+        url:'/letter',
+        method:'post',
+        data:{
+            content:letterinfo.content,
+            toid:letterinfo.toid,
+        }
     })
 }
 //Message
@@ -142,6 +148,7 @@ export function GetMessageletter(){
         method:'get'
     })
 }
+//加载一个私信详情
 export function GetMessagelettercome(fromid){
     return request({
         url:'/message/lettercome?fromid='+fromid,
@@ -250,6 +257,20 @@ export function getDynamic(pageNumber){
 export function GetIndexData(){
     return request({
         url: "/index/getindex",
+        method: "get",
+    })
+}
+//删除一条消息Delete
+export function DeleteMsgByid(id){
+    return request({
+        url: "/message/deletemsg/"+id,
+        method: "get",
+    })
+}
+//删除所有关注
+export function DeleteMsgFans(id){
+    return request({
+        url: "/message/deletefansmsg/",
         method: "get",
     })
 }

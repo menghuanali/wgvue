@@ -15,27 +15,42 @@
             index="like"
             style="font-size:18px;padding-left: 30px;"
             :class="{activeclasstype:type=='like'}"
-          >点赞</el-menu-item>
+          >
+            点赞&#12288;&#12288;&#12288;
+            <el-badge class="mark" :value="likenumber" />
+          </el-menu-item>
           <el-menu-item
             index="comment"
             style="font-size:18px;padding-left: 30px;"
             :class="{activeclasstype:type=='comment'}"
-          >评论</el-menu-item>
+          >
+            评论&#12288;&#12288;&#12288;
+            <el-badge class="mark" :value="commentnumber" />
+          </el-menu-item>
           <el-menu-item
             index="fans"
             style="font-size:18px;padding-left: 30px;"
             :class="{activeclasstype:type=='fans'}"
-          >新粉丝</el-menu-item>
+          >
+            新粉丝&#12288;&#12288;
+            <el-badge class="mark" :value="fansnumber" ref="myfansnumber" />
+          </el-menu-item>
           <el-menu-item
             index="collect"
             style="font-size:18px;padding-left: 30px;"
             :class="{activeclasstype:type=='collect'}"
-          >收藏</el-menu-item>
+          >
+            收藏&#12288;&#12288;&#12288;
+            <el-badge class="mark" :value="collectnumber" />
+          </el-menu-item>
           <el-menu-item
             index="letter"
             style="font-size:18px;padding-left: 30px;"
             :class="{activeclasstype:type=='letter'}"
-          >私信</el-menu-item>
+          >
+            私信&#12288;&#12288;&#12288;
+            <el-badge class="mark" :value="letternumberlocal" ref="myletternumber" />
+          </el-menu-item>
         </el-menu>
       </el-col>
       <el-col :span="16">
@@ -46,6 +61,9 @@
               <el-col :span="2" style="min-width:64px;text-align: center;">
                 <router-link :to="{path:'/user',query: { id: p.fromid }}" class="first11">
                   <img :src="p.fromheadurl" alt />
+                  <div style="top: 0;position: absolute;left: 64px;" v-if="p.issure==false">
+                    <el-badge class="mark" :value="1" />
+                  </div>
                 </router-link>
               </el-col>
               <el-col :span="22">
@@ -57,6 +75,7 @@
                   <span style="vertical-align: top;">点赞了你的作品</span>
                   <router-link
                     :to="{path:'/work',query: { id: p.itid }}"
+                    @click.native="DelTheMsg(index,p.msgid,1)"
                     class="first122"
                   >{{p.itname}}</router-link>
                 </p>
@@ -72,6 +91,9 @@
               <el-col :span="2" style="min-width:64px;text-align: center;">
                 <router-link :to="{path:'/user',query: { id: p.fromid }}" class="second11">
                   <img :src="p.headurl" alt />
+                  <div style="top: 0;position: absolute;left: 64px;" v-if="p.issure==false">
+                    <el-badge class="mark" :value="1" />
+                  </div>
                 </router-link>
               </el-col>
               <el-col :span="22">
@@ -87,11 +109,13 @@
                   <router-link
                     v-if="p.type == '1'"
                     :to="{path:'/work',query: { id: p.itid }}"
+                    @click.native="DelTheMsg(index,p.msgid,2)"
                     class="second122"
                   >{{p.ittitle}}</router-link>
                   <router-link
                     v-if="p.type == '2'"
                     :to="{path:'/bowen',query: { id: p.itid }}"
+                    @click.native="DelTheMsg(index,p.msgid,2)"
                     class="second122"
                   >{{p.ittitle}}</router-link>
                 </p>
@@ -103,11 +127,19 @@
         </div>
         <!-- //粉丝 -->
         <div class="third" v-if="type=='fans'">
+          <el-button
+            type="primary"
+            style="float: right;margin-right: 100px;"
+            @click="DeleteallFans()"
+          >标记为已读</el-button>
           <div class="third1" v-for="(p,index) in aitufans" :key="index">
             <el-row :gutter="10">
               <el-col :span="2" style="min-width:64px;text-align: center;">
                 <router-link :to="{path:'/user',query: { id: p.fromid }}" class="third11">
                   <img :src="p.fromheadurl" alt />
+                  <div style="top: 0;position: absolute;left: 64px;" v-if="p.issure==false">
+                    <el-badge class="mark" :value="1" />
+                  </div>
                 </router-link>
               </el-col>
               <el-col :span="22">
@@ -130,6 +162,9 @@
               <el-col :span="2" style="min-width:64px;text-align: center;">
                 <router-link :to="{path:'/user',query: { id: p.fromid }}" class="fourth11">
                   <img :src="p.fromheadurl" alt />
+                  <div style="top: 0;position: absolute;left: 64px;" v-if="p.issure==false">
+                    <el-badge class="mark" :value="1" />
+                  </div>
                 </router-link>
               </el-col>
               <el-col :span="22">
@@ -143,11 +178,13 @@
                   <router-link
                     v-if="p.type == '1'"
                     :to="{path:'/work',query: { id: p.itid }}"
+                    @click.native="DelTheMsg(index,p.msgid,4)"
                     class="fourth122"
                   >{{p.ittitle}}</router-link>
                   <router-link
                     v-if="p.type == '2'"
                     :to="{path:'/bowen',query: { id: p.itid }}"
+                    @click.native="DelTheMsg(index,p.msgid,4)"
                     class="fourth122"
                   >{{p.ittitle}}</router-link>
                 </p>
@@ -163,6 +200,9 @@
               <el-col :span="2" style="min-width:64px;text-align: center;">
                 <router-link :to="{path:'/user',query: { id: p.fromid }}" class="fifth11">
                   <img :src="p.fromheadurl" alt />
+                  <div style="top: 0;position: absolute;left: 64px;" v-if="p.issure>0">
+                    <el-badge class="mark" :value="p.issure" />
+                  </div>
                 </router-link>
               </el-col>
               <el-col :span="22">
@@ -173,7 +213,10 @@
                   >{{p.fromname}}</router-link>
                   <span style="vertical-align: top;">给你发了私信:</span>
                 </p>
-                <p class="fifth14" @click.stop="LetterCome(p.fromid,p.fromname)">{{p.content}}</p>
+                <p
+                  class="fifth14"
+                  @click.stop="LetterCome(index,p.issure,p.fromid,p.fromname)"
+                >{{p.content}}</p>
                 <p class="fifth13">{{p.time}}</p>
               </el-col>
             </el-row>
@@ -208,9 +251,16 @@
             </div>
           </div>
           <div class="sixth2">
-            <el-input :placeholder="replayhername" v-model="replayinput" clearable style="width: 90%;"></el-input>
+            <el-input
+              :placeholder="replayhername"
+              v-model="replayinput"
+              clearable
+              style="width: 90%;"
+            ></el-input>
           </div>
-          <div class="sixth3"><el-button type="primary" round @click.stop="ReplayHerLetter()">发送</el-button></div>
+          <div class="sixth3">
+            <el-button type="primary" round @click.stop="ReplayHerLetter()">发送</el-button>
+          </div>
         </div>
       </el-col>
     </el-row>
@@ -229,7 +279,10 @@ import {
   GetMessagefans,
   GetMessagecollect,
   GetMessageletter,
-  GetMessagelettercome
+  GetMessagelettercome,
+  DeleteMsgByid,
+  DeleteMsgFans,
+  UserLetter
 } from "@/api/allrequest";
 export default {
   components: { wgloginandblackheader, basefooter },
@@ -243,14 +296,65 @@ export default {
       aituletters: [],
       lettercome: [],
       hername: "",
-      herid:"",
+      herid: "",
       replayhername: "请输入内容",
-      replayinput: "",//发送的内容
+      replayinput: "", //发送的内容
+      letternumberlocal:"",
     };
   },
-  computed: {},
+  computed: {
+    likenumber() {
+      let likenumber = this.$store.getters.my_msgnumber.like;
+      if (parseInt(likenumber) > parseInt(99)) {
+        return "99+";
+      } else if (parseInt(likenumber) == parseInt(0)) {
+        return "";
+      } else {
+        return likenumber;
+      }
+    },
+    commentnumber() {
+      let commentnumber = this.$store.getters.my_msgnumber.comment;
+      if (parseInt(commentnumber) > parseInt(99)) {
+        return "99+";
+      } else if (parseInt(commentnumber) == parseInt(0)) {
+        return "";
+      } else {
+        return commentnumber;
+      }
+    },
+    collectnumber() {
+      let collectnumber = this.$store.getters.my_msgnumber.collect;
+      if (parseInt(collectnumber) > parseInt(99)) {
+        return "99+";
+      } else if (parseInt(collectnumber) == parseInt(0)) {
+        return "";
+      } else {
+        return collectnumber;
+      }
+    },
+    fansnumber() {
+      let fansnumber = this.$store.getters.my_msgnumber.fans;
+      if (parseInt(fansnumber) > parseInt(99)) {
+        return "99+";
+      } else if (parseInt(fansnumber) == parseInt(0)) {
+        return "";
+      } else {
+        return fansnumber;
+      }
+    },
+    letternumber() {
+      let letternumber = this.$store.getters.my_msgnumber.letter;
+      if (parseInt(letternumber) == parseInt(0)) {
+        return "";
+      } else {
+        return letternumber;
+      }
+    }
+  },
   created: function() {
     this.type = this.$route.params.type;
+    this.letternumberlocal = this.letternumber;
     this.getData();
   },
   methods: {
@@ -258,6 +362,7 @@ export default {
       //点赞
       GetMessagelike()
         .then(response => {
+          // console.log(response);
           this.aitulikes = response.likelist;
         })
         .catch(error => {
@@ -266,6 +371,7 @@ export default {
       //评论
       GetMessagecomment()
         .then(response => {
+          // console.log(response);
           this.aitucomments = response.commentlist;
         })
         .catch(error => {
@@ -299,10 +405,15 @@ export default {
     menuSelect(key, keyPath) {
       this.type = key;
     },
-    LetterCome(fromid, fromname) {
+    LetterCome(index, surenumber, fromid, fromname) {
       this.herid = fromid;
       this.hername = fromname;
       this.replayhername = "回复:" + fromname;
+      this.aituletters[index].issure = 0;
+      this.letternumberlocal = this.letternumberlocal - surenumber;
+      if (this.letternumberlocal <= 0) {
+        this.letternumberlocal = "";
+      }
       GetMessagelettercome(fromid)
         .then(response => {
           this.type = "lettercome";
@@ -318,8 +429,57 @@ export default {
       this.type = "letter";
     },
     //回复私信
-    ReplayHerLetter(){
-      alert(this.herid+this.hername)
+    ReplayHerLetter() {
+      let letterinfo = {
+        content: this.replayinput,
+        toid: this.herid
+      };
+      if (this.replayinput.trim() == "") {
+        this.$notify({
+          title: "警告",
+          message: "回复内容为空",
+          type: "warning"
+        });
+        return;
+      } else {
+        UserLetter(letterinfo)
+          .then(response => {
+            this.$message(response.msg);
+            this.replayinput = "";
+          })
+          .catch(error => {});
+      }
+    },
+    //删除该条消息
+    DelTheMsg(index, id, type) {
+      console.log(id);
+      // this.$store.dispatch("DeleteMyMessahe",type);
+      DeleteMsgByid(id)
+        .then(response => {
+          if (type == 1) {
+            this.aitulikes[index].issure = true;
+          } else if (type == 2) {
+            this.aitucomments[index].issure = true;
+          } else if (type == 3) {
+          } else if (type == 4) {
+            this.aitucollects[index].issure = true;
+          } else if (type == 5) {
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    DeleteallFans() {
+      // console.log(this.$refs.myfansnumber);
+      this.$refs.myfansnumber.hidden = true;
+      DeleteMsgFans()
+        .then(response => {
+          for (let i = 0; i < this.aitufans.length; i++) {
+            this.aitufans[i].issure = true;
+          }
+        })
+        .catch(error => {});
     }
   },
   watch: {
@@ -669,15 +829,14 @@ export default {
         }
       }
     }
-    
   }
-  .sixth2{
-      margin-top: 10px;
-      text-align: center;
-    }
-    .sixth3{
-      margin: 20px;
+  .sixth2 {
+    margin-top: 10px;
     text-align: center;
-    }
+  }
+  .sixth3 {
+    margin: 20px;
+    text-align: center;
+  }
 }
 </style>

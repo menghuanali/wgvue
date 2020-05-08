@@ -48,9 +48,9 @@
     </div>
     <div class="comment" v-for="item in ComMents" :key="item.id">
       <div class="info">
-        <img class="avatar" :src="item.fromAvatar" width="36" height="36" />
+        <img class="avatar" :src="item.fromAvatar" width="36" height="36" @click.stop="showherinfo(item.fromId)" style="cursor: pointer;"/>
         <div class="right">
-          <div class="name">{{item.fromName}}</div>
+          <div class="name" @click.stop="showherinfo(item.fromId)" style="cursor: pointer;">{{item.fromName}}</div>
           <div class="date">{{item.date}}</div>
         </div>
       </div>
@@ -67,9 +67,9 @@
       <div class="reply">
         <div class="item" v-for="(reply,index) in item.replyModelList" :key="index">
           <div class="reply-content">
-            <span class="from-name">{{reply.fromName}}</span>
+            <span class="from-name" @click.stop="showherinfo(reply.fromId)" style="cursor: pointer;">{{reply.fromName}}</span>
             <span>:</span>
-            <span class="to-name">@{{reply.toName}}</span>
+            <span class="to-name" @click.stop="showherinfo(reply.toId)" style="cursor: pointer;">@{{reply.toName}}</span>
             <span>{{reply.content}}</span>
           </div>
           <div class="reply-bottom">
@@ -179,6 +179,13 @@ export default {
     /**
      * 点击取消按钮
      */
+     //跳转到他人界面
+    showherinfo(id) {
+      this.$router.push({
+        path: "/user",
+        query: { id: id }
+      });
+    },
     cancel() {
       this.showItemId = "";
     },
@@ -201,6 +208,8 @@ export default {
         return;
       }
       this.replayinfo.content = this.inputComment;
+      this.replayinfo.ownerId = this.info.itid;//作品或者文章的id
+       this.replayinfo.ownertype = this.info.type;//作品或者文章
       console.log(this.inputComment);
       UserReplay(this.replayinfo)
         .then(response => {
@@ -298,7 +307,7 @@ export default {
       if (reply == "undefined" || !reply) {
         //回复的是评论
         this.replayinfo.toid = item.fromId;
-        this.replayinfo.itid = item.id; //不用知道作品或者文章的id
+        this.replayinfo.itid = item.id; 
         this.replayinfo.type = 1;
         this.replayinfo.title = this.info.title;
         this.replayinfo.toname = item.fromName;
