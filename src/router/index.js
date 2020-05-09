@@ -23,6 +23,7 @@ export const constantRouterMap = [
   {path: '/message/:type/', name:"message",component: () => import('@/views/logined/home/message_list'),meta: {needLogin: true}},
   // {path: '/ablumlist', component: () => import('@/views/logined/home/ablumlist'),meta: {needLogin: true}},
   {path: '/ablumlist', component: () => import('@/views/logined/home/ablumlist')},
+  {path: '/searchlist', component: () => import('@/views/logined/home/search_list')},
 ]
 
 

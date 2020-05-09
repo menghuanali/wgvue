@@ -179,10 +179,13 @@ export default {
       timeout: null
     };
   },
+  computed:{
+     
+  },
   methods: {
     startsearch: function(event) {
       if (this.searchisshow == true) {
-        alert("类型 " + this.selectvalue + "搜索内容" + this.state);
+         this.$router.push({path:"/searchlist",query:{type:this.selectvalue,key:this.state}})
       } else {
         this.searchisshow = true;
       }
@@ -387,15 +390,13 @@ export default {
       ];
     },
     querySearchAsync(queryString, cb) {
+      if(queryString.trim() == ""){
+        
+      }
       var restaurants = this.restaurants;
       var results = queryString
         ? restaurants.filter(this.createStateFilter(queryString))
         : restaurants;
-
-      clearTimeout(this.timeout);
-      this.timeout = setTimeout(() => {
-        cb(results);
-      }, 3000 * Math.random());
     },
     createStateFilter(queryString) {
       return state => {
@@ -406,10 +407,16 @@ export default {
     },
     handleSelect(item) {
       console.log(item);
-    }
+    },
+    mounted() {
+      this.restaurants = this.loadAll();
+   },
   },
-  mounted() {
-    this.restaurants = this.loadAll();
+  watch:{
+    selectvalue(newvalue,oldvalue){
+     console.log(newvalue);
+     
+    }
   }
 };
 </script>

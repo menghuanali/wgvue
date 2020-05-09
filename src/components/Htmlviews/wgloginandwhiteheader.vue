@@ -39,7 +39,7 @@
 
             <el-col :span="4" class="wg_item_head_1">
               <a href="#">
-                <span class="wg_black_head_color" @click.stop="CeShi(321)">爱Tu认证</span>
+                <span class="wg_black_head_color">爱Tu认证</span>
               </a>
             </el-col>
 
@@ -345,7 +345,7 @@ export default {
   methods: {
     startsearch: function(event) {
       if (this.searchisshow == true) {
-        alert("类型 " + this.selectvalue + "搜索内容" + this.state);
+         this.$router.push({path:"/searchlist",query:{type:this.selectvalue,key:this.state}})
       } else {
         this.searchisshow = true;
       }
@@ -561,16 +561,16 @@ export default {
         }
       ];
     },
-    querySearchAsync(queryString, cb) {
+    querySearchAsync(queryString, cb) {//queryString 为在框中输入的值 cb 回调函数,将处理好的数据推回
       var restaurants = this.restaurants;
       var results = queryString
         ? restaurants.filter(this.createStateFilter(queryString))
         : restaurants;
 
-      clearTimeout(this.timeout);
-      this.timeout = setTimeout(() => {
-        cb(results);
-      }, 3000 * Math.random());
+      // clearTimeout(this.timeout);
+      // this.timeout = setTimeout(() => {
+      //   cb(results);
+      // }, 1000 * Math.random());
     },
     createStateFilter(queryString) {
       return state => {
@@ -579,15 +579,19 @@ export default {
         );
       };
     },
-    handleSelect(item) {
+    handleSelect(item) {//选中某一列触发的事件,在这里item为选中字段所在的对象
       console.log(item);
     },
-    CeShi(id) {
-      this.$router.push({ path: "/bowen", query: { id: id } });
-    }
   },
   mounted() {
-    this.restaurants = this.loadAll();
+    if(this.selectvalue=="作品"){
+this.restaurants = this.loadAll();
+    }else if(this.selectvalue=="博文"){
+
+    }else{
+    
+    }
+
   }
 };
 </script>

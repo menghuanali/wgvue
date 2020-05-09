@@ -39,8 +39,8 @@
             </el-col>
 
             <el-col :span="4" class="wg_item_head_1">
-              <a href="/follows">
-                <span class="wg_black_head_color"  @click.stop="CeShi(321)">爱Tu认证</span>
+              <a href>
+                <span class="wg_black_head_color" >爱Tu认证</span>
               </a>
             </el-col>
 
@@ -319,7 +319,8 @@ export default {
   methods: {
     startsearch: function(event) {
       if (this.searchisshow == true) {
-        alert("类型 " + this.selectvalue + "搜索内容" + this.state);
+        this.$router.push({path:"/searchlist",query:{type:this.selectvalue,key:this.state}})
+        // alert("类型 " + this.selectvalue + "搜索内容" + this.state);
       } else {
         this.searchisshow = true;
       }
@@ -543,10 +544,10 @@ export default {
         ? restaurants.filter(this.createStateFilter(queryString))
         : restaurants;
 
-      clearTimeout(this.timeout);
-      this.timeout = setTimeout(() => {
-        cb(results);
-      }, 3000 * Math.random());
+      // clearTimeout(this.timeout);
+      // this.timeout = setTimeout(() => {
+      //   cb(results);
+      // }, 3000 * Math.random());
     },
     createStateFilter(queryString) {
       return state => {
@@ -558,12 +559,15 @@ export default {
     handleSelect(item) {
       console.log(item);
     },
-    CeShi(id){
-      this.$router.push({path:'/bowen',query:{id:id}})
-    }
   },
   mounted() {
-    this.restaurants = this.loadAll();
+        if(this.selectvalue=="作品"){
+this.restaurants = this.loadAll();
+    }else if(this.selectvalue=="博文"){
+
+    }else{
+    
+    }
   }
 };
 </script>

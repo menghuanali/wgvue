@@ -152,7 +152,7 @@ export default {
   created() {
     GetIndexData()
       .then(response => {
-        console.log(response);
+        // console.log(response);
         this.homedata.homerecommend = response.homerecommend;
         this.homedata.homebowen = response.homebowen;
         this.homedata.photographer = response.photographer;

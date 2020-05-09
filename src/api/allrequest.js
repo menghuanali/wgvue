@@ -274,3 +274,15 @@ export function DeleteMsgFans(id){
         method: "get",
     })
 }
+//搜索功能
+export function SearchFunction(searchinfo){
+    return request({
+        url: "/getsearch",
+        method: "post",
+        data:{
+            type:searchinfo.type,
+            key:searchinfo.key,
+            group:searchinfo.group,
+        }
+    })
+}
