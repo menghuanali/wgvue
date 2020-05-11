@@ -283,6 +283,53 @@ export function SearchFunction(searchinfo){
             type:searchinfo.type,
             key:searchinfo.key,
             group:searchinfo.group,
+            size:searchinfo.size,
+        }
+    })
+}
+//验证昵称是否占用
+export function CheckNameFunction(name){
+    return request({
+        url: "/check/name",
+        method: "post",
+        data:{
+            name:name,
+        }
+    })
+}
+//验证旧密码是否正确
+export function CheckPasswordFunction(password){
+    return request({
+        url: "/check/password",
+        method: "post",
+        data:{
+            password:password,
+        }
+    })
+}
+//保存更改个人信息
+export function ChangeMySelfInfo(myselfinfo){
+    return request({
+        url: "/changemyinfo",
+        method: "post",
+        data:{
+            name:myselfinfo.name,
+            headurl:myselfinfo.headurl,
+            qianming:myselfinfo.qianming,
+            age:myselfinfo.age,
+            email:myselfinfo.email,
+            phone:myselfinfo.phone,
+            qq:myselfinfo.qq,
+        }
+    })
+}
+//修改密码
+export function ChangeMyPassword(password){
+    return request({
+        url: "/changemypass",
+        method: "post",
+        data:{
+            password:password,
         }
     })
 }

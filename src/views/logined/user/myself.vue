@@ -920,7 +920,7 @@ export default {
       alert("等级说明");
     },
     personalinformationediting() {
-      alert("进入个人信息编辑");
+      this.$router.push({path:"/set"});
     },
     //取消关注
     removeconcerns(index, thisid) {

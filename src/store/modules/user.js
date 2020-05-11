@@ -220,7 +220,9 @@ const user = {
             let equipment = {};
             let arrayeqs = [];
             // console.log(my.userdetails.myequipment);
-            
+            if(my.userdetails.age==10000){
+              my.userdetails.age = "保密"
+            }
             arrayeqs = my.userdetails.myequipment.split(",");
             // console.log(arrayeqs);
             

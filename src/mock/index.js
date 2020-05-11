@@ -123,56 +123,56 @@ import { removeToken } from '@/utils/auth'
     //   return data;
     // });
 //增加好友动态
-    Mock.mock("http://localhost:8090/addfollowlist",'post',() =>{
-      console.log("捕获");
-      let data = {
-        code : 200,
-        message:"成功",
-        data:[
-          {
-            id:6,
-            coverimgurl:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1585840610491&di=78aaa0ba16185710ab9cfe1547d1b475&imgtype=0&src=http%3A%2F%2Ft8.baidu.com%2Fit%2Fu%3D1484500186%2C1503043093%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1280%26h%3D853",
-            name:"依米",
-            headurl:"https://image.riba2534.cn/18-12-13/34184894.jpg",
-            time:"2月7日",
-            seenumber:123,
-            writenumber:456,
-            goodnumber:789,
-            title:"我爱您，可惜没有如果，那么多如果，只剩下结果",
-            content:"莫斯科大学以师资雄厚、设备完善、高教学质量和高学术水准而享誉世界 ，截止2018年12月，莫斯科大学共有13人获得诺贝尔奖 。",
-            isbowen:false,
-          },
-          {
-            id:7,
-            coverimgurl:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1585840610491&di=78aaa0ba16185710ab9cfe1547d1b475&imgtype=0&src=http%3A%2F%2Ft8.baidu.com%2Fit%2Fu%3D1484500186%2C1503043093%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1280%26h%3D853",
-            name:"依米",
-            headurl:"https://image.riba2534.cn/18-12-13/34184894.jpg",
-            time:"2月7日",
-            seenumber:123,
-            writenumber:456,
-            goodnumber:789,
-            title:"我爱您，可惜没有如果，那么多如果，只剩下结果",
-            content:"莫斯科大学以师资雄厚、设备完善、高教学质量和高学术水准而享誉世界 ，截止2018年12月，莫斯科大学共有13人获得诺贝尔奖 。",
-            isbowen:false,
-          },
-          {
-            id:8,
-            coverimgurl:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1585840610491&di=78aaa0ba16185710ab9cfe1547d1b475&imgtype=0&src=http%3A%2F%2Ft8.baidu.com%2Fit%2Fu%3D1484500186%2C1503043093%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1280%26h%3D853",
-            name:"依米",
-            headurl:"https://image.riba2534.cn/18-12-13/34184894.jpg",
-            time:"2月7日",
-            seenumber:123,
-            writenumber:456,
-            goodnumber:789,
-            title:"我爱您，可惜没有如果，那么多如果，只剩下结果",
-            content:"莫斯科大学以师资雄厚、设备完善、高教学质量和高学术水准而享誉世界 ，截止2018年12月，莫斯科大学共有13人获得诺贝尔奖 。",
-            isbowen:false,
-          }
-        ]
+    // Mock.mock("http://localhost:8090/addfollowlist",'post',() =>{
+    //   console.log("捕获");
+    //   let data = {
+    //     code : 200,
+    //     message:"成功",
+    //     data:[
+    //       {
+    //         id:6,
+    //         coverimgurl:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1585840610491&di=78aaa0ba16185710ab9cfe1547d1b475&imgtype=0&src=http%3A%2F%2Ft8.baidu.com%2Fit%2Fu%3D1484500186%2C1503043093%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1280%26h%3D853",
+    //         name:"依米",
+    //         headurl:"https://image.riba2534.cn/18-12-13/34184894.jpg",
+    //         time:"2月7日",
+    //         seenumber:123,
+    //         writenumber:456,
+    //         goodnumber:789,
+    //         title:"我爱您，可惜没有如果，那么多如果，只剩下结果",
+    //         content:"莫斯科大学以师资雄厚、设备完善、高教学质量和高学术水准而享誉世界 ，截止2018年12月，莫斯科大学共有13人获得诺贝尔奖 。",
+    //         isbowen:false,
+    //       },
+    //       {
+    //         id:7,
+    //         coverimgurl:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1585840610491&di=78aaa0ba16185710ab9cfe1547d1b475&imgtype=0&src=http%3A%2F%2Ft8.baidu.com%2Fit%2Fu%3D1484500186%2C1503043093%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1280%26h%3D853",
+    //         name:"依米",
+    //         headurl:"https://image.riba2534.cn/18-12-13/34184894.jpg",
+    //         time:"2月7日",
+    //         seenumber:123,
+    //         writenumber:456,
+    //         goodnumber:789,
+    //         title:"我爱您，可惜没有如果，那么多如果，只剩下结果",
+    //         content:"莫斯科大学以师资雄厚、设备完善、高教学质量和高学术水准而享誉世界 ，截止2018年12月，莫斯科大学共有13人获得诺贝尔奖 。",
+    //         isbowen:false,
+    //       },
+    //       {
+    //         id:8,
+    //         coverimgurl:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1585840610491&di=78aaa0ba16185710ab9cfe1547d1b475&imgtype=0&src=http%3A%2F%2Ft8.baidu.com%2Fit%2Fu%3D1484500186%2C1503043093%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1280%26h%3D853",
+    //         name:"依米",
+    //         headurl:"https://image.riba2534.cn/18-12-13/34184894.jpg",
+    //         time:"2月7日",
+    //         seenumber:123,
+    //         writenumber:456,
+    //         goodnumber:789,
+    //         title:"我爱您，可惜没有如果，那么多如果，只剩下结果",
+    //         content:"莫斯科大学以师资雄厚、设备完善、高教学质量和高学术水准而享誉世界 ，截止2018年12月，莫斯科大学共有13人获得诺贝尔奖 。",
+    //         isbowen:false,
+    //       }
+    //     ]
 
-      }
-      return data;
-    });
+    //   }
+    //   return data;
+    // });
     // Mock.mock("http://localhost:8090/mock/myinfo",'get',() =>{
     //   let data = {
     //     code : 200,

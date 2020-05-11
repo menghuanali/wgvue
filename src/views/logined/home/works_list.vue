@@ -26,7 +26,7 @@
             <el-menu-item index="4" style="font-size:18px">图片广场</el-menu-item>
           </el-menu>
         </div>
-        <div class="watarfallimages">
+        <div class="watarfallimages" v-loading="loading">
           <el-row :gutter="10" style="cursor: pointer;">
             <el-col
               :span="randomlengtharray[index%51]"
@@ -221,6 +221,7 @@ export default {
       group: 0, // 当前加载的加载图片的次数
       showindex: -1,
       isfenleiguanbi: true,
+      loading:false,
       nowclasstype: "全部分类",
       randomlengtharray: [
         12,
@@ -367,7 +368,7 @@ export default {
       axios
         .post("http://localhost:8090/waterfall", postData, config)
         .then(res => {
-          console.log(res.data);
+          // console.log(res.data);
           this.group++;
           // if (this.group === 5) {
           //   // 模拟已经无新数据，显示 slot="waterfall-over"
@@ -375,7 +376,7 @@ export default {
           //   return;
           // }
           this.imgsArr = this.imgsArr.concat(res.data.imgarr);
-          console.log(this.imgsArr);
+          // console.log(this.imgsArr);
         })
         .catch(error => {
           console.log(error);
@@ -463,11 +464,16 @@ export default {
           Aitutoken: getToken()
         }
       };
+       this.loading = true;
       axios
         .post("http://localhost:8090/waterfall", postData, config)
         .then(response => {
           // console.log(response.data);
           this.imgsArr = response.data.imgarr;
+          setTimeout(() => {
+            this.loading = false;
+          }, 1500);
+           
         })
         .catch(error => {
           console.log(error);
@@ -491,10 +497,14 @@ export default {
           Aitutoken: getToken()
         }
       };
+       this.loading = true;
       axios
         .post("http://localhost:8090/waterfall", postData, config)
         .then(response => {
-          console.log(response.data);
+          // console.log(response.data);
+           setTimeout(() => {
+            this.loading = false;
+          }, 1500);
           this.imgsArr = response.data.imgarr;
         })
         .catch(error => {
