@@ -20,7 +20,7 @@
     "less": "^3.11.1",
     "less-loader": "^5.0.0",
     "normalize.css": "^8.0.1",
-    "swiper": "^5.3.6",
+    "swiper": "^6.5.1",
     "vue": "^2.5.2",
     "vue-awesome-swiper": "^4.1.0",
     "vue-quill-editor": "^3.0.6",
